@@ -1,0 +1,85 @@
+{
+	"type": "object",
+	"required": ["location"],
+	"properties": {
+		"location": {
+			"id": "http://.../label/location",
+			"type": "object",
+			"required": ["lon", "lat"],
+			"properties": {
+				"lon":{
+					"id": "http://.../label/location/lon",
+					"type": "number"
+				},
+				"lat":{
+					"id": "http://.../label/location/lat",
+					"type": "number"
+				}
+			}
+		},
+		"datetime": {
+			"id": "http://.../label/datetime",
+			"format": "date-time"
+		},
+		"elements": {
+			"type": "array",
+			"maxItems": 10,
+			"items": {
+				"type": "object",
+				"required": ["itemtype"],
+				"properties": {
+					"itemtype": {
+						"id": "http://.../label/elements/itemtype",
+						"enum": [ "LABEL", "PIECHART", "BARCHART", "CAPTION", "DESCRIPTION", "DATE" ]
+					},
+					"label": {
+						"id": "http://.../label/elements/label",
+						"type": "string",
+						"maxLength": 30
+					},
+					"value": {
+						"id": "http://.../label/elements/value",
+						"type": "string",
+						"maxLength": 50
+					},
+					"chart": {
+						"id": "http://.../label/elements/chart",
+						"type": "object",			
+						"properties" : {
+							"labeldescription" : {
+								"id": "http://.../label/elements/chart/labeldescription",
+								"type": "string",
+								"maxLength": 30
+							},
+							"valuedescription" : {
+								"id": "http://.../label/elements/chart/valuedescription",
+								"type": "string",
+								"maxLength": 30
+							},
+							"data": {
+								"id": "http://.../label/elements/chart/data",
+								"minItems": 1,
+								"type": "array",
+								"required": ["label", "value"],
+								"items": {
+									"id": "http://.../label/elements/chart/data/item",
+									"type": "object",
+									"properties": {
+										"label" : {
+											"id": "http://.../label/elements/chart/data/label",
+											"type": "string"
+										},
+										"value" : {
+											"id": "http://.../label/elements/chart/data/value",
+											"type": "number"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+
+	<!-- Servlets -->
+
+	<servlet>
+		<servlet-name>EventInfoServiceImpl</servlet-name>
+		<servlet-class>de.fhg.fokus.streetlife.server.service.EventInfoServiceImpl</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>EventInfoServiceImpl</servlet-name>
+		<url-pattern>/PanelUI/EventInfoService</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>PanelUI.html</welcome-file>
+	</welcome-file-list>
+
+</web-app>

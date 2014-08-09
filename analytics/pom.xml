@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.fhg.fokus.streetlife</groupId>
+		<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.1</version>
 	</parent>
@@ -13,11 +13,5 @@
 	<artifactId>analytics</artifactId>
 	<packaging>jar</packaging>
 	<name>analytics</name>
-	
-	<url>http://maven.apache.org</url>
-
-	<dependencies>
-
-	</dependencies>
 
 </project>

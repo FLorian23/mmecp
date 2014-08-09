@@ -9,7 +9,7 @@
 
 	<servlet>
 		<servlet-name>EventInfoServiceImpl</servlet-name>
-		<servlet-class>de.fhg.fokus.streetlife.server.service.EventInfoServiceImpl</servlet-class>
+		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.EventInfoServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

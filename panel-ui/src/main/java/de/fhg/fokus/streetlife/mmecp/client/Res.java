@@ -8,9 +8,9 @@ import com.google.gwt.resources.client.TextResource;
 public interface Res extends ClientBundle {
   public static final Res INSTANCE =  GWT.create(Res.class);
 
-  @Source("../res/Streetlife.png")
+  @Source("../pictures/Streetlife.png")
   public ImageResource streetlifeImage();
   
-  @Source("../res/text/streetlife_panel_imprint.htm")
+  @Source("../text/streetlife_panel_imprint.htm")
   TextResource streetlifePanelImprint();
 }

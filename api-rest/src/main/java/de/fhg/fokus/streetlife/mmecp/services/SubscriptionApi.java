@@ -6,14 +6,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/atom")
+@Path("/subscription")
 public class SubscriptionApi {
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("{subscriberId}/{notificationId}")
-	public String getSubscriberNotification(@PathParam("subscriberId") long subscriberId, @PathParam("notificationId") long notificationId) {
+	@Produces(MediaType.APPLICATION_ATOM_XML)
+	@Path("/channel/{channelId}/notification/{notificationId}")
+	public String getSubscriberNotification(@PathParam("channelId") long channelId, @PathParam("notificationId") long notificationId) {
 
-		return "Hello World!: " + subscriberId + ", " + notificationId;
+		return "Hello World!: " + channelId + ", " + notificationId;
 	}
 }

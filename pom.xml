@@ -15,6 +15,7 @@
         <module>analytics</module>
         <module>api-rest</module>
         <module>feed-creator</module>
+        <module>rule-converter</module>
     </modules>
 
     <properties>

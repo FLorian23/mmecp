@@ -9,11 +9,19 @@ import javax.ws.rs.core.MediaType;
 @Path("/subscription")
 public class SubscriptionApi {
 
+    @GET
+    @Produces(MediaType.APPLICATION_ATOM_XML)
+    @Path("channel/{channelId}/notification")
+    public String getChannelNotitifications(@PathParam("channelId") long channelId) {
+
+        return "Channel notifications: channelId " + channelId;
+    }
+
 	@GET
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	@Path("/channel/{channelId}/notification/{notificationId}")
-	public String getSubscriberNotification(@PathParam("channelId") long channelId, @PathParam("notificationId") long notificationId) {
+	public String getChannelNotification(@PathParam("channelId") long channelId, @PathParam("notificationId") long notificationId) {
 
-		return "Hello World!: " + channelId + ", " + notificationId;
+		return "Specific notification: channelId " + channelId + ", notificationId " + notificationId;
 	}
 }

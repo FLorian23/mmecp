@@ -25,7 +25,7 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-	int eventID = 0;
+	int eventID = 1;
 
 	public EventInfo getEventInfo() {
 		try {
@@ -35,9 +35,16 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		}
 
 		EventInfo eventInfo = new EventInfo();
-		if (eventID % 4 == 0)
+		if (eventID % 2 == 0)
 			try {
 				Thread.sleep(1000 * 10);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		
+		if (eventID % 8 == 0)
+			try {
+				Thread.sleep(10000 * 10);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}

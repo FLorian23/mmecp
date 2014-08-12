@@ -12,10 +12,21 @@
 		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.EventInfoServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>ExampleData</servlet-name>
+		<display-name>ExampleData</display-name>
+		<description></description>
+		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.ExampleData</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>EventInfoServiceImpl</servlet-name>
 		<url-pattern>/PanelUI/EventInfoService</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>ExampleData</servlet-name>
+		<url-pattern>/ExampleData</url-pattern>
 	</servlet-mapping>
 
 

@@ -7,9 +7,9 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.fhg.fokus.streetlife.mmecp.client.dia.DiagramData;
 import de.fhg.fokus.streetlife.mmecp.client.dia.PieDiagram;
-import de.fhg.fokus.streetlife.mmecp.dto.Datum;
-import de.fhg.fokus.streetlife.mmecp.dto.Element;
-import de.fhg.fokus.streetlife.mmecp.dto.EventInfo;
+import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
+import de.fhg.fokus.streetlife.mmecp.share.dto.Element;
+import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 
 public class DtoToGWTElementMapper {
 

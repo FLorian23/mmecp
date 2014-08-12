@@ -1,16 +1,13 @@
 package de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import static com.google.gwt.query.client.GQuery.$;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
-import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoServiceAsync;
+import de.fhg.fokus.streetlife.mmecp.client.siteelement.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.SlideBar;
-import de.fhg.fokus.streetlife.mmecp.dto.EventInfo;
 
-public class SlideBarRight extends SlideBar implements AsyncCallback<EventInfo> {
+public class SlideBarRight extends SlideBar {
 
 	private static SlideBarRight slideBarRight = null;
 	private VerticalPanel content = new VerticalPanel();
@@ -24,28 +21,39 @@ public class SlideBarRight extends SlideBar implements AsyncCallback<EventInfo> 
 
 	public SlideBarRight() {
 		super("#slideRightPanel", "#wrapperRightMenu");
-		add(content);
-
-		EventInfoServiceAsync eventInfoService = GWT
-				.create(EventInfoService.class);
-		eventInfoService.getEventInfo(this);
+		add(getContent());
 	}
 
 	@Override
 	public void open() {
+		//Show the SlideBar different then the close Slidebar
 	}
 
 	@Override
 	public void close() {
+		// analog to open
+	}
+	
+	public void opening() {
+		if (getStatus() == STATUS.OPEN) return;
+		setStatus(STATUS.OPEN);
+		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_OUT, 500);
+		PopUpPanelContainer.get().move(SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN);
 	}
 
-	public void onFailure(Throwable caught) {
-		Window.alert("OnFailure-Error: " + caught.getMessage());
+	public void closing() {
+		if (getStatus() == STATUS.CLOSE) return;
+		setStatus(STATUS.CLOSE);
+		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_IN, 500);
+		int x = SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN;
+		PopUpPanelContainer.get().move(-x);
 	}
 
-	public void onSuccess(EventInfo result) {
-		content.clear();
-		IEventInfoView eventInfo = DtoToGWTElementMapper.map(result);
-		eventInfo.fillContent(content);
+	public VerticalPanel getContent() {
+		return content;
+	}
+
+	public void setContent(VerticalPanel content) {
+		this.content = content;
 	}
 }

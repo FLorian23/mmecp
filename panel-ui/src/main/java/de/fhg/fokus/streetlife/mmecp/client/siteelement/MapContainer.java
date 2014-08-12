@@ -37,7 +37,8 @@ public class MapContainer extends SiteElement implements ClickHandler,
 
 	private MapContainer() {
 		buildPanel();
-		getElement().setId("MapContainer");
+		getElement().setId("mapcontainer");
+		setSize("100%", "100%");
 	}
 
 	public static MapContainer getInstance() {

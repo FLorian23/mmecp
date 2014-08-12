@@ -11,7 +11,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
-import de.fhg.fokus.streetlife.mmecp.dto.EventInfo;
+import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 
 public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		EventInfoService {
@@ -21,22 +21,41 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EventInfoServiceImpl()  {
-		
+	public EventInfoServiceImpl() {
+
 	}
 
-	public EventInfo getEventInfo()  {
+	int eventID = 0;
+
+	public EventInfo getEventInfo() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
 		EventInfo eventInfo = new EventInfo();
+		if (eventID % 4 == 0)
+			try {
+				Thread.sleep(1000 * 10);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		
+		//get JSON schema
 		JSONProcessor jSONProcessor = null;
 		try {
-			jSONProcessor = new JSONProcessor(getContentOfFile("/WEB-INF/schema.json"));
+			jSONProcessor = new JSONProcessor(
+					getContentOfFile("/WEB-INF/schema.json"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			eventInfo.setMessage(e.getMessage());
 			System.out.println(eventInfo.getMessage());
 			return eventInfo;
 		}
+
 		
+		//get JSON example
 		String jSONExample = "";
 		try {
 			// Example at first
@@ -48,12 +67,14 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 			return eventInfo;
 		}
 
-		if (!jSONProcessor.validate(jSONExample)){
+		//validation
+		if (!jSONProcessor.validate(jSONExample)) {
 			eventInfo.setMessage("json file not valid");
 			System.out.println(eventInfo.getMessage());
 			return eventInfo;
 		}
-			
+
+		//Parse
 		try {
 			eventInfo = JSONProcessor.parse(jSONExample);
 		} catch (Exception e) {
@@ -63,6 +84,7 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		}
 		eventInfo.setMessage("success");
 		System.out.println(eventInfo.getMessage());
+		eventInfo.setId(eventID++);
 		return eventInfo;
 	}
 

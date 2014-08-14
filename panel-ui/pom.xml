@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
 		<artifactId>mmecp</artifactId>
@@ -22,6 +21,16 @@
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- 
+		<tomcat.url>http://localhost:8080/manager/text</tomcat.url>
+		<tomcat.server>local_tomcat</tomcat.server>
+		 -->
+
+		<!--  -->
+		<tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
+		<tomcat.server>streetlife-panel</tomcat.server>
+		<!-- -->
 	</properties>
 
 	<dependencies>

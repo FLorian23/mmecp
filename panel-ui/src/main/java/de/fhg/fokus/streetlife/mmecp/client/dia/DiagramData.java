@@ -2,11 +2,15 @@ package de.fhg.fokus.streetlife.mmecp.client.dia;
 
 import java.util.List;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsonUtils;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 
-import de.fhg.fokus.streetlife.mmecp.dto.Datum;
+import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
 
 public class DiagramData {
 

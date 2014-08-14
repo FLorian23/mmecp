@@ -14,7 +14,7 @@ import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.fhg.fokus.streetlife.mmecp.dto.EventInfo;
+import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 
 public class JSONProcessor {
 

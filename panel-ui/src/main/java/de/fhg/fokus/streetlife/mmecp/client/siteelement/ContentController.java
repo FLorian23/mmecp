@@ -1,7 +1,10 @@
 package de.fhg.fokus.streetlife.mmecp.client.siteelement;
 
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right.SlideBarRight;
@@ -45,20 +48,34 @@ public class ContentController {
 	}
 
 	private void buildMapArchitecture() {
+		TabPanel tabPanel = new TabPanel();
+		
+		tabPanel.setVisible(true);
+		tabPanel.getElement().setId("tabpanel");
 		LayoutPanel lp = new LayoutPanel();
-		lp.getElement().setId("mapContainer");
+		lp.getElement().setId("maplayoutpanel");//tabcontainerMap");
+		
 		lp.add(MapContainer.getInstance());
 		lp.add(SlideBarLeft.get());
-		lp.add(PopUpPanel.get());
+		lp.add(PopUpPanelContainer.get());
 		lp.add(SlideBarRight.get());
-		lp.getWidgetContainerElement(PopUpPanel.get()).setId(
+		lp.getWidgetContainerElement(PopUpPanelContainer.get()).setId(
 				"wrapperPopupPanel");
 		lp.getWidgetContainerElement(SlideBarLeft.get()).setId(
 				"wrapperLeftMenu");
 		lp.getWidgetContainerElement(SlideBarRight.get()).setId(
 				"wrapperRightMenu");
-		getVerticalPanel().add(lp);
-		getVerticalPanel().setCellWidth(lp, "100%");
-		getVerticalPanel().setCellHeight(lp, "100%");
+		
+		
+		lp.getWidgetContainerElement(MapContainer.getInstance()).setId("wrapperMap");
+		tabPanel.add(lp, "Map");
+		tabPanel.add(new Label("some math..."), "statistics");
+		
+		getVerticalPanel().add(tabPanel);
+		getVerticalPanel().setCellWidth(tabPanel, "100%");
+		getVerticalPanel().setCellHeight(tabPanel, "100%");
+		
+		tabPanel.selectTab(0);
+		
 	}
 }

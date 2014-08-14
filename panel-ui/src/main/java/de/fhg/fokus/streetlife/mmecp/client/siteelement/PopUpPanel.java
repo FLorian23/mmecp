@@ -4,44 +4,60 @@ import static com.google.gwt.query.client.GQuery.$;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.query.client.css.CSS;
+import com.google.gwt.query.client.css.TextAlignProperty.TextAlign;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class PopUpPanel extends SimplePanel {
+import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right.DtoToGWTElementMapper;
+import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right.IEventInfoView;
+import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right.SlideBarRight;
+import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 
-	private static PopUpPanel instance;
-	public static final int WIDTH_ROLL_IN = 0;
-	public static final int WIDTH_ROLL_OUT = 100;
-	private String divWrapper = "wrapperPopupPanel";
-	int timetoShow = 3; // sec
+public class PopUpPanel extends SimplePanel implements ClickHandler {
 
-	private PopUpPanel() {
-		getElement().setId("PopupPanel");
-		addDomHandler(new ClickHandler() {
+	private EventInfo eventInfo = null;
 
-			public void onClick(ClickEvent event) {
-				 $(divWrapper).animate("width:" + WIDTH_ROLL_IN, 500);
-			}
-		}, ClickEvent.getType());
+	public PopUpPanel(EventInfo eventInfo) {
+		this.setEvent(eventInfo);
+		this.setSize(PopUpPanelContainer.WIDTH_ROLL_IN + "px", "50px");
+		getElement().setId("eventinfo_" + eventInfo.getId());
+		getElement().setClassName("eventinfonotification");
+		getElement().addClassName("alert-box");
+		getElement().addClassName("notice");
+		$("#" + getElement().getId()).css(CSS.TEXT_ALIGN.with(TextAlign.LEFT));
+		addDomHandler(this, ClickEvent.getType());
+		add(new Label(eventInfo.getId() + ""));
 	}
 
-	public static PopUpPanel get() {
-		if (PopUpPanel.instance == null)
-			PopUpPanel.instance = new PopUpPanel();
-
-		return PopUpPanel.instance;
+	public EventInfo getEvent() {
+		return eventInfo;
 	}
 
-	public void newNotification(String text) {
-		$(divWrapper).animate("width:" + WIDTH_ROLL_OUT, 250);
-		add(new Label(text));
+	public void setEvent(EventInfo event) {
+		this.eventInfo = event;
 	}
 
-	public String getDivWrapper() {
-		return divWrapper;
+	public void onClick(ClickEvent event) {
+		PopUpPanelContainer.get().hideNotification(eventInfo);
+
+		// Show futher information in right sidebar
+		VerticalPanel content = SlideBarRight.get().getContent();
+		content.clear();
+		IEventInfoView eventInfo = DtoToGWTElementMapper.map(getEvent());
+		eventInfo.fillContent(content);
+		SlideBarRight.get().opening();
 	}
 
-	public void setDivWrapper(String divWrapper) {
-		this.divWrapper = divWrapper;
+	public void show() {
+		$("#" + getElement().getId()).animate(
+				"width:" + PopUpPanelContainer.WIDTH_ROLL_OUT, 200);
+	}
+
+	public void hide() {
+		$("#" + getElement().getId()).animate(
+				"width:" + PopUpPanelContainer.WIDTH_ROLL_IN, 200);
 	}
 }

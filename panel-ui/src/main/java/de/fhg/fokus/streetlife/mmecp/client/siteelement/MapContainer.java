@@ -1,19 +1,26 @@
 package de.fhg.fokus.streetlife.mmecp.client.siteelement;
 
+import org.gwtopenmaps.openlayers.client.Icon;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.Marker;
+import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
+import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
+import org.gwtopenmaps.openlayers.client.layer.Markers;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,7 +30,9 @@ import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.DAO;
 
@@ -113,7 +122,15 @@ public class MapContainer extends SiteElement implements ClickHandler,
 		map.addControl(new LayerSwitcher());
 		// map.addControl(new OverviewMap());
 		map.addControl(new ScaleLine());
-
+		
+		//Add clickhandler for map
+		map.addMapClickListener(new MapClickListener() {
+			
+			public void onClick(MapClickEvent mapClickEvent) {
+				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent.getLonLat());
+				GuidancePopUp.get().setTo(pixelFromLonLat.x(), pixelFromLonLat.y());
+			}
+		});
 		// Center and zoom to a location
 		LonLat lonLat = new LonLat(DAO.BERLIN_GEO_lon, DAO.BERLIN_GEO_lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
@@ -215,3 +232,14 @@ public class MapContainer extends SiteElement implements ClickHandler,
 		switchLocation(DAO.CITY.valueOf(value));
 	}
 }
+
+
+//How to set Markers!
+//Markers layer = new Markers("Example Marker");
+//map.addLayer(layer);
+//
+//Icon icon = new Icon("http://icongal.com/gallery/image/98728/map_pin_location_push_pin_gps_pushpin.png",
+//        new Size(32, 32));
+//final Marker marker = new Marker(mapClickEvent.getLonLat(), icon);
+//layer.addMarker(marker);
+//map.addLayer(layer);

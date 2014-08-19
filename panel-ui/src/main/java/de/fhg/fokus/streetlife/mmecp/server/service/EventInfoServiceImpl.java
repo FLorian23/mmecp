@@ -37,7 +37,6 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 	public EventInfo getEventInfo() {
 
 		context = getServletContext();
-
 		// get JSON schema
 		if (jSONProcessor == null) {
 			try {
@@ -56,6 +55,7 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 				e1.printStackTrace();
 			}
 		}
+		
 
 		// Not consider multiple clients! TODO!
 		eventInfo = eventInfoQueue.remove(eventInfoQueue.size() - 1);
@@ -94,6 +94,8 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public static void newEvent() {
+		if (context == null) return;
+		
 		EventInfo eventInfo = new EventInfo();
 		// get JSON example
 		String jSONExample = "";
@@ -124,7 +126,5 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		eventInfo.setId(eventID++);
 
 		eventInfoQueue.add(eventInfo);
-
-		System.out.println("New Event " + eventID + " added");
 	}
 }

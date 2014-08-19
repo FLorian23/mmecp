@@ -16,6 +16,7 @@
         <module>api-rest</module>
         <module>feed-creator</module>
         <module>rule-converter</module>
+        <module>data-aggregator</module>
     </modules>
 
     <properties>

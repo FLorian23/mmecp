@@ -9,11 +9,11 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
  */
 public class AtomClientImpl {
 
-    public void getNotification(String channelId) {
+    public String getNotification(String channelId) {
         RegisterBuiltin.register(ResteasyProviderFactory.getInstance());
 
         AtomClient client = ProxyFactory.create(AtomClient.class, "http://streetlifemmecp.apiary-mock.com");
         String out = client.getNotifications(channelId);
-        System.out.println(out);
+        return out;
     }
 }

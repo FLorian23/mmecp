@@ -6,69 +6,86 @@
 <rc_schema>
 
 	<head>
-		<text>
-(ns carneades.engine.streetlife-scheme
+
+(ns carneades.engine.streetlife-rules
   (:use clojure.pprint
-        (carneades.engine statement argument argument-graph shell argument theory
-         aspic dublin-core argument-evaluation policy ask  argument-generator)
+        carneades.engine.statement
+        carneades.engine.theory
+        carneades.engine.argument
+        carneades.engine.argument-graph
+        carneades.engine.argument-generator
+        carneades.engine.argument-evaluation
+        carneades.engine.aspic
+        carneades.engine.shell
+        carneades.engine.dublin-core
+        carneades.engine.policy
+        carneades.engine.ask
         carneades.maps.lacij)
   (:require [carneades.project.fs :as project]
             [carneades.maps.lacij :refer [export]]
             [carneades.database.db :as db]
             [carneades.database.argument-graph :as ag-db]
             [carneades.database.import :refer [import-from-argument-graph]]
+
+            [clojure.pprint :refer :all]
             [midje.sweet :refer :all :exclude [facts]]))
-        </text>
+
 	</head>
 
 	
 	<body ph_rules="%rules">
-		<text>
-(def theory1
+
+(def forcastModalSplit
   (make-theory
-    :sections
-    [(make-section
-      :schemes
-      [
-%rules
-      ]
-    )]
+    :header (make-metadata
+      :title "Reconstruction of Liverpool Argumentation Schemes"
+      :creator "Kevin van Bernum"
+      :publisher "Fraunhofer FOKUS"
+      :date "2014"
+      :description {:en "Forecast of modal split for an event."})
+    ;:language L
+    :schemes S
+    ;:references {""
+    ;  (make-metadata
+    ;    :creator ""
+    ;    :title ""
+    ;    :publisher ""
+    ;    :date "")}
   )
 )
-		</text>
+
+(def S
+  [
+%rules
+  ]
+)
+
 		<rules>
-		
-			<rule ph_id="%id" ph_probability="%prob" ph_conclusion="%con" ph_premises="%pms">
-				<text>
-		(make-scheme
-		  :id '%id'
-          :conclusion %con
-          :premises [
+			<rule ph_id="%id" ph_conclusion="%con" ph_premises="%pms">
+
+    (make-scheme
+	  :id '%id'
+      :conclusion %con
+      :premises [
 %pms
-                    ]
-        )
-				</text>
-				<conclusion ph_value="%val" ph_attribut="%att" ph_parent="%par">
-					<text>
-'(%val %att %par)
-					</text>
+      ]
+    )
+
+				<conclusion ph_predicate="%pred" ph_dataIn="%in" ph_result="%res">
+'(%pred %in %res)
 				</conclusion>
 				<premises>
 
 					<!-- categorical premise -->
-					<premise type="categorical" ph_probability="%prob" ph_value="%val" ph_attribut="%att" ph_parent="%par">
-						<text>
-					  (pm '(%val %att %par))
-						</text>
+					<premise type="categorical" ph_value="%val" ph_attribut="%att" ph_parent="%par">
+        (pm '(%att %val %par))
 					</premise>
 
-					<!-- continous premise -->
-					<premise type="continous" ph_probability="%prob" ph_value="%val" ph_attribut="%att" ph_parent="%par" ph_operator="%op" ph_limit="%limit">
-						<text>
-					  (pm '(%val %att %par))
-                      (pm '(eval %att (let [x %limit]
-                                        (if (%op %att x) %att x))))
-						</text>
+					<!-- continuous premise -->
+					<premise type="continuous" ph_value="%val" ph_attribut="%att" ph_parent="%par" ph_operator="%op">
+		(pm '(%att ?E %par))
+        (pm '(eval ?E (let [x ?E]
+                           (if (%op ?E x) ?E x))))
 					</premise>
 
 				</premises>

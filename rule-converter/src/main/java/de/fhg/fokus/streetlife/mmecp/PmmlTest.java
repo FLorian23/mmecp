@@ -20,7 +20,10 @@ public class PmmlTest {
 	public static void main(String[] args) {
 		try {
 			String path = PmmlTest.class.getClassLoader().getResource("example/modalChoice.pmml").getPath();
-			convert(path);
+			Converter myConverter = new Converter();
+			String rules = myConverter.convert(path);
+			System.out.println(rules);
+			//convert(path);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -148,4 +151,5 @@ public class PmmlTest {
 			throw new IllegalArgumentException();
 		}
 	}
+
 }

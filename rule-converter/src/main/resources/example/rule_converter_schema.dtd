@@ -4,54 +4,40 @@
 	<!ELEMENT head (#PCDATA)>
 
 	<!-- body to wrap rules -->
-	<!ELEMENT body (text, rules)>
+	<!ELEMENT body (#PCDATA, rules)>
 	<!ATTLIST body
 		ph_rules CDATA #REQUIRED
 	>
-
-		<!-- text of body with defined placeholder for rules -->
-		<!ELEMENT text (#PCDATA)>
 
 		<!-- list of rules for body -->
 		<!ELEMENT rules (rule)+>
 
 			<!-- single rule -->
-			<!ELEMENT rule (text, id, probability, conclusion, premises)>
+			<!ELEMENT rule (#PCDATA, conclusion, premises)>
 			<!ATTLIST rule
 				ph_id CDATA #IMPLIED
-				ph_probability CDATA #IMPLIED
 				ph_conclusion CDATA #REQUIRED
 				ph_premises CDATA #REQUIRED
 			>
 
-				<!-- text of rule with defined placeholders -->
-				<!ELEMENT text (#PCDATA)>
-
 				<!-- conclusion of rule -->
-				<!ELEMENT conclusion (text, attribut, value, parent)>
+				<!ELEMENT conclusion (#PCDATA)>
 				<!ATTLIST conclusion
-					ph_value CDATA #REQUIRED
-					ph_attribut CDATA #REQUIRED
-					ph_parent CDATA #REQUIRED
+					ph_predicate CDATA #REQUIRED
+					ph_dataIn CDATA #REQUIRED
+					ph_result CDATA #REQUIRED
 				>
-
-					<!-- text of conclusion with defined placeholders -->
-					<!ELEMENT text (#PCDATA)>
 
 				<!-- list of premises for rule -->
 				<!ELEMENT premises (premise)+>
 
 					<!-- premise of rule -->
-					<!ELEMENT premise (text, probability, attribut, value, parent)>
+					<!ELEMENT premise (#PCDATA)>
 					<!ATTLIST premise
-						type [categorical|continous] #REQUIRED
-						ph_probability CDATA #IMPLIED
-						ph_value CDATA #REQUIRED
-						ph_attribut CDATA #REQUIRED
+						type (categorical|continuous) #REQUIRED
+                        ph_attribut CDATA #REQUIRED
+                        ph_value CDATA #REQUIRED
 						ph_parent CDATA #REQUIRED
-						ph_operator CDATA #IMPLIE
-						ph_limit CDATA #REQUIREDD
+						ph_operator CDATA #IMPLIED
+						ph_limit CDATA #IMPLIED
 					>
-
-						<!-- text of premise with defined placeholders -->
-						<!ELEMENT text (#PCDATA)>

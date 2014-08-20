@@ -5,23 +5,36 @@
 package de.fhg.fokus.streetlife.mmecp;
 
 import org.dmg.pmml.*;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.input.sax.XMLReaders;
 import org.jpmml.model.ImportFilter;
 import org.jpmml.model.JAXBUtil;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 import java.util.List;
 
 public class Converter {
 
+	private final Element schema;
+	private Element nodeWrapper;
 	private String targetName;
 
-	public Converter() {
+	public Converter(String schemaPath) throws IOException, SAXException, JDOMException {
 		// parse rule converter schema
-		// ToDo: read rule converter schema
+		File file = new File(schemaPath);
+		SAXBuilder sax = new SAXBuilder(XMLReaders.DTDVALIDATING);
+		Document doc = sax.build(file);
+		schema = doc.getRootElement();
 	}
 
 	// ToDo: multiple pmml`s
@@ -38,30 +51,37 @@ public class Converter {
 			is.close();
 		}
 
-		List<Model> models = pmml.getModels();
-		String result = "";
+		StringBuffer knowledgeBase = new StringBuffer("");
+		knowledgeBase.append(schema.getChild("head").getText());
+		knowledgeBase.append(schema.getChild("body").getChild("mapText").getText());
 
+		String placeholder = schema.getChild("body").getAttributeValue("ph_nodeWrapper");
+		int ruleIndex = knowledgeBase.indexOf(placeholder);
+
+		List<Model> models = pmml.getModels();
 		for (Model model : models) {
 			if (model instanceof TreeModel) {
 				TreeModel treeModel = (TreeModel) model;
 				targetName = model.getTargets().getTargets().get(0).getField().getValue();
 
-				// ToDo: get header and body from schema
-				StringBuffer knowledgeBase = new StringBuffer("header\n\nbody begin\n\n");
+				// get node wrapper for current tree model
+				for (Element nw : schema.getChildren("nodeWrapper"))
+					if (nw.getAttributeValue("model").contains(model.getModelName()))
+						nodeWrapper = nw;
 
 				// don't convert root
 				for (Node child : treeModel.getNode().getNodes()) {
-					// ToDo: insert rules in body as defined in schema
-					knowledgeBase.append(format(child, ""));
+					knowledgeBase.insert(ruleIndex, format(child, ""));
+					ruleIndex = knowledgeBase.indexOf(placeholder);
 				}
-
-				knowledgeBase.append("\nbody end");
-				result = knowledgeBase.toString();
-			} else throw new IllegalArgumentException("Can't convert the model (" + model.getModelName() +
-													  "). Rule Converter coverts only tree models!");
+			} else {
+				throw new IllegalArgumentException("Can't convert the model (" + model.getModelName() +
+												   "). Rule Converter coverts only tree models!");
+			}
 		}
+		knowledgeBase.replace(ruleIndex, ruleIndex + placeholder.length(), "");
 
-		return result;
+		return knowledgeBase.toString();
 	}
 
 	private String format(Node node, String result) {
@@ -115,7 +135,7 @@ public class Converter {
 	}
 
 	private String format(SimplePredicate simplePredicate) {
-		// ToDo: make predicate as defined in schema + check OTYPE of field 
+		// ToDo: make predicate as defined in schema + check OTYPE of field
 		StringBuffer sb = new StringBuffer();
 
 		sb.append((simplePredicate.getField()).getValue());

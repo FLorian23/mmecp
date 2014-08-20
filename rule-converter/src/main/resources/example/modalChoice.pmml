@@ -48,7 +48,7 @@
     </DataField>
     <DataField dataType="double" name="No." optype="continuous"/>
   </DataDictionary>
-  <TreeModel algorithmName="DecisionTree" functionName="classification" missingValueStrategy="lastPrediction" modelName="Tree" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit">
+  <TreeModel algorithmName="DecisionTree" functionName="classification" missingValueStrategy="lastPrediction" modelName="Person Event Tree" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit">
     <MiningSchema>
       <MiningField highValue="1.0" importance="1.0" invalidValueTreatment="asIs" lowValue="0.0" missingValueTreatment="asIs" name="Location" optype="categorical" usageType="active"/>
       <MiningField highValue="1.0" importance="1.0" invalidValueTreatment="asIs" lowValue="0.0" missingValueTreatment="asIs" name="Type" optype="categorical" usageType="active"/>

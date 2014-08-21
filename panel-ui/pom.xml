@@ -173,9 +173,9 @@
 				<executions>
 					<execution>
 						<phase>compile</phase>
-						<goals>
-							<goal>exploded</goal>
-						</goals>
+<!-- 						<goals> -->
+<!-- 							<goal>exploded</goal> -->
+<!-- 						</goals> -->
 					</execution>
 				</executions>
 				<configuration>

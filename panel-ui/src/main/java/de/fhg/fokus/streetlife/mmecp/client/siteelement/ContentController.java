@@ -63,8 +63,6 @@ public class ContentController {
 		lp.getWidgetContainerElement(SlideBarRight.get()).setId(
 				"wrapperRightMenu");
 
-		GuidancePopUp.get().setLayoutPanel(lp);
-
 		lp.getWidgetContainerElement(MapContainer.getInstance()).setId(
 				"wrapperMap");
 		tabPanel.add(lp, "Map");

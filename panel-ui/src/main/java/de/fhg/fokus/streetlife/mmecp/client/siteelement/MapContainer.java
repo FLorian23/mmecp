@@ -128,7 +128,9 @@ public class MapContainer extends SiteElement implements ClickHandler,
 			
 			public void onClick(MapClickEvent mapClickEvent) {
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent.getLonLat());
-				GuidancePopUp.get().setTo(pixelFromLonLat.x(), pixelFromLonLat.y());
+				GuidancePopUpPanel g = new GuidancePopUpPanel(true);
+				g.setPopupPosition(pixelFromLonLat.x() + getElement().getAbsoluteLeft(), pixelFromLonLat.y() + getElement().getAbsoluteTop());
+				g.show();
 			}
 		});
 		// Center and zoom to a location

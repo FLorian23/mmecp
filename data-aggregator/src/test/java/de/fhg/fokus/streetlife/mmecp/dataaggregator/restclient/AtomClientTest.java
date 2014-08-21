@@ -9,6 +9,10 @@ import org.testng.annotations.Test;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorFactory;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * Created by benjamin on 19.08.14.
  */
@@ -18,8 +22,12 @@ public class AtomClientTest {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@BeforeTest
-	public void beforeTest() {
-		dac = DataAggregatorFactory.getClient();
+	public void beforeTest() throws IOException {
+        InputStream in = this.getClass().getResourceAsStream("/data-aggregator.properties");
+        Properties props = new Properties();
+        props.load(in);
+        dac = DataAggregatorFactory.getClient();
+        dac.init(props);
 	}
 
 	@Test

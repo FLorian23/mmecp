@@ -22,7 +22,11 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
 	public String getNotifications(String channelId) {
 
 		AtomClientImpl ac = new AtomClientImpl();
-
 		return ac.getNotification(channelId);
+	}
+
+	public String getChannels() {
+		AtomClientImpl ac = new AtomClientImpl();
+		return ac.getChannels();
 	}
 }

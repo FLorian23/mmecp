@@ -11,8 +11,12 @@ import javax.ws.rs.core.MediaType;
  */
 public interface AtomClient {
 
-    @GET
-    @Path("subscription/channel/{channelId}/notification")
-    @Produces(MediaType.APPLICATION_ATOM_XML)
-    String getNotifications(@PathParam("channelId") String channelId);
+	@GET
+	@Path("subscription/channel/{channelId}/notification")
+	@Produces(MediaType.APPLICATION_ATOM_XML)
+	public String getNotifications(@PathParam("channelId") String channelId);
+
+	@GET
+	@Path("subscription/channel")
+	public String getChannels();
 }

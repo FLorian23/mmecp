@@ -19,11 +19,11 @@
 	</properties>
 
 	<dependencies>
-        <dependency>
-            <groupId>de.fhg.fokus.streetlife.mmecp</groupId>
-            <artifactId>configurator</artifactId>
-            <version>0.1</version>
-        </dependency>
+		<dependency>
+			<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+			<artifactId>configurator</artifactId>
+			<version>0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>
@@ -34,26 +34,10 @@
 			<artifactId>resteasy-atom-provider</artifactId>
 			<version>${resteasy.version}</version>
 		</dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-client</artifactId>
-            <version>${resteasy.version}</version>
-        </dependency>
-        <dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.1.1</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${resteasy.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -73,23 +57,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-<!--			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<configuration>
-					<mainClass>de.fhg.fokus.streetlife.mmecp.PmmlTest</mainClass>
-				</configuration>
-			</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
 		</plugins>
 	</build>
 </project>

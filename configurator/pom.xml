@@ -1,40 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>mmecp</artifactId>
-        <groupId>de.fhg.fokus.streetlife</groupId>
-        <version>0.1</version>
-    </parent>
-    <groupId>de.fhg.fokus.streetlife.mmecp</groupId>
-    <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>mmecp</artifactId>
+		<groupId>de.fhg.fokus.streetlife</groupId>
+		<version>0.1</version>
+	</parent>
+	<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>configurator</artifactId>
-    <packaging>jar</packaging>
+	<artifactId>configurator</artifactId>
+	<packaging>jar</packaging>
 
-    <name>configurator</name>
-    <url>http://maven.apache.org</url>
+	<name>configurator</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>1.7.7</slf4j.version>
-    </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.7.7</slf4j.version>
+	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-    </dependencies>
 </project>

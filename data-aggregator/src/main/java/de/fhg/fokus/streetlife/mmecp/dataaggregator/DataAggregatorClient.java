@@ -10,5 +10,7 @@ public interface DataAggregatorClient {
 
 	public String getNotifications(String channelId);
 
+    public String getNotification(String channelId, String notificationId);
+
 	public String getChannels();
 }

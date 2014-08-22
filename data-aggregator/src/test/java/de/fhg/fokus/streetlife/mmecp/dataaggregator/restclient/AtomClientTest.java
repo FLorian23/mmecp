@@ -43,4 +43,11 @@ public class AtomClientTest {
 		LOG.info(channels);
 		Assert.assertNotNull(channels);
 	}
+
+    @Test
+    public void getNotification() {
+        String notification = dac.getNotification("some channel id", "some notification id");
+        LOG.info(notification);
+        Assert.assertNotNull(notification);
+    }
 }

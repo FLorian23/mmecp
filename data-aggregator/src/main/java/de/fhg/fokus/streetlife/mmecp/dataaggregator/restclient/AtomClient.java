@@ -16,6 +16,11 @@ public interface AtomClient {
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	public String getNotifications(@PathParam("channelId") String channelId);
 
+    @GET
+    @Path("subscription/channel/{channelId}/notification/{notificationId}")
+    @Produces(MediaType.APPLICATION_ATOM_XML)
+    public String getNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
+
 	@GET
 	@Path("subscription/channel")
 	public String getChannels();

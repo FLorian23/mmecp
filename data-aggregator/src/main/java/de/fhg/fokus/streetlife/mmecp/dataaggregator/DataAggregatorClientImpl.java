@@ -20,10 +20,12 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
 
     AtomClient atom;
 
+    @Override
 	public void init() {
 		throw new NotImplementedYetException();
 	}
 
+    @Override
 	public void init(Properties props) {
         RegisterBuiltin.register(ResteasyProviderFactory.getInstance());
         ResteasyClient client = new ResteasyClientBuilder().build();
@@ -31,11 +33,18 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
         atom = target.proxy(AtomClient.class);
 	}
 
+    @Override
 	public String getNotifications(String channelId) {
 		return atom.getNotifications(channelId);
 	}
 
-	public String getChannels() {
+    @Override
+    public String getNotification(String channelId, String notificationId) {
+        return atom.getNotification(channelId, notificationId);
+    }
+
+    @Override
+    public String getChannels() {
 		return atom.getChannels();
 	}
 }

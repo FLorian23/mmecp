@@ -7,9 +7,11 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.NotImplementedYetException;
 
+import org.jboss.resteasy.plugins.providers.atom.Feed;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+
+import javax.ws.rs.core.Response;
 
 import static de.fhg.fokus.streetlife.configurator.Constants.PROPERTY_MMECP_URL_BASE;
 
@@ -19,11 +21,6 @@ import static de.fhg.fokus.streetlife.configurator.Constants.PROPERTY_MMECP_URL_
 public class DataAggregatorClientImpl implements DataAggregatorClient {
 
     AtomClient atom;
-
-    @Override
-	public void init() {
-		throw new NotImplementedYetException();
-	}
 
     @Override
 	public void init(Properties props) {
@@ -47,4 +44,9 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     public String getChannels() {
 		return atom.getChannels();
 	}
+
+    @Override
+    public Response postNotification(String channelId, Feed notification) {
+        return atom.postNotification(channelId, notification);
+    }
 }

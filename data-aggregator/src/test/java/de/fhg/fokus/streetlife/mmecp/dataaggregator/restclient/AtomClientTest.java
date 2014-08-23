@@ -1,5 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.restclient;
 
+import org.jboss.resteasy.plugins.providers.atom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -9,8 +10,13 @@ import org.testng.annotations.Test;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorFactory;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.Properties;
 
 /**
@@ -49,5 +55,27 @@ public class AtomClientTest {
         String notification = dac.getNotification("some channel id", "some notification id");
         LOG.info(notification);
         Assert.assertNotNull(notification);
+    }
+
+    @Test
+    public void postNotification() throws IOException, URISyntaxException {
+        Feed feed = new Feed();
+        feed.setId(new URI("http://example.com/42"));
+        feed.setTitle("My Feed");
+        feed.setUpdated(new Date());
+        Link link = new Link();
+        link.setHref(new URI("http://localhost"));
+        link.setRel("edit");
+        feed.getLinks().add(link);
+        feed.getAuthors().add(new Person("Bill Burke"));
+        Entry entry = new Entry();
+        entry.setTitle("Hello World");
+        Content content = new Content();
+        content.setType(MediaType.TEXT_HTML_TYPE);
+        content.setText("Nothing much");
+        entry.setContent(content);
+        feed.getEntries().add(entry);
+        Response response = dac.postNotification("some channel Id", feed);
+        Assert.assertEquals(Response.Status.CREATED.getStatusCode(),response.getStatus());
     }
 }

@@ -39,7 +39,7 @@
 			<artifactId>resteasy-client</artifactId>
 			<version>${resteasy.version}</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

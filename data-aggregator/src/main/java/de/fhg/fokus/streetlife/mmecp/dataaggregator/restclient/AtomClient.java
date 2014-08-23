@@ -1,10 +1,10 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.restclient;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.jboss.resteasy.plugins.providers.atom.Feed;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Created by benjamin on 19.08.14.
@@ -15,6 +15,11 @@ public interface AtomClient {
 	@Path("subscription/channel/{channelId}/notification")
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	public String getNotifications(@PathParam("channelId") String channelId);
+
+    @POST
+    @Path("subscription/channel/{channelId}/notification")
+    @Consumes(MediaType.APPLICATION_ATOM_XML)
+    public Response postNotification(@PathParam("channelId") String channelId, Feed notification);
 
     @GET
     @Path("subscription/channel/{channelId}/notification/{notificationId}")

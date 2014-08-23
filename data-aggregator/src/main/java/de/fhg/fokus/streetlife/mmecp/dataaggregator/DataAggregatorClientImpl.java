@@ -13,7 +13,7 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import javax.ws.rs.core.Response;
 
-import static de.fhg.fokus.streetlife.configurator.Constants.PROPERTY_MMECP_URL_BASE;
+import static de.fhg.fokus.streetlife.configurator.Constants.PROPERTY_STORAGE_URL_BASE;
 
 /**
  * Created by benjamin on 20.08.14.
@@ -26,7 +26,7 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
 	public void init(Properties props) {
         RegisterBuiltin.register(ResteasyProviderFactory.getInstance());
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(props.getProperty(PROPERTY_MMECP_URL_BASE));
+        ResteasyWebTarget target = client.target(props.getProperty(PROPERTY_STORAGE_URL_BASE));
         atom = target.proxy(AtomClient.class);
 	}
 

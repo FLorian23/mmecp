@@ -5,5 +5,5 @@ package de.fhg.fokus.streetlife.configurator;
  */
 public interface Constants {
 
-    static final String PROPERTY_MMECP_URL_BASE = "mmecp.url.base";
+    static final String PROPERTY_STORAGE_URL_BASE = "storage.url.base";
 }

@@ -18,4 +18,13 @@
 		<slf4j.version>1.7.7</slf4j.version>
 	</properties>
 
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

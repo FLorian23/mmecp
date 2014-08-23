@@ -1,5 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.restclient;
 
+import de.fhg.fokus.streetlife.configurator.Constants;
 import org.jboss.resteasy.plugins.providers.atom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,8 @@ public class AtomClientTest {
 
 	@BeforeTest
 	public void beforeTest() throws IOException {
-        InputStream in = this.getClass().getResourceAsStream("/data-aggregator.properties");
         Properties props = new Properties();
-        props.load(in);
+        props.setProperty(Constants.PROPERTY_STORAGE_URL_BASE, "http://streetlifemmecp.apiary-mock.com");
         dac = DataAggregatorFactory.getClient();
         dac.init(props);
 	}

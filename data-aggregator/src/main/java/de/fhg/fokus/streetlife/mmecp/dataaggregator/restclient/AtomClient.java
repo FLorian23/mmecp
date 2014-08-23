@@ -14,7 +14,7 @@ public interface AtomClient {
 	@GET
 	@Path("subscription/channel/{channelId}/notification")
 	@Produces(MediaType.APPLICATION_ATOM_XML)
-	public String getNotifications(@PathParam("channelId") String channelId);
+	public Feed getNotifications(@PathParam("channelId") String channelId);
 
     @POST
     @Path("subscription/channel/{channelId}/notification")
@@ -24,7 +24,11 @@ public interface AtomClient {
     @GET
     @Path("subscription/channel/{channelId}/notification/{notificationId}")
     @Produces(MediaType.APPLICATION_ATOM_XML)
-    public String getNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
+    public Feed getNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
+
+    @DELETE
+    @Path("subscription/channel/{channelId}/notification/{notificationId}")
+    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
 
 	@GET
 	@Path("subscription/channel")

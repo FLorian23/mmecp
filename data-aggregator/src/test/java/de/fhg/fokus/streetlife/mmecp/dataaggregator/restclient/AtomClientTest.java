@@ -38,9 +38,8 @@ public class AtomClientTest {
 
 	@Test
 	public void getNotifications() {
-		String notification = dac.getNotifications("some Id");
-		LOG.info(notification);
-		Assert.assertNotNull(notification);
+		Feed notification = dac.getNotifications("some Id");
+		Assert.assertEquals("Titel des Weblogs", notification.getTitle());
 	}
 
 	@Test
@@ -52,9 +51,8 @@ public class AtomClientTest {
 
     @Test
     public void getNotification() {
-        String notification = dac.getNotification("some channel id", "some notification id");
-        LOG.info(notification);
-        Assert.assertNotNull(notification);
+        Feed notification = dac.getNotification("some channel id", "some notification id");
+        Assert.assertEquals("Single Notification", notification.getEntries().get(0).getTitle());
     }
 
     @Test
@@ -77,5 +75,10 @@ public class AtomClientTest {
         feed.getEntries().add(entry);
         Response response = dac.postNotification("some channel Id", feed);
         Assert.assertEquals(Response.Status.CREATED.getStatusCode(),response.getStatus());
+    }
+
+    @Test
+    public void deleteNotification() {
+        Assert.assertEquals(204, dac.deleteNotification("some channel Id", "some notification Id").getStatus());
     }
 }

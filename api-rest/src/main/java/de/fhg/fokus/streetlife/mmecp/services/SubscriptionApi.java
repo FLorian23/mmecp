@@ -32,7 +32,7 @@ public class SubscriptionApi {
     @GET
     @Produces("application/atom+xml")
     @Path("channel/{channelId}/notification")
-    public String getChannelNotifications(@PathParam("channelId") String channelId) {
+    public Feed getChannelNotifications(@PathParam("channelId") String channelId) {
         init();
         return dac.getNotifications(channelId);
     }
@@ -42,17 +42,16 @@ public class SubscriptionApi {
     @Path("channel/{channelId}/notification")
     public Response postChannelNotification(@PathParam("channelId") String channelId, Feed notification) {
         init();
-        dac.postNotification(channelId, notification);
         LOG.info("Posting new notification with title \""+notification.getTitle()+"\" to channel \"" + channelId + "\"");
-        return Response.status(Response.Status.CREATED).build();
+        return dac.postNotification(channelId, notification);
     }
 
     @GET
     @Produces("application/atom+xml")
     @Path("channel/{channelId}/notification/{notificationId}")
-    public String getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") long notificationId) {
+    public Feed getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") long notificationId) {
         init();
-        return "Specific notification: channelId " + channelId + ", notificationId " + notificationId;
+        return dac.getNotification(channelId, channelId);
     }
 
     @GET
@@ -61,6 +60,13 @@ public class SubscriptionApi {
     public String getChannels() {
         init();
         return dac.getChannels();
+    }
+
+    @DELETE
+    @Path("channel/{channelId}/notification/{notificationId}")
+    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId) {
+        init();
+        return dac.deleteNotification(channelId, notificationId);
     }
 
 }

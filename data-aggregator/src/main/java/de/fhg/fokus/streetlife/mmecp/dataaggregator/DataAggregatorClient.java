@@ -9,11 +9,13 @@ public interface DataAggregatorClient {
 
 	public void init(Properties props);
 
-	public String getNotifications(String channelId);
+	public Feed getNotifications(String channelId);
 
-    public String getNotification(String channelId, String notificationId);
+    public Feed getNotification(String channelId, String notificationId);
 
 	public String getChannels();
 
     public Response postNotification(String channelId, Feed notification);
+
+    public Response deleteNotification(String channelId, String notificationId);
 }

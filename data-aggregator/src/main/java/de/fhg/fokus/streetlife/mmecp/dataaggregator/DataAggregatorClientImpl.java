@@ -31,12 +31,12 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
 	}
 
     @Override
-	public String getNotifications(String channelId) {
+	public Feed getNotifications(String channelId) {
 		return atom.getNotifications(channelId);
 	}
 
     @Override
-    public String getNotification(String channelId, String notificationId) {
+    public Feed getNotification(String channelId, String notificationId) {
         return atom.getNotification(channelId, notificationId);
     }
 
@@ -48,5 +48,10 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     @Override
     public Response postNotification(String channelId, Feed notification) {
         return atom.postNotification(channelId, notification);
+    }
+
+    @Override
+    public Response deleteNotification(String channelId, String notificationId) {
+        return atom.deleteNotification(channelId,notificationId);
     }
 }

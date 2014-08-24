@@ -13,6 +13,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
+import org.jboss.resteasy.plugins.providers.atom.Entry;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
@@ -73,7 +74,7 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     }
 
     @Override
-    public Feed getNotification(String channelId, String notificationId) {
+    public Entry getNotification(String channelId, String notificationId) {
         return atom.getNotification(channelId, notificationId);
     }
 
@@ -92,7 +93,7 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     }
 
     @Override
-    public Response postNotification(String channelId, Feed notification) {
+    public Response postNotification(String channelId, Entry notification) {
         return atom.postNotification(channelId, notification);
     }
 

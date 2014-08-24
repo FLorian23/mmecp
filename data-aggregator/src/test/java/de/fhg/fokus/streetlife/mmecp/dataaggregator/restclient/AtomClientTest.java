@@ -51,29 +51,19 @@ public class AtomClientTest {
 
     @Test
     public void getNotification() {
-        Feed notification = dac.getNotification("some channel id", "some notification id");
-        Assert.assertEquals(notification.getEntries().get(0).getTitle(), "Single Notification");
+        Entry notification = dac.getNotification("some channel id", "some notification id");
+        Assert.assertEquals(notification.getTitle(), "Single Notification");
     }
 
     @Test
     public void postNotification() throws IOException, URISyntaxException {
-        Feed feed = new Feed();
-        feed.setId(new URI("http://example.com/42"));
-        feed.setTitle("My Feed");
-        feed.setUpdated(new Date());
-        Link link = new Link();
-        link.setHref(new URI("http://localhost"));
-        link.setRel("edit");
-        feed.getLinks().add(link);
-        feed.getAuthors().add(new Person("Bill Burke"));
         Entry entry = new Entry();
         entry.setTitle("Hello World");
         Content content = new Content();
         content.setType(MediaType.TEXT_HTML_TYPE);
         content.setText("Nothing much");
         entry.setContent(content);
-        feed.getEntries().add(entry);
-        Response response = dac.postNotification("some channel Id", feed);
+        Response response = dac.postNotification("some channel Id", entry);
         Assert.assertEquals(response.getStatus(), Response.Status.CREATED.getStatusCode());
     }
 

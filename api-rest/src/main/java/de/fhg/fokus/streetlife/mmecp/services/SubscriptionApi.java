@@ -6,6 +6,7 @@ import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorFactory;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.Channel;
 import org.codehaus.jackson.JsonNode;
+import org.jboss.resteasy.plugins.providers.atom.Entry;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +46,7 @@ public class SubscriptionApi {
     @POST
     @Consumes("application/atom+xml")
     @Path("channel/{channelId}/notification")
-    public Response postChannelNotification(@PathParam("channelId") String channelId, Feed notification) {
+    public Response postChannelNotification(@PathParam("channelId") String channelId, Entry notification) {
         LOG.info("Posting new notification with title ({} [{}]) to channel ({})", notification.getTitle(), notification.getId(), channelId);
         return dac.postNotification(channelId, notification);
     }
@@ -53,7 +54,7 @@ public class SubscriptionApi {
     @GET
     @Produces("application/atom+xml")
     @Path("channel/{channelId}/notification/{notificationId}")
-    public Feed getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") long notificationId) {
+    public Entry getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") long notificationId) {
         return dac.getNotification(channelId, channelId);
     }
 

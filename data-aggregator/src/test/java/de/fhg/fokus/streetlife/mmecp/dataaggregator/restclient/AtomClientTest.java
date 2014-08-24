@@ -1,6 +1,7 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.restclient;
 
 import de.fhg.fokus.streetlife.configurator.Constants;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.Channel;
 import org.jboss.resteasy.plugins.providers.atom.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -26,7 +28,6 @@ import java.util.Properties;
 public class AtomClientTest {
 
 	private DataAggregatorClient dac;
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	@BeforeTest
 	public void beforeTest() throws IOException {
@@ -39,20 +40,19 @@ public class AtomClientTest {
 	@Test
 	public void getNotifications() {
 		Feed notification = dac.getNotifications("some Id");
-		Assert.assertEquals("Titel des Weblogs", notification.getTitle());
+		Assert.assertEquals(notification.getTitle(), "Titel des Weblogs");
 	}
 
 	@Test
 	public void getChannels() {
-		String channels = dac.getChannels();
-		LOG.info(channels);
-		Assert.assertNotNull(channels);
+		List<Channel> channels = dac.getChannels();
+		Assert.assertNotNull(channels.get(0).isStandard());
 	}
 
     @Test
     public void getNotification() {
         Feed notification = dac.getNotification("some channel id", "some notification id");
-        Assert.assertEquals("Single Notification", notification.getEntries().get(0).getTitle());
+        Assert.assertEquals(notification.getEntries().get(0).getTitle(), "Single Notification");
     }
 
     @Test
@@ -74,11 +74,16 @@ public class AtomClientTest {
         entry.setContent(content);
         feed.getEntries().add(entry);
         Response response = dac.postNotification("some channel Id", feed);
-        Assert.assertEquals(Response.Status.CREATED.getStatusCode(),response.getStatus());
+        Assert.assertEquals(response.getStatus(), Response.Status.CREATED.getStatusCode());
     }
 
     @Test
     public void deleteNotification() {
-        Assert.assertEquals(204, dac.deleteNotification("some channel Id", "some notification Id").getStatus());
+        Assert.assertEquals(dac.deleteNotification("some channel Id", "some notification Id").getStatus(), 204);
+    }
+
+    @Test
+    public void getChannelForm() {
+        Assert.assertEquals(dac.getChannelForm("some channel Id").get(0).get("value").getTextValue(), "rov_routing");
     }
 }

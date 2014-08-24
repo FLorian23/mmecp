@@ -1,8 +1,11 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator;
 
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.Channel;
+import org.codehaus.jackson.JsonNode;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
 
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Properties;
 
 public interface DataAggregatorClient {
@@ -13,9 +16,11 @@ public interface DataAggregatorClient {
 
     public Feed getNotification(String channelId, String notificationId);
 
-	public String getChannels();
+	public List<Channel> getChannels();
 
     public Response postNotification(String channelId, Feed notification);
 
     public Response deleteNotification(String channelId, String notificationId);
+
+    public JsonNode getChannelForm(String channelId);
 }

@@ -1,10 +1,14 @@
-package de.fhg.fokus.streetlife.mmecp.dataaggregator.restclient;
+package de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.api;
 
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.json.ChannelBean;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.Channel;
+import org.codehaus.jackson.JsonNode;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Created by benjamin on 19.08.14.
@@ -32,5 +36,9 @@ public interface AtomClient {
 
 	@GET
 	@Path("subscription/channel")
-	public String getChannels();
+	public JsonNode getChannels();
+
+    @GET
+    @Path("subscription/form/{channelId}")
+    public JsonNode getChannelForm(@PathParam("channelId") String channelId);
 }

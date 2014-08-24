@@ -54,7 +54,7 @@ public class SubscriptionApi {
     @GET
     @Produces("application/atom+xml")
     @Path("channel/{channelId}/notification/{notificationId}")
-    public Entry getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") long notificationId) {
+    public Entry getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId) {
         return dac.getNotification(channelId, channelId);
     }
 

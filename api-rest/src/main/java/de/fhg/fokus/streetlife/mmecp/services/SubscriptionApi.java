@@ -3,6 +3,7 @@ package de.fhg.fokus.streetlife.mmecp.services;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,17 +31,18 @@ public class SubscriptionApi {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private DataAggregatorClient dac;
 
-	public SubscriptionApi() {
-		init();
-	}
+	// public SubscriptionApi() {
+	// init();
+	// }
 
+	@PostConstruct
 	public void init() {
 		Config config = ConfigFactory.getConfig();
 		dac = DataAggregatorFactory.getClient();
 		try {
 			dac.init(config.getMmecpProps());
 		} catch (IOException e) {
-			LOG.error("Error while loading config: {}", e.getStackTrace());
+			LOG.error("Error while loading config: {}", (Object) e.getStackTrace());
 		}
 	}
 

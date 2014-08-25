@@ -12,7 +12,7 @@
 	<artifactId>api-rest</artifactId>
 	<packaging>war</packaging>
 	<name>api-rest</name>
-	
+
 	<properties>
 		<resteasy.version>3.0.8.Final</resteasy.version>
 	</properties>
@@ -38,10 +38,23 @@
 			<artifactId>jaxrs-api</artifactId>
 			<version>${resteasy.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>api</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>

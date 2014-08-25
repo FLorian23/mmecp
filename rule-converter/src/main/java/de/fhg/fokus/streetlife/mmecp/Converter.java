@@ -15,12 +15,9 @@ import org.jpmml.model.JAXBUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.bind.JAXBException;
 import javax.xml.transform.Source;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.List;
 
 public class Converter {
@@ -28,90 +25,101 @@ public class Converter {
 	private final Element schema;
 	private Element nodeWrapper;
 	private String targetName;
+	private boolean onlyBestScore;
+	private Integer id;
 
 	public Converter(String schemaPath) throws IOException, SAXException, JDOMException {
-		// parse rule converter schema
+		// parse rule converter schema and validate
 		File file = new File(schemaPath);
 		SAXBuilder sax = new SAXBuilder(XMLReaders.DTDVALIDATING);
 		Document doc = sax.build(file);
 		schema = doc.getRootElement();
+		onlyBestScore = (schema.getChild("head").getAttributeValue("rule_for") == "bestScore") ? true : false;
 	}
 
-	// ToDo: multiple pmml`s
-
-	public String convert(String pmmlPath) throws Exception {
-
-		PMML pmml;
-		InputStream is = new FileInputStream(pmmlPath);
-
-		try {
-			Source source = ImportFilter.apply(new InputSource(is));
-			pmml = JAXBUtil.unmarshalPMML(source);
-		} finally {
-			is.close();
-		}
-
-		StringBuffer knowledgeBase = new StringBuffer("");
-		knowledgeBase.append(schema.getChild("head").getText());
-		knowledgeBase.append(schema.getChild("body").getChild("mapText").getText());
-
-		String placeholder = schema.getChild("body").getAttributeValue("ph_nodeWrapper");
-		int ruleIndex = knowledgeBase.indexOf(placeholder);
-
-		List<Model> models = pmml.getModels();
-		for (Model model : models) {
-			if (model instanceof TreeModel) {
-				TreeModel treeModel = (TreeModel) model;
-				targetName = model.getTargets().getTargets().get(0).getField().getValue();
-
-				// get node wrapper for current tree model
-				for (Element nw : schema.getChildren("nodeWrapper"))
-					if (nw.getAttributeValue("model").contains(model.getModelName()))
-						nodeWrapper = nw;
-
-				// don't convert root
-				for (Node child : treeModel.getNode().getNodes()) {
-					knowledgeBase.insert(ruleIndex, format(child, ""));
-					ruleIndex = knowledgeBase.indexOf(placeholder);
+	public String convert(String[] pmmlPathList) throws Exception {
+		String knowledgeBase = "";
+		for (String pmmlPath : pmmlPathList) {
+			id = 0;
+			PMML pmml = loadPmml(pmmlPath);
+			List<Model> models = pmml.getModels();
+			for (Model model : models) {
+				if (model instanceof TreeModel) {
+					knowledgeBase += format((TreeModel)model);
+					knowledgeBase = replacePlaceholder(knowledgeBase,schema.getChild("body").getAttributeValue("ph_nodeWrapper"), format((TreeModel)model));
+				} else {
+					throw new IllegalArgumentException("Can't convert the model (" + model.getModelName() +
+							"). Rule Converter coverts only tree models!");
 				}
-			} else {
-				throw new IllegalArgumentException("Can't convert the model (" + model.getModelName() +
-												   "). Rule Converter coverts only tree models!");
 			}
 		}
-		knowledgeBase.replace(ruleIndex, ruleIndex + placeholder.length(), "");
+		knowledgeBase = replacePlaceholder(schema.getChild("body").getChild("mapText").getText(), schema.getChild("body").getAttributeValue("ph_nodeWrapper"), knowledgeBase);
+		return schema.getChild("head").getText() + knowledgeBase;
+	}
 
-		return knowledgeBase.toString();
+	private PMML loadPmml(String pmmlPath) throws IOException, SAXException, JAXBException {
+		PMML pmml;
+		InputStream is = new FileInputStream(pmmlPath);
+		Source source = ImportFilter.apply(new InputSource(is));
+		pmml = JAXBUtil.unmarshalPMML(source);
+		is.close();
+		return pmml;
+	}
+
+	private String format(TreeModel treeModel) {
+		targetName = treeModel.getTargets().getTargets().get(0).getField().getValue();
+
+		// get node wrapper for current tree model
+		nodeWrapper = getChildWithAttribute(schema.getChild("body"), "nodeWrapper", "model", treeModel.getModelName());
+		if (nodeWrapper == null)
+			throw new NullPointerException("There is no nodeWrapper definition for the model '" + treeModel.getModelName() + "'!");
+
+		// format without root
+		String output = "";
+		for (Node child : treeModel.getNode().getNodes())
+			output += format(child, "");
+		return output;
 	}
 
 	private String format(Node node, String result) {
 		String output = "";
+		List<Node> children = node.getNodes();
 
-		// make premise for current node
+		// Predicate
 		Predicate predicate = node.getPredicate();
 		if (predicate == null) throw new IllegalArgumentException("Missing predicate");
-		// ToDo: insert predicate in rule as defined in schema
-		result += "\t" + format(predicate);
+		if (nodeWrapper.getChild("node").getAttributeValue("ph_predicate") != null) {
+			result += nodeWrapper.getChild("node").getChild("mapText").getText();
+			result = replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_predicate"), format(predicate));
+		}
 
 		// check child nodes
-		List<Node> children = node.getNodes();
 		if (!children.isEmpty()) {
-			// have childs -> make more premises
+			// have child's -> make more premises
 			for (Node child : children) {
-				output += format(child, result + "\n");
+				output += format(child, result);
 			}
 		} else {
-			// node is a leaf -> make conclusion
-			// ToDo: make correct conclusion as defined in schema
-			String conclusion = "pred in result";
+			// no child's, node is leaf -> make complete rule
+			if (nodeWrapper.getAttribute("ph_node") != null)
+				result = replacePlaceholder(nodeWrapper.getChild("mapText").getText(), nodeWrapper.getAttributeValue("ph_node"), result);
 
-			// make premise out of score
-			// ToDo: make premise out of score with format(predicate)
-			result += "\n\t" + targetName + " " + node.getScore();
+			// ToDo make ID
+			if (nodeWrapper.getAttribute("ph_id") != null) {
+				id++;
+				result = replacePlaceholder(result, nodeWrapper.getAttributeValue("ph_id"), nodeWrapper.getAttributeValue("prefix_id") + id.toString());
+			}
 
-			// make rule
-			// ToDo: make rule as defined in schema
-			output = "\nbegin rule\n\n" + "\t" + conclusion + "\n" + result + "\n\nend rule\n";
+			// make score
+			if (nodeWrapper.getChild("node").getAttributeValue("ph_score") != null) {
+				for (ScoreDistribution scoreDistribution : node.getScoreDistributions()) {
+					if (!onlyBestScore || (onlyBestScore && scoreDistribution.getValue().equals(node.getScore()))) {
+						output += replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_score"), format(scoreDistribution));
+					}
+				}
+			} else {
+				output = result;
+			}
 		}
 
 		return output;
@@ -121,11 +129,7 @@ public class Converter {
 
 		if (predicate instanceof SimplePredicate) {
 			return format((SimplePredicate) predicate);
-		} else if (predicate instanceof CompoundPredicate) {
-			return format((CompoundPredicate) predicate);
-		}
-
-		if (predicate instanceof True) {
+		} else if (predicate instanceof True) {
 			return "true";
 		} else if (predicate instanceof False) {
 			return "false";
@@ -135,14 +139,42 @@ public class Converter {
 	}
 
 	private String format(SimplePredicate simplePredicate) {
-		// ToDo: make predicate as defined in schema + check OTYPE of field
-		StringBuffer sb = new StringBuffer();
+		Element predicateDef = getChildWithAttribute(nodeWrapper.getChild("node"), "predicate", "field", simplePredicate.getField().getValue());
 
-		sb.append((simplePredicate.getField()).getValue());
-		sb.append(' ').append(format(simplePredicate.getOperator())).append(' ');
-		sb.append(simplePredicate.getValue());
+		if (predicateDef == null)
+			throw new NullPointerException("There is no predicate definition for the nodeWrapper of the model '" + nodeWrapper.getAttributeValue("model") + "'!");
+		String predicate = predicateDef.getChild("mapText").getText();
 
-		return sb.toString();
+		// field
+		if (predicateDef.getAttribute("ph_field") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_field"), simplePredicate.getField().getValue());
+
+		// operator
+		if (predicateDef.getAttribute("ph_operator") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_operator"), format(simplePredicate.getOperator()));
+
+		// value
+		if (predicateDef.getAttribute("ph_value") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_value"), simplePredicate.getValue());
+
+		return predicate;
+	}
+
+	private String format(ScoreDistribution scoreDistribution) {
+		Element scoreDef = nodeWrapper.getChild("node").getChild("score");
+		String score = scoreDef.getChild("mapText").getText();
+
+		// field
+		if (scoreDef.getAttribute("ph_field") != null)
+			score = replacePlaceholder(score, scoreDef.getAttributeValue("ph_field"), targetName);
+
+		// ToDo score confidence
+
+		// value
+		if (scoreDef.getAttribute("ph_value") != null)
+			score = replacePlaceholder(score, scoreDef.getAttributeValue("ph_value"), scoreDistribution.getValue());
+
+		return score;
 	}
 
 	private String format(SimplePredicate.Operator operator) {
@@ -165,33 +197,21 @@ public class Converter {
 		}
 	}
 
-	private String format(CompoundPredicate compoundPredicate) {
-		StringBuffer sb = new StringBuffer();
-
-		List<Predicate> predicates = compoundPredicate.getPredicates();
-
-		sb.append('(').append(format(predicates.get(0))).append(')');
-
-		for (Predicate predicate : predicates.subList(1, predicates.size())) {
-			sb.append(' ').append(format(compoundPredicate.getBooleanOperator())).append(' ');
-			sb.append('(').append(format(predicate)).append(')');
+	private Element getChildWithAttribute(Element root, String childName, String attributeName, String attributeValue) {
+		for (Element child : root.getChildren(childName)) {
+			if (child.getAttribute(attributeName) != null &&
+					child.getAttributeValue(attributeName).contains(attributeValue))
+				return child;
 		}
-
-		return sb.toString();
+		return null;
 	}
 
-	private String format(CompoundPredicate.BooleanOperator operator) {
-
-		switch (operator) {
-		case AND:
-			return "&";
-		case OR:
-			return "|";
-		case XOR:
-			return "^";
-		default:
-			throw new IllegalArgumentException();
-		}
+	private String replacePlaceholder(String text, String placeholder, String value) {
+		StringBuffer sb = new StringBuffer(text);
+		int index = sb.indexOf(placeholder);
+		if (index >= 0)
+			sb.replace(index, index + placeholder.length(), value);
+		return sb.toString();
 	}
 
 }

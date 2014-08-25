@@ -3,7 +3,7 @@
 <!-- description of document type -->
 <!DOCTYPE rc_schema SYSTEM "rule_converter_schema.dtd">
 
-<rc_schema op_score1="allScores">
+<rc_schema rule_for="bestScore">
 	<head>
         (ns carneades.engine.streetlife-rules
             (:use clojure.pprint
@@ -58,7 +58,7 @@
                 %wrapper%
             ])
         </mapText>
-        <nodeWrapper model="Person Event Tree" prefix_id="visit" ph_id="%id%" ph_node="%node%">
+        <nodeWrapper model="Person Event Tree" prefix_id="visit-" ph_id="%id%" ph_node="%node%">
             <mapText>
                 (make-scheme
                     :id '%id%
@@ -71,18 +71,21 @@
                 )
             </mapText>
             <node ph_predicate="%pred%">
-                <mapText>(pm '(%pred%))</mapText>
+                <mapText>
+                        (pm '(%pred%))</mapText>
                 <predicate field="location" ph_field="%name%" ph_value="%value%">
                     <mapText>%name% %value% ?E</mapText>
                 </predicate>
                 <predicate field="type" ph_field="%name%" ph_value="%value%">
                     <mapText>%name% %value% ?E</mapText>
                 </predicate>
-                <predicate field="timeBegin" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?T ?E))(pm '(eval ?T (let [t %value%] (if (%op% ?T t) ?T t))</mapText>
+                <predicate field="time" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
+                    <mapText>%name% ?T ?E))
+                        (pm '(eval ?T (let [t %value%] (if (%op% ?T t) ?T t))</mapText>
                 </predicate>
-                <predicate field="dateBegin" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?D ?E))(pm '(eval ?D (let [d %value%] (if (%op% ?D d) ?D d))</mapText>
+                <predicate field="date" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
+                    <mapText>%name% ?D ?E))
+                        (pm '(eval ?D (let [d %value%] (if (%op% ?D d) ?D d))</mapText>
                 </predicate>
 
                 <predicate field="gender" ph_field="%name%" ph_value="%value%">
@@ -95,15 +98,16 @@
                     <mapText>%name% %value% ?P</mapText>
                 </predicate>
                 <predicate field="age" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?A ?P))(pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
+                    <mapText>%name% ?A ?P))
+                        (pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
                 </predicate>
             </node>
         </nodeWrapper>
 
-        <nodeWrapper model="Person Mode Tree" prefix_id="move" ph_id="%id%" ph_node="%node%">
+        <nodeWrapper model="Person Mode Tree" prefix_id="move-" ph_id="%id%" ph_node="%node%">
             <mapText>
                 (make-scheme
-                    :id '%name%
+                    :id '%id%
                     :conclusion '(move ?P ?M)
                     :premises [
                         (pm '(Mode ?M))
@@ -127,7 +131,8 @@
                     <mapText>%name% %value% ?P</mapText>
                 </predicate>
                 <predicate field="age" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?A ?P))(pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
+                    <mapText>%name% ?A ?P))
+                        (pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
                 </predicate>
                 <score field="choice" ph_field="%name%" ph_value="%value%">
                     <mapText>%name% %value% ?M</mapText>

@@ -1,7 +1,7 @@
 <!ELEMENT rc_schema (head, body)>
 <!ATTLIST rc_schema
-    op_score1 (bestScore|allScores) "bestScore"
-    op_score2 (leafScore|nodeScores) #FIXED "leafScore"
+    rule_for (bestScore|allScores) "bestScore"
+    scoreDistribution_for (leaf|allNodes) #FIXED "leaf"
 >
 
 	<!-- text for metadata, added at the beginning of output file -->
@@ -17,7 +17,7 @@
         <!-- text to summarize some nodes,
              more then one possible,
              are identified by custom type -->
-        <!ELEMENT nodeWrapper (mapText, node+)>
+        <!ELEMENT nodeWrapper (mapText, node)>
         <!ATTLIST nodeWrapper
             model CDATA #REQUIRED
             prefix_id CDATA #IMPLIED
@@ -26,7 +26,7 @@
             ph_name CDATA #IMPLIED
         >
 
-            <!ELEMENT node (mapText, predicate+, score*)>
+            <!ELEMENT node (mapText, predicate+, score?)>
             <!ATTLIST node
                 ph_predicate CDATA #IMPLIED
                 ph_score CDATA #IMPLIED

@@ -26,13 +26,13 @@ public interface AtomClient {
     public Response postNotification(@PathParam("channelId") String channelId, Entry notification);
 
     @GET
-    @Path("subscription/channel/{channelId}/notification/{notificationId}")
+    @Path("subscription/channel/{channelId}/notification")
     @Produces(MediaType.APPLICATION_ATOM_XML)
-    public Entry getNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
+    public Entry getNotification(@PathParam("channelId") String channelId, @QueryParam("field") String field, @QueryParam("order") String order);
 
     @DELETE
     @Path("subscription/channel/{channelId}/notification/{notificationId}")
-    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId);
+    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId, @QueryParam("force") boolean force);
 
 	@GET
 	@Path("subscription/channel")

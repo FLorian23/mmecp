@@ -25,8 +25,10 @@ import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.Channel;
  */
 public class AtomClientTest {
 
-	private static final int FIRST_ELEMENT = 0;
-	private DataAggregatorClient dac;
+    private static final int FIRST_ELEMENT = 0;
+    public static final boolean DELETE = true;
+    public static final boolean ARCHIVE = false;
+    private DataAggregatorClient dac;
 
 	@BeforeTest
 	public void beforeTest() throws IOException {
@@ -50,8 +52,8 @@ public class AtomClientTest {
 
 	@Test
 	public void getNotification() {
-		Entry notification = dac.getNotification("some channel id", "some notification id");
-		Assert.assertEquals(notification.getTitle(), "Traffic jam");
+		Entry notification = dac.getNotification("some channel id", "a field", "an ordering");
+		Assert.assertEquals(notification.getTitle(), "Traffic Jam - last one");
 	}
 
 	@Test
@@ -68,9 +70,15 @@ public class AtomClientTest {
 
 	@Test
 	public void deleteNotification() {
-		Assert.assertEquals(dac.deleteNotification("some channel Id", "some notification Id").getStatus(),
+		Assert.assertEquals(dac.deleteNotification("some channel Id", "some notification Id", DELETE).getStatus(),
 				Response.Status.NO_CONTENT.getStatusCode());
 	}
+
+    @Test
+    public void archiveNotification() {
+        Assert.assertEquals(dac.deleteNotification("some channel Id", "some notification Id", ARCHIVE).getStatus(),
+                Response.Status.NO_CONTENT.getStatusCode());
+    }
 
 	@Test
 	public void getChannelForm() {

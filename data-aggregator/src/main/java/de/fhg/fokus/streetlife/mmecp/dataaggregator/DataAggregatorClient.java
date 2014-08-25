@@ -15,13 +15,13 @@ public interface DataAggregatorClient {
 
 	public Feed getNotifications(String channelId);
 
-    public Entry getNotification(String channelId, String notificationId);
+    public Entry getNotification(String channelId, String field, String order);
 
 	public List<Channel> getChannels();
 
     public Response postNotification(String channelId, Entry notification);
 
-    public Response deleteNotification(String channelId, String notificationId);
+    public Response deleteNotification(String channelId, String notificationId, boolean force);
 
     public JsonNode getChannelForm(String channelId);
 }

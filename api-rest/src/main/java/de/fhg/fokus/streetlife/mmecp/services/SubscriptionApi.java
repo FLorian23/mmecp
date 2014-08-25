@@ -55,9 +55,9 @@ public class SubscriptionApi {
 
     @GET
     @Produces("application/atom+xml")
-    @Path("channel/{channelId}/notification/{notificationId}")
-    public Entry getChannelNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId) {
-        return dac.getNotification(channelId, channelId);
+    @Path("channel/{channelId}/notification")
+    public Entry getChannelNotification(@PathParam("channelId") String channelId, @QueryParam("field") String field, @QueryParam("order") String order) {
+        return dac.getNotification(channelId, field, order);
     }
 
     @GET
@@ -69,9 +69,13 @@ public class SubscriptionApi {
 
     @DELETE
     @Path("channel/{channelId}/notification/{notificationId}")
-    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId) {
-        LOG.info("Deleting notification ({}) from channel ({})", notificationId, channelId);
-        return dac.deleteNotification(channelId, notificationId);
+    public Response deleteNotification(@PathParam("channelId") String channelId, @PathParam("notificationId") String notificationId, @QueryParam("force") boolean force) {
+        if (force) {
+            LOG.info("Deleting notification ({}) from channel ({})", notificationId, channelId);
+        } else {
+            LOG.info("Archiving notification ({}) from channel ({})", notificationId, channelId);
+        }
+        return dac.deleteNotification(channelId, notificationId, force);
     }
 
     @GET

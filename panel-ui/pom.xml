@@ -130,6 +130,7 @@
 	</dependencies>
 
 	<build>
+       <finalName>panelUI</finalName>
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>

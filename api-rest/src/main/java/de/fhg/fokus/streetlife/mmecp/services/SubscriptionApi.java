@@ -27,7 +27,7 @@ public class SubscriptionApi {
     }
 
     //TODO: Fix ponstconstruct
-    //    @PostConstruct
+    //@PostConstruct
     public void init() {
         Config config = ConfigFactory.getConfig();
         dac = DataAggregatorFactory.getClient();

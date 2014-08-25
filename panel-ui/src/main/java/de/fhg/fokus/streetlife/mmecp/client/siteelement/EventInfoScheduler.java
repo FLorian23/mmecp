@@ -2,7 +2,6 @@ package de.fhg.fokus.streetlife.mmecp.client.siteelement;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
@@ -21,17 +20,20 @@ public class EventInfoScheduler extends Timer implements
 					.create(EventInfoService.class);
 			eventInfoService.getEventInfo(this);
 			isWaiting = true;
-		}else{
+		} else {
 		}
 	}
 
 	public void onFailure(Throwable caught) {
-		Window.alert("OnFailure-Error: " + caught.getMessage());
+		// Window.alert("OnFailure-Error: " + caught.getMessage());
+		// TODO:
+		System.out.println("OnFailure-Error: " + caught.getMessage());
 		isWaiting = false;
 	}
 
 	public void onSuccess(EventInfo result) {
-		if (result.getMessage().compareTo("success") != 0) return;
+		if (result.getMessage().compareTo("success") != 0)
+			return;
 		PopUpPanelContainer.get().newNotification(result, 0);
 		isWaiting = false;
 	}

@@ -26,23 +26,26 @@ public class SlideBarRight extends SlideBar {
 
 	@Override
 	public void open() {
-		//Show the SlideBar different then the close Slidebar
+		// Show the SlideBar different as the close Slidebar
 	}
 
 	@Override
 	public void close() {
 		// analog to open
 	}
-	
+
 	public void opening() {
-		if (getStatus() == STATUS.OPEN) return;
+		if (getStatus() == STATUS.OPEN)
+			return;
 		setStatus(STATUS.OPEN);
 		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_OUT, 500);
-		PopUpPanelContainer.get().move(SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN);
+		PopUpPanelContainer.get().move(
+				SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN);
 	}
 
 	public void closing() {
-		if (getStatus() == STATUS.CLOSE) return;
+		if (getStatus() == STATUS.CLOSE)
+			return;
 		setStatus(STATUS.CLOSE);
 		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_IN, 500);
 		int x = SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN;

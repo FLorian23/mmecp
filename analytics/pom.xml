@@ -5,11 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+		<groupId>de.fhg.fokus.streetlife</groupId>
 		<artifactId>mmecp</artifactId>
 		<version>0.1</version>
 	</parent>
 
+	<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
 	<artifactId>analytics</artifactId>
 	<packaging>jar</packaging>
 	<name>analytics</name>

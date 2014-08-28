@@ -3,10 +3,12 @@ package de.fhg.fokus.streetlife.mmecp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 import de.fhg.fokus.streetlife.mmecp.services.SubscriptionApi;
 
+@ApplicationPath("/")
 public class MmecpApplication extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();

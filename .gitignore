@@ -7,3 +7,4 @@
 target
 /tomcat
 test-output
+/wildfly

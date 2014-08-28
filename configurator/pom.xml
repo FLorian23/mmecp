@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>mmecp</artifactId>
+		<groupId>de.fhg.fokus.streetlife</groupId>
+		<version>0.1</version>
+	</parent>
+	<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>configurator</artifactId>
+	<packaging>jar</packaging>
+
+	<name>configurator</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.7.7</slf4j.version>
+	</properties>
+
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

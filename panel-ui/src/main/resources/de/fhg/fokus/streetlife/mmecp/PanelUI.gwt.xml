@@ -13,6 +13,7 @@
 	<inherits name="com.google.web.bindery.autobean.AutoBean" />
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.http.HTTP" />
+	 <inherits name="com.googlecode.gwt.charts.Charts"/> 
 	<stylesheet src="reset.css" />
 	<entry-point class='de.fhg.fokus.streetlife.mmecp.client.PanelUI' />
 	<source path='client' />

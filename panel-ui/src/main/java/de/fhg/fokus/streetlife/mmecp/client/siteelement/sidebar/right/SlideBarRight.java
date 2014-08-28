@@ -40,7 +40,7 @@ public class SlideBarRight extends SlideBar {
 		setStatus(STATUS.OPEN);
 		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_OUT, 500);
 		PopUpPanelContainer.get().move(
-				SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN);
+				SlideBar.WIDTH_ROLL_OUT);
 	}
 
 	public void closing() {
@@ -48,8 +48,16 @@ public class SlideBarRight extends SlideBar {
 			return;
 		setStatus(STATUS.CLOSE);
 		$(getWrapper()).animate("width:" + SlideBar.WIDTH_ROLL_IN, 500);
-		int x = SlideBar.WIDTH_ROLL_OUT - SlideBar.WIDTH_ROLL_IN;
-		PopUpPanelContainer.get().move(-x);
+		PopUpPanelContainer.get().move(SlideBar.WIDTH_ROLL_IN);
+	}
+	
+	public void hide(){
+		if (getStatus() == STATUS.OPEN)
+			return;
+		
+		setStatus(STATUS.HIDE);
+		$(getWrapper()).animate("width:" + 0, 0);
+		PopUpPanelContainer.get().move(0);
 	}
 
 	public VerticalPanel getContent() {

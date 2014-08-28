@@ -32,9 +32,11 @@ public class EventInfoScheduler extends Timer implements
 	}
 
 	public void onSuccess(EventInfo result) {
+		isWaiting = false;
+		
 		if (result.getMessage().compareTo("success") != 0)
 			return;
 		PopUpPanelContainer.get().newNotification(result, 0);
-		isWaiting = false;
+		
 	}
 }

@@ -14,14 +14,11 @@ public class GuidancePopUpPanel extends DecoratedPopupPanel implements
 
 	LonLat position;
 	VerticalPanel content = new VerticalPanel();
-	public final static int guidancePopUp_WIDTH = 250;
-	public final static int guidancePopUp_HEIGHT = 100;
 
 	public GuidancePopUpPanel(boolean autoHide) {
 		super(autoHide);
 		
-		setWidth(guidancePopUp_WIDTH + "px");
-		setHeight(guidancePopUp_HEIGHT + "px");
+		getElement().setId("guidancePopUpPanel");
 		
 		Button button = new Button("OK");
 		button.addClickHandler(this);

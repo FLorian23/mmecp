@@ -59,8 +59,8 @@ public class JSONProcessor {
 		ProcessingReport report = null;
 		boolean result = false;
 		try {
-			System.out.println("Applying schema: @<@<" + jsonSchema
-					+ ">@>@ to data: #<#<" + jsonData + ">#>#");
+//			System.out.println("Applying schema: @<@<" + jsonSchema
+//					+ ">@>@ to data: #<#<" + jsonData + ">#>#");
 			JsonNode schemaNode = JsonLoader.fromString(jsonSchema);
 			JsonNode data = JsonLoader.fromString(jsonData);
 			JsonSchemaFactory factory = JsonSchemaFactory.byDefault();

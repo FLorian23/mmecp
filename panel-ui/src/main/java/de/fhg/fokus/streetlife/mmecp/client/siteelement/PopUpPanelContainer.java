@@ -19,10 +19,8 @@ public class PopUpPanelContainer extends VerticalPanel {
 
 	public static final int WIDTH_ROLL_IN = 0;
 	public static final int WIDTH_ROLL_OUT = 100;
-	public static int marginRight = 40;
-
 	private int currentHight = 0;
-	private String divWrapper = "wrapperPopupPanel";
+	
 	ArrayList<PopUpPanel> notifications = new ArrayList<PopUpPanel>();
 
 	private PopUpPanelContainer() {
@@ -70,8 +68,7 @@ public class PopUpPanelContainer extends VerticalPanel {
 	}
 
 	public void move(int x) {
-		marginRight = marginRight + x;
 		// $("#wrapperPopupPanel").css("margin-right", marginRight + "");
-		$("#wrapperPopupPanel").animate("margin-right:" + marginRight, 500);
+		$("#wrapperPopupPanel").animate("margin-right:" + x, 500);
 	}
 }

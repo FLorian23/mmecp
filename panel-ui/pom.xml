@@ -27,10 +27,8 @@
 		<tomcat.server>local_tomcat</tomcat.server>
 		 -->
 
-		<!--  -->
-		<tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
-		<tomcat.server>streetlife-panel</tomcat.server>
-		<!-- -->
+		<!-- --><tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
+			<tomcat.server>streetlife-panel</tomcat.server><!-- -->
 	</properties>
 
 	<dependencies>
@@ -56,6 +54,11 @@
 		</dependency>
 
 		<!-- Charts -->
+		<dependency>
+			<groupId>com.googlecode.gwt-charts</groupId>
+			<artifactId>gwt-charts</artifactId>
+			<version>0.9.9</version>
+		</dependency>
 		<dependency>
 			<groupId>com.sencha.gxt</groupId>
 			<artifactId>gxt-chart</artifactId>
@@ -173,9 +176,9 @@
 				<executions>
 					<execution>
 						<phase>compile</phase>
-<!-- 						<goals> -->
-<!-- 							<goal>exploded</goal> -->
-<!-- 						</goals> -->
+						<!-- <goals> -->
+						<!-- <goal>exploded</goal> -->
+						<!-- </goals> -->
 					</execution>
 				</executions>
 				<configuration>

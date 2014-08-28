@@ -8,7 +8,7 @@ public abstract class SlideBar extends SimplePanel implements ClickHandler {
 
 	public static final int WIDTH_ROLL_IN = 40;
 	public static final int WIDTH_ROLL_OUT = 300;
-	private STATUS status = STATUS.CLOSE;
+	private STATUS status = STATUS.HIDE;
 	private String wrapper = "";
 
 	public SlideBar(final String domID, String wrapper) {
@@ -19,7 +19,7 @@ public abstract class SlideBar extends SimplePanel implements ClickHandler {
 	}
 
 	public enum STATUS {
-		OPEN, CLOSE
+		OPEN, CLOSE, HIDE
 	}
 
 	public void onClick(ClickEvent event) {

@@ -48,9 +48,16 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		}
 
 		EventInfo eventInfo = null;
+		int counter = 0;
 		while ((eventInfoQueue.size() == 0)) {
 			try {
 				Thread.sleep(500);
+				if (counter++ == 10){
+					System.out.println(">>break loop");
+					EventInfo eventInfo2 = new EventInfo();
+					eventInfo2.setMessage("error: exceeded the time requirement");
+					return eventInfo2;
+				}
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -58,7 +65,8 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		
 
 		// Not consider multiple clients! TODO!
-		eventInfo = eventInfoQueue.remove(eventInfoQueue.size() - 1);
+		eventInfo = eventInfoQueue.remove(0);
+		System.out.println("Remove EventInfo [" + eventInfo.getId() + "] (Message: " +  eventInfo.getMessage() + ")");
 
 		return eventInfo;
 	}
@@ -83,15 +91,6 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		return string;
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-
-		if (req.getServletPath().compareTo("/exampleData") == 0) {
-			System.out.println("doGET!");
-			eventID = 1;
-		}
-	}
 
 	public static void newEvent() {
 		if (context == null) return;
@@ -105,13 +104,11 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		} catch (IOException e) {
 			e.printStackTrace();
 			eventInfo.setMessage(e.getMessage());
-			System.out.println(eventInfo.getMessage());
 		}
 
 		// validation
 		if (!jSONProcessor.validate(jSONExample)) {
 			eventInfo.setMessage("json file not valid");
-			System.out.println(eventInfo.getMessage());
 		}
 
 		// Parse
@@ -122,9 +119,9 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 			System.out.println(eventInfo.getMessage());
 		}
 		eventInfo.setMessage("success");
-		System.out.println(eventInfo.getMessage());
 		eventInfo.setId(eventID++);
-
 		eventInfoQueue.add(eventInfo);
+		
+		System.out.println("add EventInfo [" + eventInfo.getId() + "] (Message: " +  eventInfo.getMessage() + ")");
 	}
 }

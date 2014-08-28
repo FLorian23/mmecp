@@ -5,8 +5,9 @@ import java.util.List;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 
+import de.fhg.fokus.streetlife.mmecp.client.dia.ColumnChart;
 import de.fhg.fokus.streetlife.mmecp.client.dia.DiagramData;
-import de.fhg.fokus.streetlife.mmecp.client.dia.PieDiagram;
+import de.fhg.fokus.streetlife.mmecp.client.dia.PieChart;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Element;
 import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
@@ -28,11 +29,13 @@ public class DtoToGWTElementMapper {
 		int widgetCounter = 0;
 		for (int i = 0; i < e.getElements().size(); i++) {
 			Element element = e.getElements().get(i);
-
+			List<Datum> data = null;
+			
 			switch (element.getItemtype()) {
 			case BARCHART:
-				w[widgetCounter++] = new Label("BarChart");// TODO: new
-															// BarChart();
+				data = element.getChart().getData();
+				w[widgetCounter++] = new ColumnChart(
+						DiagramData.fromDTOChartData(data));
 				break;
 			case CAPTION:
 				eventInfo.setCaption(new Label(element.getValue()));
@@ -48,8 +51,8 @@ public class DtoToGWTElementMapper {
 						+ element.getValue());
 				break;
 			case PIECHART:
-				List<Datum> data = element.getChart().getData();
-				w[widgetCounter++] = new PieDiagram(
+				data = element.getChart().getData();
+				w[widgetCounter++] = new PieChart(
 						DiagramData.fromDTOChartData(data));
 				break;
 

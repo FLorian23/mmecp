@@ -71,6 +71,7 @@ public class ContentController {
 		getVerticalPanel().add(tabPanel);
 		getVerticalPanel().setCellWidth(tabPanel, "100%");
 		getVerticalPanel().setCellHeight(tabPanel, "100%");
+		SlideBarRight.get().hide();
 
 		tabPanel.selectTab(0);
 	}

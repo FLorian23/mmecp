@@ -119,7 +119,7 @@ public class MapContainer extends SiteElement implements ClickHandler,
 		buildGoogleMaps();
 
 		// Lets add some default controls to the map
-		map.addControl(new LayerSwitcher());
+//		map.addControl(new LayerSwitcher());
 		// map.addControl(new OverviewMap());
 		map.addControl(new ScaleLine());
 		

@@ -22,13 +22,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<!-- 
+		<!-- -->
 		<tomcat.url>http://localhost:8080/manager/text</tomcat.url>
 		<tomcat.server>local_tomcat</tomcat.server>
-		 -->
+		<!-- -->
 
-		<!-- --><tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
-			<tomcat.server>streetlife-panel</tomcat.server><!-- -->
+		<!-- <tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
+			<tomcat.server>streetlife-panel</tomcat.server> -->
 
 	</properties>
 

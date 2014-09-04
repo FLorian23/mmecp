@@ -54,12 +54,14 @@ public class Header extends SiteElement {
 		}
 		lb.addChangeHandler(MapContainer.getChangeHandler());
 		lb.addClickHandler(MapContainer.getHandler());
+		lb.getElement().setClassName("form-control");
 		return lb;
 	}
 
 	public Button createSwitchButton() {
 		Button button = new Button("Switch Map", MapContainer.getHandler());
 		button.getElement().setId("SwitchMapButton");
+		button.getElement().setClassName("btn btn-primary");
 		return button;
 	}
 
@@ -67,6 +69,7 @@ public class Header extends SiteElement {
 		Button button = new Button("Locate Me",
 				MapContainer.getHandler());
 		button.getElement().setId("CurrentLocationButton");
+		button.getElement().setClassName("btn btn-primary");
 		return button;
 	}
 }

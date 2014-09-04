@@ -144,7 +144,7 @@ body {
 }
 
 .eventinfonotification{
-	background-color: #87ceeb;
+	background-color: #8ed9f6;
 	margin-left: auto;
 	text-align:left;
 }
@@ -168,4 +168,33 @@ body {
 }
 .notice {
     border:1px solid #8ed9f6;
+}
+
+
+#configurationPanelForRetrievalStatisticDataPanel{
+	margin-left: 10px;
+	width: 100%;
+	height: 230px;
+}
+
+#listOfFunctionPanel{
+	width: 100px;
+	height: 100%;
+}
+
+#listOfAttributeIdentifiersPanel{
+	width: 100px;
+	height: 100%;
+}
+#listOfConditionKeywords{
+	width: 300px;
+}
+.dividingline{
+	border-radius: 100px;
+	margin: 25px;
+	margin-left:5px;
+	margin-right:5px;
+	width: 2px;
+	height: 80%;
+    border:3px solid black;
 }

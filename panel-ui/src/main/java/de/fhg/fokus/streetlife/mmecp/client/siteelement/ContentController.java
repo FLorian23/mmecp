@@ -1,13 +1,11 @@
 package de.fhg.fokus.streetlife.mmecp.client.siteelement;
 
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.siteelement.sidebar.right.SlideBarRight;
+import de.fhg.fokus.streetlife.mmecp.client.siteelement.statistic.MathPanel;
 
 public class ContentController {
 

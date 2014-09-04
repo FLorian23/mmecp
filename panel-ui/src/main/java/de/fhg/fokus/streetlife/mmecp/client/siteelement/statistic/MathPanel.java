@@ -1,6 +1,5 @@
-package de.fhg.fokus.streetlife.mmecp.client.siteelement;
+package de.fhg.fokus.streetlife.mmecp.client.siteelement.statistic;
 
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.dia.ColumnChart;
@@ -13,7 +12,7 @@ public class MathPanel extends VerticalPanel {
 	private static MathPanel instance = null;
 
 	private MathPanel() {
-		add(new Label("some math..."));
+		add(ConfigurationPanelForRetrievalStatisticData.get());
 		add(new LineChart(DiagramData.getExample()));
 		add(new ColumnChart(DiagramData.getExample()));
 		add(new PieChart(DiagramData.getExample()));

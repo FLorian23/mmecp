@@ -34,10 +34,10 @@ public class Converter {
 		SAXBuilder sax = new SAXBuilder(XMLReaders.DTDVALIDATING);
 		Document doc = sax.build(file);
 		schema = doc.getRootElement();
-		onlyBestScore = (schema.getChild("head").getAttributeValue("rule_for") == "bestScore") ? true : false;
+		onlyBestScore = (schema.getAttributeValue("rule_for").equals("bestScore")) ? true : false;
 	}
 
-	public String convert(String[] pmmlPathList) throws Exception {
+	public String convert(List<String> pmmlPathList) throws Exception {
 		String knowledgeBase = "";
 		for (String pmmlPath : pmmlPathList) {
 			id = 0;
@@ -46,7 +46,6 @@ public class Converter {
 			for (Model model : models) {
 				if (model instanceof TreeModel) {
 					knowledgeBase += format((TreeModel)model);
-					knowledgeBase = replacePlaceholder(knowledgeBase,schema.getChild("body").getAttributeValue("ph_nodeWrapper"), format((TreeModel)model));
 				} else {
 					throw new IllegalArgumentException("Can't convert the model (" + model.getModelName() +
 							"). Rule Converter coverts only tree models!");
@@ -104,7 +103,6 @@ public class Converter {
 			if (nodeWrapper.getAttribute("ph_node") != null)
 				result = replacePlaceholder(nodeWrapper.getChild("mapText").getText(), nodeWrapper.getAttributeValue("ph_node"), result);
 
-			// ToDo make ID
 			if (nodeWrapper.getAttribute("ph_id") != null) {
 				id++;
 				result = replacePlaceholder(result, nodeWrapper.getAttributeValue("ph_id"), nodeWrapper.getAttributeValue("prefix_id") + id.toString());

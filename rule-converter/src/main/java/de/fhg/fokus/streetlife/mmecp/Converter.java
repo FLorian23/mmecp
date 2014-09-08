@@ -65,8 +65,8 @@ public class Converter {
 		return pmml;
 	}
 
-	private String format(TreeModel treeModel) {
-		targetName = treeModel.getTargets().getTargets().get(0).getField().getValue();
+	private String format(TreeModel treeModel) throws Exception {
+		targetName = getTargetName(treeModel);
 
 		// get node wrapper for current tree model
 		nodeWrapper = getChildWithAttribute(schema.getChild("body"), "nodeWrapper", "model", treeModel.getModelName());
@@ -127,20 +127,22 @@ public class Converter {
 
 		if (predicate instanceof SimplePredicate) {
 			return format((SimplePredicate) predicate);
+		} else if (predicate instanceof SimpleSetPredicate) {
+			return format((SimpleSetPredicate) predicate);
 		} else if (predicate instanceof True) {
 			return "true";
 		} else if (predicate instanceof False) {
 			return "false";
 		}
 
-		throw new IllegalArgumentException("Unsupported predicate " + predicate);
+		throw new IllegalArgumentException("Unsupported predicate '" + predicate.getClass().getName() + "'!");
 	}
 
 	private String format(SimplePredicate simplePredicate) {
 		Element predicateDef = getChildWithAttribute(nodeWrapper.getChild("node"), "predicate", "field", simplePredicate.getField().getValue());
 
 		if (predicateDef == null)
-			throw new NullPointerException("There is no predicate definition for the nodeWrapper of the model '" + nodeWrapper.getAttributeValue("model") + "'!");
+			throw new NullPointerException("There is no predicate definition for '" +simplePredicate.getField().getValue() + "'!");
 		String predicate = predicateDef.getChild("mapText").getText();
 
 		// field
@@ -154,6 +156,28 @@ public class Converter {
 		// value
 		if (predicateDef.getAttribute("ph_value") != null)
 			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_value"), simplePredicate.getValue());
+
+		return predicate;
+	}
+
+	private String format(SimpleSetPredicate simpleSetPredicate) {
+		Element predicateDef = getChildWithAttribute(nodeWrapper.getChild("node"), "predicate", "field", simpleSetPredicate.getField().getValue());
+
+		if (predicateDef == null)
+			throw new NullPointerException("There is no predicate definition for the nodeWrapper of the model '" + nodeWrapper.getAttributeValue("model") + "'!");
+		String predicate = predicateDef.getChild("mapText").getText();
+
+		// field
+		if (predicateDef.getAttribute("ph_field") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_field"), simpleSetPredicate.getField().getValue());
+
+		// operator
+		if (predicateDef.getAttribute("ph_operator") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_operator"), format(simpleSetPredicate.getBooleanOperator()));
+
+		// value
+		if (predicateDef.getAttribute("ph_value") != null)
+			predicate = replacePlaceholder(predicate, predicateDef.getAttributeValue("ph_value"), simpleSetPredicate.getArray().getValue());
 
 		return predicate;
 	}
@@ -195,6 +219,18 @@ public class Converter {
 		}
 	}
 
+	private String format(SimpleSetPredicate.BooleanOperator operator) {
+
+		switch (operator) {
+		case IS_IN:
+			return "isIn";
+		case IS_NOT_IN:
+			return "isNotIn";
+		default:
+			throw new IllegalArgumentException();
+		}
+	}
+
 	private Element getChildWithAttribute(Element root, String childName, String attributeName, String attributeValue) {
 		for (Element child : root.getChildren(childName)) {
 			if (child.getAttribute(attributeName) != null &&
@@ -210,6 +246,20 @@ public class Converter {
 		if (index >= 0)
 			sb.replace(index, index + placeholder.length(), value);
 		return sb.toString();
+	}
+
+	private String getTargetName(TreeModel treeModel) throws NullPointerException {
+		String name = "";
+		if (treeModel.getTargets() != null) {
+			return treeModel.getTargets().getTargets().get(0).getField().getValue();
+		} else {
+			for (MiningField field : treeModel.getMiningSchema().getMiningFields()) {
+				if (field.getUsageType() == FieldUsageType.PREDICTED)
+					return field.getName().getValue();
+			}
+		}
+
+		throw new NullPointerException("No target found for the model '" + treeModel.getModelName() + "'!");
 	}
 
 }

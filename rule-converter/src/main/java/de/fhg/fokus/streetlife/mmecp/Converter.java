@@ -53,7 +53,10 @@ public class Converter {
 			}
 		}
 		knowledgeBase = replacePlaceholder(schema.getChild("body").getChild("mapText").getText(), schema.getChild("body").getAttributeValue("ph_nodeWrapper"), knowledgeBase);
-		return schema.getChild("head").getText() + knowledgeBase;
+        if (schema.getChild("head") != null)
+		    return schema.getChild("head").getText() + knowledgeBase;
+        else
+            return knowledgeBase;
 	}
 
 	private PMML loadPmml(String pmmlPath) throws IOException, SAXException, JAXBException {
@@ -88,8 +91,15 @@ public class Converter {
 		Predicate predicate = node.getPredicate();
 		if (predicate == null) throw new IllegalArgumentException("Missing predicate");
 		if (nodeWrapper.getChild("node").getAttributeValue("ph_predicate") != null) {
-			result += nodeWrapper.getChild("node").getChild("mapText").getText();
-			result = replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_predicate"), format(predicate));
+            try {
+                String presicateString = format(predicate);
+                result += nodeWrapper.getChild("node").getChild("mapText").getText();
+                result = replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_predicate"), presicateString);
+                if (nodeWrapper.getChild("node").getAttributeValue("ph_score") != null)
+                    result = replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_score"), "");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
 		}
 
 		// check child nodes
@@ -100,6 +110,11 @@ public class Converter {
 			}
 		} else {
 			// no child's, node is leaf -> make complete rule
+            if (nodeWrapper.getChild("node").getAttributeValue("ph_score") != null) {
+                result += nodeWrapper.getChild("node").getChild("mapText").getText();
+                result = replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_predicate"), "");
+            }
+
 			if (nodeWrapper.getAttribute("ph_node") != null)
 				result = replacePlaceholder(nodeWrapper.getChild("mapText").getText(), nodeWrapper.getAttributeValue("ph_node"), result);
 
@@ -111,9 +126,8 @@ public class Converter {
 			// make score
 			if (nodeWrapper.getChild("node").getAttributeValue("ph_score") != null) {
 				for (ScoreDistribution scoreDistribution : node.getScoreDistributions()) {
-					if (!onlyBestScore || (onlyBestScore && scoreDistribution.getValue().equals(node.getScore()))) {
+					if (!onlyBestScore || (onlyBestScore && scoreDistribution.getValue().equals(node.getScore())))
 						output += replacePlaceholder(result, nodeWrapper.getChild("node").getAttributeValue("ph_score"), format(scoreDistribution));
-					}
 				}
 			} else {
 				output = result;

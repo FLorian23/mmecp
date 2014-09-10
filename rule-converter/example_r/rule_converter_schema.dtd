@@ -1,4 +1,4 @@
-<!ELEMENT rc_schema (head, body)>
+<!ELEMENT rc_schema (head?, body)>
 <!ATTLIST rc_schema
     rule_for (bestScore|allScores) "bestScore"
     scoreDistribution_for (leaf|allNodes) #FIXED "leaf"

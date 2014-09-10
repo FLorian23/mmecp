@@ -4,47 +4,9 @@
 <!DOCTYPE rc_schema SYSTEM "rule_converter_schema.dtd">
 
 <rc_schema rule_for="bestScore">
-	<head>
-(ns carneades.engine.streetlife-rules
-    (:use clojure.pprint
-          carneades.engine.statement
-          carneades.engine.theory
-          carneades.engine.argument
-          carneades.engine.argument-graph
-          carneades.engine.argument-generator
-          carneades.engine.argument-evaluation
-          carneades.engine.aspic
-          carneades.engine.shell
-          carneades.engine.dublin-core
-          carneades.engine.policy
-          carneades.engine.ask
-          carneades.maps.lacij)
-    (:require [carneades.project.fs :as project]
-              [carneades.maps.lacij :refer [export]]
-              [carneades.database.db :as db]
-              [carneades.database.argument-graph :as ag-db]
-              [carneades.database.import :refer [import-from-argument-graph]]
-
-              [clojure.pprint :refer :all]
-              [midje.sweet :refer :all :exclude [facts]]
-    )
-)
-	</head>
 
 	<body ph_nodeWrapper="%wrapper%">
         <mapText>
-(def forecastModalSplit
-    (make-theory
-        :header (make-metadata
-        :title "Modal Split Forecast"
-        :creator "Kevin van Bernum"
-        :publisher "Fraunhofer FOKUS"
-        :date "2014"
-        :description {:en "Forecast of modal split for an event."})
-        :schemes S
-    )
-)
-
 (defn isIn?
     "true if seq contains elm"
     [seq elm]
@@ -57,33 +19,27 @@
 
 (def S [
 
-    (make-scheme
-        :id 'mode
-        :conclusion '(has_mode ?E ?P ?M)
-        :premises [
-            (pm '(visit ?P ?E))
-            (pm '(move ?P ?M))
-        ]
-    )
-
     %wrapper%
+
 ])
         </mapText>
-        <nodeWrapper model="Person Event Tree" prefix_id="visit-" ph_id="%id%" ph_node="%node%">
+        <nodeWrapper model="Person Event Tree" prefix_id="has-mode-" ph_id="%id%" ph_node="%node%">
             <mapText>
     (make-scheme
         :id '%id%
-        :conclusion '(visit ?P ?E)
+        :conclusion '(has_mode ?E ?P ?M)
         :premises [
             (pm '(Event ?E))
             (pm '(Person ?P))
+            (pm '(Mode ?M))
             %node%
         ]
     )
             </mapText>
-            <node ph_predicate="%pred%">
+            <node ph_predicate="%pred%" ph_score="%score%">
                 <mapText>
-            (pm '(%pred%))</mapText>
+            (pm '(%pred%%score%))</mapText>
+
                 <predicate field="location" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
                     <mapText>%name% ?L ?E))
             (pm '(eval ?L (if (%op%? '(%value%) ?L) ?L false)</mapText>
@@ -122,48 +78,16 @@
             (pm '(eval ?O (if (%op%? '(%value%) ?O) ?O false)</mapText>
                 </predicate>
                 <predicate field="marital" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?M ?P))
-            (pm '(eval ?M (if (%op%? '(%value%) ?M) ?M false)</mapText>
+                    <mapText>%name% ?MA ?P))
+            (pm '(eval ?MA (if (%op%? '(%value%) ?MA) ?MA false)</mapText>
                 </predicate>
                 <predicate field="age" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
                     <mapText>%name% ?A ?P))
             (pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
                 </predicate>
-            </node>
-        </nodeWrapper>
 
-        <nodeWrapper model="Person Mode Tree" prefix_id="move-" ph_id="%id%" ph_node="%node%">
-            <mapText>
-    (make-scheme
-        :id '%id%
-        :conclusion '(move ?P ?M)
-        :premises [
-            (pm '(Mode ?M))
-            (pm '(Person ?P))
-            %node%
-        ]
-    )
-            </mapText>
-            <node ph_predicate="%pred%" ph_score="%score%">
-                <mapText>
-            (pm '(%pred%))
-            (pm '(%score%))
-                </mapText>
-                <predicate field="gender" ph_field="%name%" ph_value="%value%">
-                    <mapText>%name% %value% ?P</mapText>
-                </predicate>
-                <predicate field="occupation" ph_field="%name%" ph_value="%value%">
-                    <mapText>%name% %value% ?P</mapText>
-                </predicate>
-                <predicate field="marital" ph_field="%name%" ph_value="%value%">
-                    <mapText>%name% %value% ?P</mapText>
-                </predicate>
-                <predicate field="age" ph_field="%name%" ph_operator="%op%" ph_value="%value%">
-                    <mapText>%name% ?A ?P))
-            (pm '(eval ?A (let [a %value%] (if (%op% ?A a) ?A a))</mapText>
-                </predicate>
-                <score field="choice" ph_field="%name%" ph_value="%value%">
-                    <mapText>%name% %value% ?M</mapText>
+                <score field="mode" ph_field="%name%" ph_value="%value%">
+                    <mapText>%name% "%value%" ?M</mapText>
                 </score>
             </node>
         </nodeWrapper>

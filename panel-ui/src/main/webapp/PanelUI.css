@@ -189,6 +189,32 @@ body {
 #listOfConditionKeywords{
 	width: 300px;
 }
+
+.AttributeIdentifiersHP > tbody > tr > td:nth-child(1){
+	width: 50px;
+}
+.AttributeIdentifiersHP > tbody > tr > td:nth-child(2){
+	margin-left:50px;
+	width: 200px;
+}
+.AttributeIdentifiersHP > tbody > tr > td:nth-child(3){
+	position:absolute;
+	margin-left:20px;
+	width: 100px;
+}
+
+.configurationPanelForRetrievalStatisticDataPanelHeadLine{
+	font-size:20px;
+	margin: 15px;
+	margin-left:0px;
+	margin-right:0px;
+	margin-top: 0px;
+}
+
+.deleteButton{
+	height: 40x;
+	width: 40px;
+}
 .dividingline{
 	border-radius: 100px;
 	margin: 25px;

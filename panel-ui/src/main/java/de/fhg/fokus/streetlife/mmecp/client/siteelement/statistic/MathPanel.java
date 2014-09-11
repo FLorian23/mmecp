@@ -6,6 +6,7 @@ import de.fhg.fokus.streetlife.mmecp.client.dia.ColumnChart;
 import de.fhg.fokus.streetlife.mmecp.client.dia.DiagramData;
 import de.fhg.fokus.streetlife.mmecp.client.dia.LineChart;
 import de.fhg.fokus.streetlife.mmecp.client.dia.PieChart;
+import de.fhg.fokus.streetlife.mmecp.client.test.LogPanel;
 
 public class MathPanel extends VerticalPanel {
 

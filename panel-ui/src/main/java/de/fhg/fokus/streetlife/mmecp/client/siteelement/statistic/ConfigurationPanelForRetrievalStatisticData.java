@@ -3,6 +3,10 @@ package de.fhg.fokus.streetlife.mmecp.client.siteelement.statistic;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.gwt.dom.client.Style.VerticalAlign;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -80,6 +84,23 @@ public class ConfigurationPanelForRetrievalStatisticData extends SimplePanel {
 		vp2.add(label2);
 		vp2.add(listOfConditionKeywords);
 		hpanel.add(vp2);
+		
+		//Send Request Button
+		Button sendButton = new Button("Get Data");
+		sendButton.getElement().setId("sendConfigurationForRetrievalStatisticDataButton");
+		sendButton.getElement().setClassName("btn btn-primary");
+		sendButton.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				sendRequest();
+			}
+		});
+		hpanel.add(sendButton);
+		sendButton.getElement().getParentElement().getStyle().setVerticalAlign(VerticalAlign.BOTTOM);
+	}
+	
+	private void sendRequest() {
+		//Send DTO Objects
 	}
 
 	VerticalPanel getListOfAttributeIdentifiersPanel() {

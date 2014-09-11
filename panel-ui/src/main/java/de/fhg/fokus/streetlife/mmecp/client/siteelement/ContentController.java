@@ -1,6 +1,12 @@
 package de.fhg.fokus.streetlife.mmecp.client.siteelement;
 
+import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -65,6 +71,19 @@ public class ContentController {
 				"wrapperMap");
 		tabPanel.add(lp, "Map");
 		tabPanel.add(MathPanel.get(), "statistics");
+//		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+//			
+//			public void onSelection(SelectionEvent<Integer> event) {
+//				if (event.getSelectedItem() == 0){
+//					RootPanel.get().getElement().getStyle().setOverflowY(Overflow.HIDDEN);
+//				}else if (event.getSelectedItem() == 1) {
+//					RootPanel.get().getElement().getStyle().setOverflowY(Overflow.SCROLL);
+//				}
+//			}
+//		});
+		MathPanel.get().getElement().getParentElement().setId("MathPanelParent");
+		MathPanel.get().getElement().getParentElement().getStyle().setHeight(Window.getClientHeight() -90, Unit.PX);
+//		MathPanel.get().getElement().getParentElement().getStyle().setOverflow(Overflow.SCROLL);
 
 		getVerticalPanel().add(tabPanel);
 		getVerticalPanel().setCellWidth(tabPanel, "100%");

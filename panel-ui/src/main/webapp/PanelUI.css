@@ -2,13 +2,21 @@ body>table:nth-child(5){
 	width:100%;
 }
 
-#streetlifeImg {
+#streetlifeImg, #streetlifeImgWrapper {
 	width: 175px;
 }
 
-#SwitchMapButton,#CurrentLocationButton {
+#SwitchMapButton, #SwitchMapButtonWrapper, #CurrentLocationButton, #CurrentLocationButtonWrapper {
 	margin: 5px;
 }
+#SwitchMapButtonWrapper, #CurrentLocationButtonWrapper{
+	width:150px;
+}
+
+#cityListBoxWrapper{
+	width: 200px;
+}
+
 body > table:nth-child(4){
 	width: 100%;
 }
@@ -46,7 +54,8 @@ body > table:nth-child(4){
 
 #contentPanel {
 	width: 100%;
-	/* height: 9900px; */
+	top: 50px;
+    position: absolute
 }
 
 #mapcontainer {
@@ -88,17 +97,17 @@ body {
 	height: 100%;
 }
 
-#wrapperLeftMenu,#wrapperRightMenu {
+#slideLeftPanelWrapper,#slideRightPanelWrapper {
 	width: 0px;
 }
 
-#wrapperLeftMenu {
+#slideLeftPanelWrapper {
 	margin-left: 0;
 	margin-right: auto;
 	background-color: white;
 }
 
-#wrapperRightMenu {
+#slideRightPanelWrapper {
 	margin-left: auto;
 	margin-right: 0;
 	background-color: white;
@@ -120,9 +129,9 @@ body {
 	font-size: 20px;
 }
 
-#wrapperPopupPanel {
+#PopupPanelContainerWrapper {
 	margin-left: auto;
-	margin-right: 40px;
+	margin-right: 0px;
 	position: absolute;
 	right: 0px;
 	width: 100px;
@@ -137,15 +146,14 @@ body {
 #guidancePopUpPanel{
 	width: 250px;
 	height: 100px;
-}
-#wrapperguidancepopup{
 	border-radius: 10px;
 	border-width: 2px;
   	border-style: solid;
   	border-color: black;
+	background-color: #3498db;
 }
 
-#wrapperguidancepopup > div{
+#guidancePopUpPanel > div{
 	padding: 3px;
 }
 
@@ -176,39 +184,6 @@ body {
     border:1px solid #8ed9f6;
 }
 
-
-#configurationPanelForRetrievalStatisticDataPanel{
-	margin-left: 10px;
-	width: 100%;
-	height: 230px;
-}
-
-#listOfFunctionPanel{
-	width: 100px;
-	height: 100%;
-}
-
-#listOfAttributeIdentifiersPanel{
-	width: 100px;
-	height: 100%;
-}
-#listOfConditionKeywords{
-	width: 300px;
-}
-
-.AttributeIdentifiersHP > tbody > tr > td:nth-child(1){
-	width: 50px;
-}
-.AttributeIdentifiersHP > tbody > tr > td:nth-child(2){
-	margin-left:50px;
-	width: 200px;
-}
-.AttributeIdentifiersHP > tbody > tr > td:nth-child(3){
-	position:relative;
-	padding-left: 15px;
-	width: 100px;
-}
-
 .configurationPanelForRetrievalStatisticDataPanelHeadLine{
 	font-size:20px;
 	margin: 15px;
@@ -217,17 +192,28 @@ body {
 	margin-top: 0px;
 }
 
-#configurationPanelForRetrievalStatisticDataPanel > tbody > tr > td:nth-child(1){
-	width:200px
-}
-#configurationPanelForRetrievalStatisticDataPanel > tbody > tr > td:nth-child(3){
-	width:300px
-}
-#configurationPanelForRetrievalStatisticDataPanel > tbody > tr > td:nth-child(5){
-	width:500px
+#statisticsWrapper{
+	background-color: white;
 }
 
-#MathPanelParent{
+#configurationPanelForRetrievalStatisticDataPanel{
+	width: 400px;
+}
+
+#listOfConditionKeywordsWrapperID, #listOfAttributeIdentifiersPanelWrapperID{
+	margin-top:20px;
+}
+.AttributeIdentifiersHP{
+	width: 300px;
+}
+.textboxConditionKeyWord{
+	margin-left: 30px;
+}
+.listboxConditionKeyWord{
+	margin-left: 15px;
+}
+
+#statisticsWrapper{
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

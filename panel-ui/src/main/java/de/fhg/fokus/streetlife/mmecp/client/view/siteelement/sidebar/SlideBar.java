@@ -1,9 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar;
 
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,12 +13,14 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 
 	private STATUS status = null;
 	private SimplePanel picturePanel;
+	boolean right;
 
 	protected SiteElement<VerticalPanel> content;
 
 	public SlideBar(final String domID, String wrapper,
 			SiteElement<VerticalPanel> content, boolean right) {
 		super(new HorizontalPanel(), domID, null);
+		this.right = right;
 		setPicturePanel(new SimplePanel());
 		getPicturePanel().setWidth(
 				CSSDynamicData.SlideBarPicturPaneleSize + "px");
@@ -54,8 +53,8 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 	public VerticalPanel getContentPanel() {
 		return content.getPanel();
 	}
-	
-	public SiteElement<VerticalPanel> getContentPanelSiteElement(){
+
+	public SiteElement<VerticalPanel> getContentPanelSiteElement() {
 		return content;
 	}
 
@@ -67,10 +66,6 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 
 	protected abstract void close();
 
-	protected abstract ImageResource getClosePicture();
-
-	protected abstract ImageResource getOpenPicture();
-
 	public STATUS getStatus() {
 		return status;
 	}
@@ -80,12 +75,22 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 			return;
 		switch (status) {
 		case OPEN:
-			setPicture(getClosePicture());
+			if (right)
+				getPicturePanel().getElement().setClassName(
+						"glyphicon glyphicon-chevron-right");
+			else
+				getPicturePanel().getElement().setClassName(
+						"glyphicon glyphicon-chevron-left");
 			open();
 			break;
 
 		case CLOSE:
-			setPicture(getOpenPicture());
+			if (!right)
+				getPicturePanel().getElement().setClassName(
+						"glyphicon glyphicon-chevron-right");
+			else
+				getPicturePanel().getElement().setClassName(
+						"glyphicon glyphicon-chevron-left");
 			close();
 			break;
 
@@ -94,13 +99,6 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 		}
 
 		this.status = status;
-	}
-
-	protected void setPicture(ImageResource res) {
-		Image image = new Image(res.getSafeUri());
-		image.setSize(CSSDynamicData.SlideBarPictureSize + "px",
-				CSSDynamicData.SlideBarPictureSize + "px");
-		getPicturePanel().setWidget(image);
 	}
 
 	public SimplePanel getPicturePanel() {

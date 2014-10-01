@@ -4,30 +4,21 @@ import static com.google.gwt.query.client.GQuery.$;
 
 import java.util.ArrayList;
 
-import com.google.gwt.query.client.css.CSS;
-import com.google.gwt.query.client.css.TextAlignProperty.TextAlign;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 
-public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements EventNotificationReceiver {
+public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
+		EventNotificationReceiver {
 
 	public static PopUpPanelContainer instance;
 	private int currentHight = 0;
-	
+
 	ArrayList<PopUpPanel> notifications = new ArrayList<PopUpPanel>();
 
 	private PopUpPanelContainer() {
 		super(new VerticalPanel(), "PopupPanelContainer", null);
-		getPanel().setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
-		getPanel().setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-
-		$("#" + getPanel().getElement().getId()).css(CSS.TEXT_ALIGN.with(TextAlign.RIGHT));
 	}
 
 	public static PopUpPanelContainer get() {
@@ -42,7 +33,7 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements E
 
 		// visual stuff
 		currentHight = currentHight + 56;
-//		$("#wrapperPopupPanel").css("height", currentHight + "");
+		// $("#wrapperPopupPanel").css("height", currentHight + "");
 		$("#" + get().getWrapperID()).css("height", currentHight + "");
 		$("#" + get().getID()).css("height", currentHight + "");
 		getPanel().insert(popUpPanel.getPanel(), 0);
@@ -52,7 +43,7 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements E
 	public void hideNotification(PopUpPanel p) {
 		currentHight = currentHight - 56;
 		$("#eventinfo_" + p.getEvent().getId()).hide();
-//		$("#wrapperPopupPanel").css("height", currentHight + "");
+		// $("#wrapperPopupPanel").css("height", currentHight + "");
 		$("#" + get().getWrapperID()).css("height", currentHight + "");
 		$("#" + get().getID()).css("height", currentHight + "");
 		getPanel().remove(p.getPanel());

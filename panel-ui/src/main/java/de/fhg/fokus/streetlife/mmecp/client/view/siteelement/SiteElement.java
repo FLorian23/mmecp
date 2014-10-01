@@ -28,7 +28,12 @@ public class SiteElement<E extends Widget> implements IsWidget {
 		if (this.panel.getElement().getParentElement() != null) {
 			this.panel.getElement().getParentElement()
 					.setId(getPanel().getElement().getId() + "Wrapper");
+			afterParanetAdded();
 		}
+	}
+	
+	protected void afterParanetAdded(){
+		
 	}
 
 	public void addWidgetToPanel(Widget w, String cssID, String cssClass) {

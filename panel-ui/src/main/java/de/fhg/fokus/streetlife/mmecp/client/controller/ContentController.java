@@ -13,10 +13,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.Impressum;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.MapContainer;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.TabPanelManager;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.statistic.MathPanel;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.TabPanelManager;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
 
 public class ContentController {
 

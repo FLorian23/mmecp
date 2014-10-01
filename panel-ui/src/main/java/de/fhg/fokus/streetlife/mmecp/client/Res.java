@@ -14,12 +14,6 @@ public interface Res extends ClientBundle {
   @Source("../pictures/Delete.png")
   public ImageResource deleteImage();
   
-  @Source("../pictures/arrowLeft.png")
-  public ImageResource arrowLeft();
-  
-  @Source("../pictures/arrowRight.png")
-  public ImageResource arrowRight();
-  
   @Source("../text/streetlife_panel_imprint.htm")
   TextResource streetlifePanelImprint();
 }

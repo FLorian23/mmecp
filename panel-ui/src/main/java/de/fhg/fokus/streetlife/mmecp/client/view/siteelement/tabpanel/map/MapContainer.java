@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
+package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
 import java.util.ResourceBundle.Control;
 
@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
@@ -114,9 +115,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// create some MapOptions
 		MapOptions defaultMapOptions = new MapOptions();
 		defaultMapOptions.removeDefaultControls();
-		defaultMapOptions.setNumZoomLevels(16);
+		defaultMapOptions.setNumZoomLevels(CSSDynamicData.MapContainer_SetNumZoomLevels);
 
 		// Create a MapWidget and add 2 OSM layers
+//		MapWidget mapWidget = new MapWidget(Window.getClientWidth() + "px", Window.getClientHeight() + "px", defaultMapOptions);
 		MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
 
 		map = mapWidget.getMap();

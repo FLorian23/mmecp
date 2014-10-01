@@ -64,16 +64,6 @@ public class SlideBarRight extends SlideBar {
 		return content.getPanel();
 	}
 
-	@Override
-	protected ImageResource getClosePicture() {
-		return Res.INSTANCE.arrowRight();
-	}
-
-	@Override
-	protected ImageResource getOpenPicture() {
-		return Res.INSTANCE.arrowLeft();
-	}
-
 	public int getCurrentWidth() {
 		switch (getStatus()) {
 		case OPEN:

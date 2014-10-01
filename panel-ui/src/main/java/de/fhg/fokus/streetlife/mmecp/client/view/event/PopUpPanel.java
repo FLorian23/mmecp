@@ -53,7 +53,6 @@ public class PopUpPanel extends SiteElement<SimplePanel> implements
 		content.clear();
 		IEventInfoDataMapper eventInfo = DtoToGWTElementMapper.map(getEvent());
 		eventInfo.fillContent(content);
-//		Window.alert("1");
 		SlideBarRight.get().setStatus(STATUS.OPEN);
 	}
 

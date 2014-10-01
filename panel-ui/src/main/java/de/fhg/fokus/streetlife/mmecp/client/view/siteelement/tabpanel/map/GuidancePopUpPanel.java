@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
+package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
 
@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 
 public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 		ClickHandler {

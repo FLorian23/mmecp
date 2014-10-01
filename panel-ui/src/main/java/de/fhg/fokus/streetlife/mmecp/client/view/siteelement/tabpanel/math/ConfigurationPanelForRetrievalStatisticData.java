@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.statistic;
+package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.Keys;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;

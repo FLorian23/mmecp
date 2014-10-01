@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.statistic;
+package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math;
 
 import java.util.ArrayList;
 

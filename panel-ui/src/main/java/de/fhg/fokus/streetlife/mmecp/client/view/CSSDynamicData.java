@@ -8,6 +8,7 @@ public class CSSDynamicData {
 
 	// Map
 	public final static int MapContainer_DEFAULTZOOMSIZE = 12;
+	public final static int MapContainer_SetNumZoomLevels = 16;
 
 	public static final int PopUpPanelContainer_WIDTH_ROLL_IN = 0;
 	public static final int PopUpPanelContainer_WIDTH_ROLL_OUT = 100;
@@ -23,5 +24,5 @@ public class CSSDynamicData {
 
 	public final static int SlideBarPicturPaneleSize = 30;
 	public final static int SlideBarPictureSize = 23;
-	public static final String SlideBarRightInfoLabel = "Click on a event to see further information";
+	public static final String SlideBarRightInfoLabel = "Click on an event to see further information";
 }

@@ -14,9 +14,9 @@ import de.fhg.fokus.streetlife.mmecp.client.Res;
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO.CITY;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 
 public class SlideBarLeft extends SlideBar {
 
@@ -90,15 +90,5 @@ public class SlideBarLeft extends SlideBar {
 	public Button createButtonForCurrentLocation() {
 		Button button = new Button("Locate Me", MapContainer.getHandler());
 		return button;
-	}
-
-	@Override
-	protected ImageResource getClosePicture() {
-		return Res.INSTANCE.arrowLeft();
-	}
-
-	@Override
-	protected ImageResource getOpenPicture() {
-		return Res.INSTANCE.arrowRight();
 	}
 }

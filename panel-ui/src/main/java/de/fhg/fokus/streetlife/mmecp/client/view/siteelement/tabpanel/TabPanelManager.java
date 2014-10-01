@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
+package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
@@ -9,9 +9,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.EventInfoScheduler;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.statistic.MathPanel;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
 
 public class TabPanelManager extends SiteElement<TabPanel> {
 

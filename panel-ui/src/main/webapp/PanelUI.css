@@ -110,6 +110,7 @@ body {
 #slideRightPanelPictureWrapper, #slideRightPanelPicture, #slideLeftPanelPictureWrapper, #slideLeftPanelPicture{
 	height: 30px;
 	width: 30px;
+	font-size: 24px;
 }
 
 #slideRightPanelPicture, #slideLeftPanelPicture{

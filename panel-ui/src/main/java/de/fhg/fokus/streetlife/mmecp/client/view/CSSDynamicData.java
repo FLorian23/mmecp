@@ -23,5 +23,5 @@ public class CSSDynamicData {
 
 	public final static int SlideBarPicturPaneleSize = 30;
 	public final static int SlideBarPictureSize = 23;
-	public static final String SlideBarRightInfoLabel = "Click on a event to see futher information";
+	public static final String SlideBarRightInfoLabel = "Click on a event to see further information";
 }

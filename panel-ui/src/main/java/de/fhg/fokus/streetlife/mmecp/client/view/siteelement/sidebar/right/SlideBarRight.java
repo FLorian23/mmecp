@@ -2,16 +2,24 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right;
 
 import static com.google.gwt.query.client.GQuery.$;
 
-import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
+import de.fhg.fokus.streetlife.mmecp.client.Res;
+import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
 
 public class SlideBarRight extends SlideBar {
 
 	private static SlideBarRight slideBarRight = null;
-	private VerticalPanel content = new VerticalPanel();
 
 	public static SlideBarRight get() {
 		if (slideBarRight == null) {
@@ -21,41 +29,59 @@ public class SlideBarRight extends SlideBar {
 	}
 
 	public SlideBarRight() {
-		super("slideRightPanel", null);
-		getPanel().add(getContent());
+		super("slideRightPanel", null, new SiteElement<VerticalPanel>(
+				new VerticalPanel(), "SlideBarRightContentPanel", null), true);
+		getPicturePanel().addDomHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				if (getStatus() == STATUS.CLOSE) {
+					setStatus(STATUS.OPEN);
+				} else {
+					setStatus(STATUS.CLOSE);
+				}
+			}
+		}, ClickEvent.getType());
+		
+		getContentPanelSiteElement().addWidgetToPanel(new Label(CSSDynamicData.SlideBarRightInfoLabel), "slideBarinfoLabel", null);
 	}
 
-	public void opening() {
+	protected void open() {
 		if (getStatus() == STATUS.OPEN)
 			return;
-		setStatus(STATUS.OPEN);
-		$("#" + getWrapperID()).animate("width:" + SlideBar.WIDTH_ROLL_OUT, 500);
-		PopUpPanelContainer.get().move(
-				SlideBar.WIDTH_ROLL_OUT);
+		$("#" + getWrapperID())
+				.animate("width:" + CSSDynamicData.SlideBarRight_WIDTH_ROLL_OUT, 500);
+		PopUpPanelContainer.get().move(CSSDynamicData.SlideBarRight_WIDTH_ROLL_OUT);
 	}
 
-	public void closing() {
+	protected void close() {
 		if (getStatus() == STATUS.CLOSE)
 			return;
-		setStatus(STATUS.CLOSE);
-		$("#" + getWrapperID()).animate("width:" + SlideBar.WIDTH_ROLL_IN, 500);
-		PopUpPanelContainer.get().move(SlideBar.WIDTH_ROLL_IN);
-	}
-	
-	public void hide(){
-		if (getStatus() == STATUS.OPEN)
-			return;
-		
-		setStatus(STATUS.HIDE);
-		$("#" + getWrapperID()).animate("width:" + 0, 0);
-		PopUpPanelContainer.get().move(-40);
+		$("#" + getWrapperID()).animate("width:" + CSSDynamicData.SlideBarRight_WIDTH_ROLL_IN, 500);
+		PopUpPanelContainer.get().move(CSSDynamicData.SlideBarRight_WIDTH_ROLL_IN);
 	}
 
 	public VerticalPanel getContent() {
-		return content;
+		return content.getPanel();
 	}
 
-	public void setContent(VerticalPanel content) {
-		this.content = content;
+	@Override
+	protected ImageResource getClosePicture() {
+		return Res.INSTANCE.arrowRight();
+	}
+
+	@Override
+	protected ImageResource getOpenPicture() {
+		return Res.INSTANCE.arrowLeft();
+	}
+
+	public int getCurrentWidth() {
+		switch (getStatus()) {
+		case OPEN:
+			return CSSDynamicData.SlideBarRight_WIDTH_ROLL_OUT;
+		case CLOSE:
+			return CSSDynamicData.SlideBarRight_WIDTH_ROLL_IN;
+		default:
+			return 0;
+		}
 	}
 }

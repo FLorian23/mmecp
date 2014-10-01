@@ -1,10 +1,11 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
 
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SiteElement<E extends Widget> {
+public class SiteElement<E extends Widget> implements IsWidget {
 
 	private E panel = null;
 
@@ -49,7 +50,7 @@ public class SiteElement<E extends Widget> {
 		setIDsOfWidget(w, cssID, cssClass);
 	}
 
-	private void setIDsOfWidget(Widget w, String cssID, String cssClass) {
+	protected void setIDsOfWidget(Widget w, String cssID, String cssClass) {
 		if (cssClass != null)
 			w.getElement().setClassName(cssClass);
 
@@ -78,5 +79,9 @@ public class SiteElement<E extends Widget> {
 		}
 
 		return this.panel.getElement().getId() + "Wrapper";
+	}
+	
+	public Widget asWidget() {
+		return getPanel();
 	}
 }

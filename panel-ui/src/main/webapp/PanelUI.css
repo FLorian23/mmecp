@@ -6,24 +6,27 @@ body>table:nth-child(5){
 	width: 175px;
 }
 
-#SwitchMapButton, #SwitchMapButtonWrapper, #CurrentLocationButton, #CurrentLocationButtonWrapper {
+#SwitchMapButton, #SwitchMapButtonWrapper, #CurrentLocationButton, #CurrentLocationButtonWrapper, #cityListBox {
 	margin: 5px;
 }
-#SwitchMapButtonWrapper, #CurrentLocationButtonWrapper{
+#SwitchMapButtonWrapper, #CurrentLocationButtonWrapper, #CurrentLocationButton{
 	width:150px;
 }
 
-#cityListBoxWrapper{
-	width: 200px;
+#cityListBox, #SwitchMapButton{
+	width: 150px;
 }
 
 body > table:nth-child(4){
 	width: 100%;
 }
-#headerHPanel > tbody > tr > td:nth-child(5){
+#headerHPanel > tbody > tr > td:nth-child(2){
 	position: absolute;
 	right: 0px;
 	height: 75px;
+}
+#tabpanel > tbody > tr:nth-child(2) > td > div{
+	padding: 0px;
 }
 
 #MapContainer>tbody>tr>td {
@@ -93,24 +96,62 @@ body {
 }
 
 #centerPanel,#slideRightPanel,#slideLeftPanel {
-	background-color: white;
 	height: 100%;
+}
+#slideLeftPanel{
+	margin-left: -170px;
+	height: 130px;
 }
 
 #slideLeftPanelWrapper,#slideRightPanelWrapper {
-	width: 0px;
+	pointer-events:none;
+}
+
+#slideRightPanelPictureWrapper, #slideRightPanelPicture, #slideLeftPanelPictureWrapper, #slideLeftPanelPicture{
+	height: 30px;
+	width: 30px;
+}
+
+#slideRightPanelPicture, #slideLeftPanelPicture{
+	pointer-events:visiblePainted;
+	background-color: #19B5FE;
+	border-radius: 4px;
+	border: 1px solid;
+}
+
+#slideBarinfoLabel{
+	font-size: 18px;
+	text-align: center;
+	padding-top: 400px;
+	padding-right: 30px;
+}
+
+#slideRightPanelContentWrapper, #slideRightPanelContent{
+	background-color: #EEEEEE;
+	width: 300px;
+	pointer-events:visiblePainted;
+}
+
+#slideLeftPanelContentWrapper, #slideLeftPanelContent{
+	background-color: #EEEEEE;
+	width: 170px;
+	pointer-events:visiblePainted;
 }
 
 #slideLeftPanelWrapper {
 	margin-left: 0;
 	margin-right: auto;
-	background-color: white;
+	width: 30px;
+}
+
+#SlideBarLeftVerticalPanelWrapper{
+	overflow: hidden;
 }
 
 #slideRightPanelWrapper {
 	margin-left: auto;
 	margin-right: 0;
-	background-color: white;
+	width: 30px;
 }
 
 #eventInfoCaption {
@@ -144,13 +185,14 @@ body {
 }
 
 #guidancePopUpPanel{
-	width: 250px;
-	height: 100px;
+	width: 350px;
+	height: 150px;
+	padding: 4px;
 	border-radius: 10px;
-	border-width: 2px;
+	border-width: 3px;
   	border-style: solid;
   	border-color: black;
-	background-color: #3498db;
+	background-color: #EEEEEE;
 }
 
 #guidancePopUpPanel > div{
@@ -199,6 +241,14 @@ body {
 #configurationPanelForRetrievalStatisticDataPanel{
 	width: 400px;
 }
+
+table#configurationPanelForRetrievalStatisticDataPanel{
+	border-collapse: separate;
+}
+table#vpForCharts{
+	border-collapse: separate;
+}
+
 
 #listOfConditionKeywordsWrapperID, #listOfAttributeIdentifiersPanelWrapperID{
 	margin-top:20px;

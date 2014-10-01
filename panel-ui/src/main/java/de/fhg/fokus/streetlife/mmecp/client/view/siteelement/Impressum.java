@@ -2,6 +2,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.Res;
 

@@ -1,11 +1,17 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
 
+import java.util.ResourceBundle.Control;
+
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.control.ArgParser;
+import org.gwtopenmaps.openlayers.client.control.Attribution;
+import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
+import org.gwtopenmaps.openlayers.client.control.Navigation;
 import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
@@ -26,8 +32,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
+import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
 		ClickHandler, ChangeHandler {
@@ -35,7 +44,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static MapContainer instance = null;
 
 	private Position currentPosition = null;
-	private static int defaultZoomSite = 12;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -105,6 +113,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		// create some MapOptions
 		MapOptions defaultMapOptions = new MapOptions();
+		defaultMapOptions.removeDefaultControls();
 		defaultMapOptions.setNumZoomLevels(16);
 
 		// Create a MapWidget and add 2 OSM layers
@@ -112,12 +121,15 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		map = mapWidget.getMap();
 		buildGoogleMaps();
-
+		
 		// Lets add some default controls to the map
 		// map.addControl(new LayerSwitcher());
-		// map.addControl(new OverviewMap());
-		map.addControl(new ScaleLine());
-
+//		 map.addControl(new OverviewMap());
+//		map.addControl(new ScaleLine());
+		map.addControl(new Navigation());
+		map.addControl(new ArgParser());
+		map.addControl(new Attribution());
+		
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
 
@@ -125,10 +137,20 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
 				GuidancePopUpPanel g = new GuidancePopUpPanel(true);
-				g.getPanel().setPopupPosition(pixelFromLonLat.x()
-						+ getPanel().getElement().getAbsoluteLeft(),
-						pixelFromLonLat.y()
-								+ getPanel().getElement().getAbsoluteTop());
+				
+				int maxRightPixel = Window.getClientWidth() - SlideBarRight.get().getCurrentWidth();
+				int maxBottomPixel = getPanel().getElement().getClientHeight();
+				
+				int xPixel = pixelFromLonLat.x() + getPanel().getElement().getAbsoluteLeft();
+				int yPixel = pixelFromLonLat.y() + getPanel().getElement().getAbsoluteTop();
+
+				if (xPixel + CSSDynamicData.guidancePopUpPanel_WIDTH > maxRightPixel){
+					xPixel -= CSSDynamicData.guidancePopUpPanel_WIDTH ;
+				}
+				if (yPixel + CSSDynamicData.guidancePopUpPanel_HEIGHT  > maxBottomPixel){
+					yPixel -= CSSDynamicData.guidancePopUpPanel_HEIGHT ;
+				}
+				g.getPanel().setPopupPosition(xPixel, yPixel);
 				g.getPanel().show();
 			}
 		});
@@ -136,7 +158,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		LonLat lonLat = new LonLat(DAO.BERLIN_GEO_lon, DAO.BERLIN_GEO_lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				map.getProjection());
-		map.setCenter(lonLat, defaultZoomSite);
+		map.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
 
 		addWidgetToPanel(mapWidget, "mapWidget", "");
 
@@ -147,7 +169,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		LonLat lonLat = new LonLat(lon, lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
-		get().map.setCenter(lonLat, defaultZoomSite);
+		get().map.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
 	}
 
 	public static void switchLocation(DAO.CITY city) {

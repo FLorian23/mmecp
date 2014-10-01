@@ -9,6 +9,7 @@ import com.google.gwt.query.client.css.TextAlignProperty.TextAlign;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
@@ -17,9 +18,6 @@ import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements EventNotificationReceiver {
 
 	public static PopUpPanelContainer instance;
-
-	public static final int WIDTH_ROLL_IN = 0;
-	public static final int WIDTH_ROLL_OUT = 100;
 	private int currentHight = 0;
 	
 	ArrayList<PopUpPanel> notifications = new ArrayList<PopUpPanel>();

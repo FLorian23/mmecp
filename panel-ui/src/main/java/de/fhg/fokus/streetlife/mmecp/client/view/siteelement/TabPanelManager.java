@@ -5,9 +5,11 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.EventInfoScheduler;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.statistic.MathPanel;
 
@@ -34,6 +36,7 @@ public class TabPanelManager extends SiteElement<TabPanel> {
 
 		MapContainer.get().setParentPanel(lp);
 		PopUpPanelContainer.get().setParentPanel(lp);
+		SlideBarLeft.get().setParentPanel(lp);
 		SlideBarRight.get().setParentPanel(lp);
 
 		Timer t = new EventInfoScheduler(PopUpPanelContainer.get());

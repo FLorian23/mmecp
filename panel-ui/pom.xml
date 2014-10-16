@@ -27,12 +27,27 @@
 		<tomcat.server>local_tomcat</tomcat.server>
 		 -->
 
-		<!-- --> <tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
-			<tomcat.server>streetlife-panel</tomcat.server> <!-- -->
+		<!-- --><tomcat.url>http://193.175.133.251:8080/manager/text</tomcat.url> 
+			<tomcat.server>streetlife-panel</tomcat.server><!-- -->
 
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-mvp-client</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.gwtbootstrap</groupId>
+			<artifactId>gwt-bootstrap</artifactId>
+			<version>2.3.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gwtbootstrap3</groupId>
+			<artifactId>gwtbootstrap3</artifactId>
+			<version>0.7</version>
+		</dependency>
 		<dependency>
 			<groupId>org.gwtopenmaps.openlayers</groupId>
 			<artifactId>gwt-openlayers-client</artifactId>
@@ -47,11 +62,6 @@
 			<groupId>org.gwtopenmaps.openlayers</groupId>
 			<artifactId>gwt-openlayers-server</artifactId>
 			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sencha.gxt</groupId>
-			<artifactId>gxt</artifactId>
-			<version>3.0.1</version>
 		</dependency>
 
 		<!-- Charts -->
@@ -144,7 +154,7 @@
 	</dependencies>
 
 	<build>
-       <finalName>panelUI</finalName>
+		<finalName>panelUI</finalName>
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
 		<plugins>
 			<plugin>

@@ -6,6 +6,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart.Options;
 
+import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
+
 public class LineChart extends Chart {
 
 	public LineChart(DiagramData diagramData) {
@@ -14,8 +16,8 @@ public class LineChart extends Chart {
 
 	private Options createOptions() {
 		Options options = Options.create();
-		options.setWidth(400);
-		options.setHeight(240);
+		options.setWidth(CSSDynamicData.chartWidth);
+		options.setHeight(CSSDynamicData.chartHeight);
 		// options.set3D(true);
 		options.setTitle(getData().getTitle());
 		return options;

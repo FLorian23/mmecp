@@ -1,0 +1,12 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:b='urn:import:org.gwtbootstrap3.client.ui'>
+
+	<g:HorizontalPanel>
+		<b:Span visibleOn="SM" text="Hallo wie gehts dir" />
+		<b:Span visibleOn="SM_MD" text="Der Baum steht auf der Wiese" />
+		<b:Span hiddenOn="SM" text="Das Auto fuhr auf der Strasse" />
+		<b:Span hiddenOn="SM_LG" text="Der Weg ist zu lang, um ihm zu laufen" />
+	</g:HorizontalPanel>
+
+</ui:UiBinder>

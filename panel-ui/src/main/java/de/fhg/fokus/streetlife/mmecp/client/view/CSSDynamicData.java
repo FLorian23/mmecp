@@ -25,4 +25,8 @@ public class CSSDynamicData {
 	public final static int SlideBarPicturPaneleSize = 30;
 	public final static int SlideBarPictureSize = 23;
 	public static final String SlideBarRightInfoLabel = "Click on an event to see further information";
+	
+	//Charts
+	public static int chartWidth = 400;
+	public static int chartHeight = 240;
 }

@@ -5,36 +5,37 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.EventInfoScheduler;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
+import de.fhg.fokus.streetlife.mmecp.client.view.ui.Example;
 
-public class TabPanelManager extends SiteElement<TabPanel> {
+public class TabPanelManager extends TabPanel  {
 
 	private static TabPanelManager instance = null;
+	public static final String cssID = "tabpanel";
+	public static final String mapLayoutPanelcssID = "maplayoutpanel";
 
 	private TabPanelManager() {
-		super(new TabPanel(), "tabpanel", null);
+		this.getElement().setId(cssID);
 		buildMapArchitecture();
 	}
 
 	public static TabPanelManager get() {
 		if (instance == null)
-			return new TabPanelManager();
+			instance = new TabPanelManager();
 		return instance;
 	}
 
 	public void buildMapArchitecture() {
-		getPanel().setVisible(true);
+		setVisible(true);
 
 		LayoutPanel lp = new LayoutPanel();
-		lp.getElement().setId("maplayoutpanel");
+		lp.getElement().setId(mapLayoutPanelcssID);
 
 		MapContainer.get().setParentPanel(lp);
 		PopUpPanelContainer.get().setParentPanel(lp);
@@ -45,23 +46,17 @@ public class TabPanelManager extends SiteElement<TabPanel> {
 		t.scheduleRepeating(5000);
 
 		// Fill Tabpanel
-		addWidgetToTabPanel(lp, "Map", "maplayoutpanel", null);
-		addWidgetToTabPanel(MathPanel.get().getPanel(), "Statistik",
-				"statistics", null);
+		add(lp, "Map");
+		lp.getElement().getParentElement()
+				.setId(mapLayoutPanelcssID + "Wrapper");
+		add(MathPanel.get().getPanel(), "Statistics");
+		MathPanel.get().getPanel().getElement().getParentElement()
+				.setId(MathPanel.cssID + "Wrapper");
 
 		MathPanel.get().getPanel().getElement().getParentElement().getStyle()
 				.setHeight(Window.getClientHeight() - 90, Unit.PX);
-		getPanel().selectTab(0);
+		
+
+		selectTab(0);
 	}
 }
-
-// tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
-//
-// public void onSelection(SelectionEvent<Integer> event) {
-// if (event.getSelectedItem() == 0){
-// RootPanel.get().getElement().getStyle().setOverflowY(Overflow.HIDDEN);
-// }else if (event.getSelectedItem() == 1) {
-// RootPanel.get().getElement().getStyle().setOverflowY(Overflow.SCROLL);
-// }
-// }
-// });

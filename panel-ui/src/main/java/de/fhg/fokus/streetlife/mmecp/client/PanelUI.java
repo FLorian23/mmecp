@@ -16,7 +16,6 @@ public class PanelUI implements EntryPoint {
 		RootPanel.get().add(new Header().getPanel());
 		RootPanel.get().add(ContentController.getInstance().getVerticalPanel());
 		
-		
 		init();
 	}
 

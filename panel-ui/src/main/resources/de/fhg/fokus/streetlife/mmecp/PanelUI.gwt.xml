@@ -14,9 +14,25 @@
 	<inherits name="com.google.gwt.json.JSON" />
 	<inherits name="com.google.gwt.http.HTTP" />
 	<inherits name="com.googlecode.gwt.charts.Charts" />
+	<inherits name="com.github.gwtbootstrap.Bootstrap" />
+	<inherits name='com.gwtplatform.mvp.Mvp' />
+	<inherits name="org.gwtbootstrap3.GwtBootstrap3" />
+
 	<stylesheet src="reset.css" />
 	<entry-point class='de.fhg.fokus.streetlife.mmecp.client.PanelUI' />
 	<source path='client' />
 	<source path='share' />
 	<public path="res" />
+
+
+	<source path='resources' />
+	<replace-with class="de.fhg.fokus.streetlife.mmecp.resources.MyConfigurator">
+		<when-type-is class="com.github.gwtbootstrap.client.ui.config.Configurator" />
+	</replace-with>
+	<public path="resources">
+		<exclude name="** /*.java" />
+		<exclude name="** /*.class" />
+	</public>
+
+
 </module>

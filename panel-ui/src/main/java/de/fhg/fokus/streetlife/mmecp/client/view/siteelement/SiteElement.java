@@ -1,8 +1,8 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement;
 
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class SiteElement<E extends Widget> implements IsWidget {
@@ -25,30 +25,23 @@ public class SiteElement<E extends Widget> implements IsWidget {
 	}
 
 	private void setParentID() {
+		if (!(this.getPanel() instanceof ComplexPanel))
+			return;
+
 		if (this.panel.getElement().getParentElement() != null) {
 			this.panel.getElement().getParentElement()
 					.setId(getPanel().getElement().getId() + "Wrapper");
 			afterParanetAdded();
 		}
 	}
-	
-	protected void afterParanetAdded(){
-		
+
+	protected void afterParanetAdded() {
+
 	}
 
 	public void addWidgetToPanel(Widget w, String cssID, String cssClass) {
 		if (panel instanceof Panel) {
 			((Panel) panel).add(w);
-		} else
-			return;
-
-		setIDsOfWidget(w, cssID, cssClass);
-	}
-
-	public void addWidgetToTabPanel(Widget w, String desc, String cssID,
-			String cssClass) {
-		if (panel instanceof TabPanel) {
-			((TabPanel) panel).add(w, desc);
 		} else
 			return;
 
@@ -77,6 +70,9 @@ public class SiteElement<E extends Widget> implements IsWidget {
 	}
 
 	public String getWrapperID() {
+		if (!(this.getPanel() instanceof ComplexPanel))
+			return null;
+
 		if (this.panel.getElement().getParentElement() != null) {
 			if (this.panel.getElement().getParentElement().getId()
 					.compareTo("") != 0)
@@ -85,7 +81,7 @@ public class SiteElement<E extends Widget> implements IsWidget {
 
 		return this.panel.getElement().getId() + "Wrapper";
 	}
-	
+
 	public Widget asWidget() {
 		return getPanel();
 	}

@@ -1,7 +1,5 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
-import java.util.ResourceBundle.Control;
-
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -10,9 +8,7 @@ import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.control.ArgParser;
 import org.gwtopenmaps.openlayers.client.control.Attribution;
-import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.control.Navigation;
-import org.gwtopenmaps.openlayers.client.control.ScaleLine;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
@@ -25,19 +21,22 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
 		ClickHandler, ChangeHandler {
@@ -115,23 +114,25 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// create some MapOptions
 		MapOptions defaultMapOptions = new MapOptions();
 		defaultMapOptions.removeDefaultControls();
-		defaultMapOptions.setNumZoomLevels(CSSDynamicData.MapContainer_SetNumZoomLevels);
+		defaultMapOptions
+				.setNumZoomLevels(CSSDynamicData.MapContainer_SetNumZoomLevels);
 
 		// Create a MapWidget and add 2 OSM layers
-//		MapWidget mapWidget = new MapWidget(Window.getClientWidth() + "px", Window.getClientHeight() + "px", defaultMapOptions);
-		MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
+		// MapWidget mapWidget = new MapWidget(Window.getClientWidth() + "px",
+		// Window.getClientHeight() + "px", defaultMapOptions);
+		final MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
 
 		map = mapWidget.getMap();
 		buildGoogleMaps();
-		
+
 		// Lets add some default controls to the map
 		// map.addControl(new LayerSwitcher());
-//		 map.addControl(new OverviewMap());
-//		map.addControl(new ScaleLine());
+		// map.addControl(new OverviewMap());
+		// map.addControl(new ScaleLine());
 		map.addControl(new Navigation());
 		map.addControl(new ArgParser());
 		map.addControl(new Attribution());
-		
+
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
 
@@ -139,18 +140,21 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
 				GuidancePopUpPanel g = new GuidancePopUpPanel(true);
-				
-				int maxRightPixel = Window.getClientWidth() - SlideBarRight.get().getCurrentWidth();
-				int maxBottomPixel = getPanel().getElement().getClientHeight();
-				
-				int xPixel = pixelFromLonLat.x() + getPanel().getElement().getAbsoluteLeft();
-				int yPixel = pixelFromLonLat.y() + getPanel().getElement().getAbsoluteTop();
 
-				if (xPixel + CSSDynamicData.guidancePopUpPanel_WIDTH > maxRightPixel){
-					xPixel -= CSSDynamicData.guidancePopUpPanel_WIDTH ;
+				int maxRightPixel = Window.getClientWidth()
+						- SlideBarRight.get().getCurrentWidth();
+				int maxBottomPixel = getPanel().getElement().getClientHeight();
+
+				int xPixel = pixelFromLonLat.x()
+						+ getPanel().getElement().getAbsoluteLeft();
+				int yPixel = pixelFromLonLat.y()
+						+ getPanel().getElement().getAbsoluteTop();
+
+				if (xPixel + CSSDynamicData.guidancePopUpPanel_WIDTH > maxRightPixel) {
+					xPixel -= CSSDynamicData.guidancePopUpPanel_WIDTH;
 				}
-				if (yPixel + CSSDynamicData.guidancePopUpPanel_HEIGHT  > maxBottomPixel){
-					yPixel -= CSSDynamicData.guidancePopUpPanel_HEIGHT ;
+				if (yPixel + CSSDynamicData.guidancePopUpPanel_HEIGHT > maxBottomPixel) {
+					yPixel -= CSSDynamicData.guidancePopUpPanel_HEIGHT;
 				}
 				g.getPanel().setPopupPosition(xPixel, yPixel);
 				g.getPanel().show();
@@ -163,15 +167,22 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		map.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
 
 		addWidgetToPanel(mapWidget, "mapWidget", "");
-
-		mapWidget.getElement().getFirstChildElement().getStyle().setZIndex(0);
+		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
+		Window.addResizeHandler(new ResizeHandler() {
+			
+			public void onResize(ResizeEvent event) {
+				mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
+				MathPanel.get().resize();
+			}
+		});
 	}
 
 	public static void switchLocation(double lon, double lat) {
 		LonLat lonLat = new LonLat(lon, lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
-		get().map.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
+		get().map
+				.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
 	}
 
 	public static void switchLocation(DAO.CITY city) {

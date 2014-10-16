@@ -243,11 +243,17 @@ body {
 	width: 400px;
 }
 
+
 table#configurationPanelForRetrievalStatisticDataPanel{
 	border-collapse: separate;
 }
+
+#configurationPanelForRetrievalStatisticDataPanelWrapper{
+	width: 300px;
+}
 table#vpForCharts{
 	border-collapse: separate;
+	border-spacing: 5px;
 }
 
 
@@ -264,7 +270,7 @@ table#vpForCharts{
 	margin-left: 15px;
 }
 
-#statisticsWrapper{
+#StatistikWrapper{
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

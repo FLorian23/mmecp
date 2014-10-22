@@ -195,6 +195,7 @@ body {
   	border-style: solid;
   	border-color: black;
 	background-color: #EEEEEE;
+	z-index: 1000;
 }
 
 #guidancePopUpPanel > div{

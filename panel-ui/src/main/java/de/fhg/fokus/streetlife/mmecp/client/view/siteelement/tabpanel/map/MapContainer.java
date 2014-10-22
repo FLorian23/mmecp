@@ -123,7 +123,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		final MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
 
 		map = mapWidget.getMap();
-		buildGoogleMaps();
+//		buildGoogleMaps();
+		buildOpenStreetMaps();
 
 		// Lets add some default controls to the map
 		// map.addControl(new LayerSwitcher());

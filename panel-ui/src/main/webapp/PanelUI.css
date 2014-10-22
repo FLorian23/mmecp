@@ -97,6 +97,7 @@ body {
 
 #centerPanel,#slideRightPanel,#slideLeftPanel {
 	height: 100%;
+	z-index: 999;
 }
 #slideLeftPanel{
 	margin-left: -170px;

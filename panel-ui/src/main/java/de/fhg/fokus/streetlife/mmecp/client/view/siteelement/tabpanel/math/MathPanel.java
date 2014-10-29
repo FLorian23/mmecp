@@ -2,13 +2,13 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math;
 
 import java.util.ArrayList;
 
-import com.github.gwtbootstrap.client.ui.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-import de.fhg.fokus.streetlife.mmecp.client.test.LogPanel;
+import de.fhg.fokus.streetlife.mmecp.client.controller.Subject;
+import de.fhg.fokus.streetlife.mmecp.client.controller.Observer;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.Chart;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.ColumnChart;
@@ -17,22 +17,26 @@ import de.fhg.fokus.streetlife.mmecp.client.view.dia.LineChart;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.PieChart;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 
-public class MathPanel extends SiteElement<HorizontalPanel> {
+public class MathPanel extends SiteElement<HorizontalPanel> implements
+		Observer {
 
 	private static MathPanel instance = null;
 	public static final String cssID = "Statistik";
 
 	ScrollPanel scrollPanel;
 	Grid gridForCharts;
-	int previousColums = -1;
 
+	private enum RESPONSABLE {
+		VERTICAL, HORIZONTAL
+	};
+
+	private RESPONSABLE responsableStatus = RESPONSABLE.HORIZONTAL;
 	ArrayList<Chart> myCharts = new ArrayList<Chart>();
 
 	private MathPanel() {
 		super(new HorizontalPanel(), "MathPanel", null);
 
 		scrollPanel = new ScrollPanel();
-		com.github.gwtbootstrap.client.ui.DataGrid<Chart> a = new DataGrid<Chart>();
 
 		addWidgetToPanel(ConfigurationPanelForRetrievalStatisticData.get()
 				.getPanel(),
@@ -44,8 +48,7 @@ public class MathPanel extends SiteElement<HorizontalPanel> {
 		gridForCharts.getElement().addClassName("");
 
 		scrollPanel.add(gridForCharts);
-
-		addWidgetToPanel(LogPanel.get(), "logpanel", null);
+		Subject.get().addToSubjectList(this);
 	}
 
 	public static MathPanel get() {
@@ -82,25 +85,53 @@ public class MathPanel extends SiteElement<HorizontalPanel> {
 	}
 
 	public void resize() {
-		int clientWidth = Window.getClientWidth() - 424;
-		int colums = clientWidth / (CSSDynamicData.chartWidth + 20);
+		int clientWidth = Window.getClientWidth()
+				- ConfigurationPanelForRetrievalStatisticData.get().getPanel()
+						.getOffsetWidth();
+		int colums = (clientWidth / (CSSDynamicData.chartWidth + CSSDynamicData.chartWidthMargin)) + 1;
 
-		if (previousColums == -1)
-			previousColums = colums;
-		else if (previousColums == colums)
-			return;
-		if (colums == 0){
-			ConfigurationPanelForRetrievalStatisticData.get().addWidgetToPanel(gridForCharts, "gridPanelUnderConfig", null);
-			gridForCharts.resize(myCharts.size(), 1);
-			fillTable();
-			previousColums = colums;
-			return;
-		}else if (previousColums == 0){
-			ConfigurationPanelForRetrievalStatisticData.get().getPanel().remove(gridForCharts);
-			scrollPanel.add(gridForCharts);
+		// Vertical View
+		if (colums == 1) {
+			switch (responsableStatus) {
+			case VERTICAL:
+				return;
+			case HORIZONTAL:
+				scrollPanel.remove(gridForCharts);
+				ConfigurationPanelForRetrievalStatisticData.get()
+						.addWidgetToPanel(gridForCharts,
+								"gridPanelUnderConfig", null);
+			default:
+				break;
+			}
+
+			responsableStatus = RESPONSABLE.VERTICAL;
+
+			// Horizontal View
+		} else if (colums > 1) {
+			switch (responsableStatus) {
+			case HORIZONTAL:
+				if (gridForCharts.getColumnCount() == colums - 1)
+					return;
+				else
+					colums--;
+				break;
+			case VERTICAL:
+				ConfigurationPanelForRetrievalStatisticData.get().getPanel()
+						.remove(gridForCharts);
+				scrollPanel.add(gridForCharts);
+				break;
+			default:
+				break;
+			}
+
+			responsableStatus = RESPONSABLE.HORIZONTAL;
 		}
+
 		gridForCharts.resize(myCharts.size() / colums + 1, colums);
 		fillTable();
-		previousColums = colums;
+	}
+
+	public void update() {
+		resize();
 	}
 }

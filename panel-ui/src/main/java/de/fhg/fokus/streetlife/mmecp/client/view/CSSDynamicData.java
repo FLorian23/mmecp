@@ -6,10 +6,6 @@ public class CSSDynamicData {
 	public final static int guidancePopUpPanel_WIDTH = 350;
 	public final static int guidancePopUpPanel_HEIGHT = 150;
 
-	// Map
-	public final static int MapContainer_DEFAULTZOOMSIZE = 12;
-	public final static int MapContainer_SetNumZoomLevels = 16;
-
 	public static final int PopUpPanelContainer_WIDTH_ROLL_IN = 0;
 	public static final int PopUpPanelContainer_WIDTH_ROLL_OUT = 100;
 	public static final int PopUpPanelContainer_HEIGHT = 50;
@@ -29,4 +25,5 @@ public class CSSDynamicData {
 	//Charts
 	public static int chartWidth = 400;
 	public static int chartHeight = 240;
+	public static int chartWidthMargin = 20;
 }

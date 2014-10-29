@@ -6,44 +6,54 @@ import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.ArgParser;
 import org.gwtopenmaps.openlayers.client.control.Attribution;
 import org.gwtopenmaps.openlayers.client.control.Navigation;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
+import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
+import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
+import org.gwtopenmaps.openlayers.client.geometry.Point;
+import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
 import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.geolocation.client.Geolocation;
 import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.fhg.fokus.streetlife.mmecp.client.controller.Observer;
+import de.fhg.fokus.streetlife.mmecp.client.controller.Subject;
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
+import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
-import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
-		ClickHandler, ChangeHandler {
+		ClickHandler, ChangeHandler, Observer {
 
 	private static MapContainer instance = null;
 
 	private Position currentPosition = null;
+	final Vector vectorLayer = new Vector("Vector layer");
+	MapWidget mapWidget;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -51,6 +61,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		// TODP:
 		getPanel().setSize("100%", "100%");
+		Subject.get().addToSubjectList(this);
 	}
 
 	public static MapContainer get() {
@@ -71,6 +82,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private boolean isGoogleMaps = true;
 
 	public void buildGoogleMaps() {
+		removeAllLayers();
 		GoogleV3Options gHybridOptions = new GoogleV3Options();
 		gHybridOptions.setIsBaseLayer(true);
 		gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
@@ -93,37 +105,54 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		GoogleV3 gTerrain = new GoogleV3("Google Terrain", gTerrainOptions);
 
 		map.addLayer(gNormal);
-		map.addLayer(gHybrid);
+		// map.addLayer(gHybrid);
 		map.addLayer(gSatellite);
-		map.addLayer(gTerrain);
+		// map.addLayer(gTerrain);
+
+		// Add polygon Layer
+		map.addLayer(vectorLayer);
+
 		isGoogleMaps = true;
 	}
 
 	public void buildOpenStreetMaps() {
+		removeAllLayers();
 		OSM osm_1 = OSM.Mapnik("Mapnik");
 		OSM osm_2 = OSM.CycleMap("CycleMap");
 		osm_1.setIsBaseLayer(true);
 		osm_2.setIsBaseLayer(true);
 		map.addLayer(osm_1);
 		map.addLayer(osm_2);
+
+		// Add polygon Layer
+		map.addLayer(vectorLayer);
+
 		isGoogleMaps = false;
 	}
 
+	private void removeAllLayers() {
+		Layer[] layers = map.getLayers();
+		for (int i = 0; i < layers.length; i++) {
+			map.removeLayer(layers[i]);
+		}
+	}
+	
 	public void buildPanel() {
-
+		
 		// create some MapOptions
 		MapOptions defaultMapOptions = new MapOptions();
 		defaultMapOptions.removeDefaultControls();
 		defaultMapOptions
-				.setNumZoomLevels(CSSDynamicData.MapContainer_SetNumZoomLevels);
+				.setNumZoomLevels(DAO.MapContainer_SetNumZoomLevels);
 
 		// Create a MapWidget and add 2 OSM layers
 		// MapWidget mapWidget = new MapWidget(Window.getClientWidth() + "px",
 		// Window.getClientHeight() + "px", defaultMapOptions);
-		final MapWidget mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
+		mapWidget = new MapWidget("100%", "100%",
+				defaultMapOptions);
 
 		map = mapWidget.getMap();
-//		buildGoogleMaps();
+		// buildGoogleMaps();
 		buildOpenStreetMaps();
 
 		// Lets add some default controls to the map
@@ -133,14 +162,24 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		map.addControl(new Navigation());
 		map.addControl(new ArgParser());
 		map.addControl(new Attribution());
+		
 
+		//Polygon-Control
+		//****************************************
+        map.addLayer(vectorLayer);
+        drawPolygones();
+        //****************************************
+        
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
 
 			public void onClick(MapClickEvent mapClickEvent) {
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
-				GuidancePopUpPanel g = new GuidancePopUpPanel(true);
+				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(), mapClickEvent.getLonLat().lat());
+				l.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode());
+				GuidancePopUpPanel g = new GuidancePopUpPanel(true, mapClickEvent
+						.getLonLat(), l);
 
 				int maxRightPixel = Window.getClientWidth()
 						- SlideBarRight.get().getCurrentWidth();
@@ -165,17 +204,20 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		LonLat lonLat = new LonLat(DAO.BERLIN_GEO_lon, DAO.BERLIN_GEO_lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				map.getProjection());
-		map.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
+		map.setCenter(lonLat, DAO.getDefaultZoomLevelForCity(DAO.DEFAULT_CITY));
 
 		addWidgetToPanel(mapWidget, "mapWidget", "");
 		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
-		Window.addResizeHandler(new ResizeHandler() {
-			
-			public void onResize(ResizeEvent event) {
-				mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
-				MathPanel.get().resize();
-			}
-		});
+
+	}
+
+	private void drawPolygones() {
+		drawPolygon(ExampleData.getExamplePolygonForBER(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
+		drawPolygon(ExampleData.getExamplePolygonForROV(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
+		drawPolygon(ExampleData.getExamplePolygonForTAM(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
 	}
 
 	public static void switchLocation(double lon, double lat) {
@@ -183,7 +225,22 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
 		get().map
-				.setCenter(lonLat, CSSDynamicData.MapContainer_DEFAULTZOOMSIZE);
+				.setCenter(lonLat, DAO.MapContainer_DEFAULTZOOMSIZE);
+	}
+
+	public void drawPolygon(LonLat[] lonlat, boolean isGPSPosition, Style s) {
+		Point[] pointList = new Point[lonlat.length];
+		for (int i = 0; i < lonlat.length; i++) {
+			if (isGPSPosition)
+				lonlat[i].transform(DEFAULT_PROJECTION.getProjectionCode(),
+						map.getProjection());
+			pointList[i] = new Point(lonlat[i].lon(), lonlat[i].lat());
+		}
+		LinearRing linearRing = new LinearRing(pointList);
+		VectorFeature polygonFeature = new VectorFeature(new Polygon(
+				new LinearRing[] { linearRing }));
+		polygonFeature.setStyle(s);
+		vectorLayer.addFeature(polygonFeature);
 	}
 
 	public static void switchLocation(DAO.CITY city) {
@@ -267,6 +324,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		ListBox ListBox = (ListBox) event.getSource();
 		String value = ListBox.getValue(ListBox.getSelectedIndex());
 		switchLocation(DAO.CITY.valueOf(value));
+	}
+
+	public void update() {
+		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
 	}
 }
 

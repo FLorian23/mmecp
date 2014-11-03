@@ -17,7 +17,8 @@
 		<module>rule-converter</module>
 		<module>data-aggregator</module>
 		<module>configurator</module>
-	</modules>
+        <module>api-websocket</module>
+    </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,7 +29,7 @@
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
-			<version>6.1.1</version>
+			<version>6.8.8</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

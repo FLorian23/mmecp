@@ -33,7 +33,7 @@ public class AtomClientTest {
 	@BeforeTest
 	public void beforeTest() throws IOException {
 		Properties props = new Properties();
-		props.setProperty(Constants.PROPERTY_STORAGE_URL_BASE, "http://streetlifemmecp.apiary-mock.com");
+		props.setProperty(Constants.PROPERTY_STORAGE_URL_BASE, "http://private-f5ae7-streetlifemmecp.apiary-mock.com");
 		dac = DataAggregatorFactory.getClient();
 		dac.init(props);
 	}

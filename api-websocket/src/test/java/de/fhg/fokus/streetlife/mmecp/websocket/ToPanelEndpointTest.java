@@ -12,6 +12,8 @@ import org.glassfish.tyrus.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -24,7 +26,7 @@ public class ToPanelEndpointTest {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private Server server;
 
-	// @BeforeClass
+	@BeforeClass
 	public void init() {
 		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
 		try {
@@ -73,7 +75,7 @@ public class ToPanelEndpointTest {
         container.connectToServer(ClientEndpoint.class, URI.create(uri));
 	}
 
-	// @AfterClass
+	@AfterClass
 	public void afterClass() {
 		server.stop();
 		LOG.info("Standalone websocket sever stopped...");

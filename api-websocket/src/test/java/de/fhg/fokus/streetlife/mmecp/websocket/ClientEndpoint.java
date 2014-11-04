@@ -21,7 +21,7 @@ public class ClientEndpoint {
     @OnOpen
 	public void onOpen(Session session) {
 		try {
-			session.getBasicRemote().sendText("Hello STREETLIFE");
+			session.getBasicRemote().sendText("Hello STREETLIFE! (Annotation)");
 		} catch (IOException e) {
 			LOG.error(e.getMessage());
 		}

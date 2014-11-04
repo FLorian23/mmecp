@@ -47,7 +47,9 @@ public class ToPanelEndpoint {
     private void broadcastToAll(final String s) {
         for (Session session : connectedSessions) {
             try {
-                session.getBasicRemote().sendText(s);
+                if (session.isOpen()) {
+                    session.getBasicRemote().sendText(s);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

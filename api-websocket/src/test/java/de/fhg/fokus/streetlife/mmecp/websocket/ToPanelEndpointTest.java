@@ -26,7 +26,7 @@ public class ToPanelEndpointTest {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private Server server;
 
-//	@BeforeClass
+	@BeforeClass
 	public void init() {
 		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
 		try {
@@ -37,7 +37,7 @@ public class ToPanelEndpointTest {
 		}
 	}
 
-//	@Test
+	@Test
 	public void testToPanelEndpointConnectionProgrammatic() throws Exception {
 		messageLatch = new CountDownLatch(1);
 
@@ -57,26 +57,26 @@ public class ToPanelEndpointTest {
 						Assert.assertTrue(message.startsWith("Welcome, this is your sessionId: "));
 					}
 				});
-                try {
-                    session.getBasicRemote().sendText(SENT_MESSAGE);
-                } catch (IOException e) {
-                    Assert.fail();
-                    e.printStackTrace();
-                }
-            }
+				try {
+					session.getBasicRemote().sendText(SENT_MESSAGE);
+				} catch (IOException e) {
+					Assert.fail();
+					e.printStackTrace();
+				}
+			}
 		}, cec, new URI("ws://localhost:8025/api-websocket/objects"));
 		messageLatch.await(100, TimeUnit.SECONDS);
 	}
 
-    // This is just to show how to start the annoted client! Please use annotated method for further implementation.
-    @Test
+	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
+	// @Test
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        String uri = "ws://localhost:8080/api-websocket/objects";
-        container.connectToServer(ClientEndpoint.class, URI.create(uri));
+		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+		String uri = "ws://localhost:8080/api-websocket/objects";
+		container.connectToServer(ClientEndpoint.class, URI.create(uri));
 	}
 
-//	@AfterClass
+	@AfterClass
 	public void afterClass() {
 		server.stop();
 		LOG.info("Standalone websocket sever stopped...");

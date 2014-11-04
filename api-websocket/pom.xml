@@ -13,6 +13,16 @@
 
     <build>
         <finalName>api-websocket</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>${project.artifactId}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <groupId>de.fhg.fokus.streetlife.mmecp</groupId>

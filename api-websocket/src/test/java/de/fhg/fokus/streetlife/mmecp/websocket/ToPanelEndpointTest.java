@@ -62,7 +62,7 @@ public class ToPanelEndpointTest {
                     e.printStackTrace();
                 }
             }
-		}, cec, new URI("ws://localhost:8080/api-websocket/objects"));
+		}, cec, new URI("ws://localhost:8025/api-websocket/objects"));
 		messageLatch.await(100, TimeUnit.SECONDS);
 	}
 

@@ -24,6 +24,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<slf4j.version>1.7.7</slf4j.version>
+        <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -65,12 +66,13 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.0.2.Final</version>
+                <version>${wildfly.plugin.version}</version>
                 <configuration>
                     <hostname>${wildfly-hostname}</hostname>
                     <port>${wildfly-port}</port>
                     <username>${wildfly-username}</username>
                     <password>${wildfly-password}</password>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
 		</plugins>

@@ -13,11 +13,11 @@
 		<module>panel-ui</module>
 		<module>analytics</module>
 		<module>api-rest</module>
+        <module>api-websocket</module>
 		<module>feed-creator</module>
 		<module>rule-converter</module>
 		<module>data-aggregator</module>
 		<module>configurator</module>
-        <module>api-websocket</module>
     </modules>
 
 	<properties>
@@ -27,6 +27,7 @@
         <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
         <org.glassfish.tyrus.version>1.8.3</org.glassfish.tyrus.version>
         <javax.websocket-api.version>1.1</javax.websocket-api.version>
+        <javax.enterprise.cdi-api.version>1.2</javax.enterprise.cdi-api.version>
 	</properties>
 
 	<dependencies>

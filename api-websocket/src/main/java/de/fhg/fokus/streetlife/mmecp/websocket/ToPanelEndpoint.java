@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.EndPointNames;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,32 +29,34 @@ public class ToPanelEndpoint {
 	private SessionManager sm;
 	@Inject
 	private MessagingUtils mu;
+    @Inject
+    private EndPointNames epNames;
 
 	@OnOpen
 	public void onOpen(Session session) throws SessionManagerException, IOException {
 		LOG.info("User {} connected...", session.getId());
 
-        sm.addEndpoint("objects");
-		mu.broadcastMessage("objects", "HELO to objects");
+		sm.addEndpointSession(epNames.OBJECTS, session);
+		mu.broadcastMessage(epNames.OBJECTS, "WELCOME to " + epNames.OBJECTS);
 
 		InputStream in = this.getClass().getResourceAsStream("/json/example1.json");
 		StringWriter writer = new StringWriter();
 
 		IOUtils.copy(in, writer);
-        mu.broadcastMessage("objects", writer.toString());
+		mu.broadcastMessage(epNames.OBJECTS, writer.toString());
 		LOG.info("Sending JSON to session {} \n {}", session.getId(), writer.toString());
 	}
 
 	@OnMessage
 	public void onMessage(String message, Session session) throws IOException, SessionManagerException {
-        mu.broadcastMessage("objects", "user " + session.getId() + " says > " + message);
+		mu.broadcastMessage(epNames.OBJECTS, "user " + session.getId() + " says > " + message);
 		LOG.info("User {} says: {}", session.getId(), message);
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) throws IOException, SessionManagerException {
-        mu.broadcastMessage("objects", "user" + session.getId() + " closed connection...");
-        sm.removeSession("objects", session);
+		mu.broadcastMessage(epNames.OBJECTS, "user" + session.getId() + " closed connection...");
+		sm.removeSession(epNames.OBJECTS, session);
 		LOG.info("Connection to user {} closed...", session.getId());
 	}
 
@@ -63,7 +66,7 @@ public class ToPanelEndpoint {
 		LOG.error("Trying to close session {}", session.getId());
 		try {
 			session.close();
-            LOG.error("Session {} closed", session.getId());
+			LOG.error("Session {} closed", session.getId());
 		} catch (IOException e) {
 			LOG.error("Can not close session [{}]", session.getId(), e);
 		}

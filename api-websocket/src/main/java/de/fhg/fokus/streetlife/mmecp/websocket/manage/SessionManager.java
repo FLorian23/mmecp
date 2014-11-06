@@ -25,11 +25,18 @@ public class SessionManager implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		LOG.info("@PostConstruct is working");
+		LOG.debug("@PostConstruct is working");
 		sessionMap = new HashMap<String, List<Session>>();
 
 	}
 
+    /**
+     * Returns a list of all active sessions that are belonging to an endpoint.
+     *
+     * @param endpoint The endpoint the sessions are belonging to
+     * @return A list of sessions
+     * @throws SessionManagerException Thrown if the endpoint does not exists
+     */
 	public List<Session> getEndpointSessions(String endpoint) throws SessionManagerException {
 		List<Session> sessions;
 
@@ -71,8 +78,15 @@ public class SessionManager implements Serializable {
 		}
 	}
 
+    /**
+     * Removes a session from an endpoint.
+     *
+     * @param endpoint The endpoint where to remove the session
+     * @param session The session to remove
+     */
 	public void removeSession(String endpoint, Session session) {
 		sessionMap.get(endpoint).remove(session);
+        LOG.info("Session {} removed", session.getId());
 	}
 
 }

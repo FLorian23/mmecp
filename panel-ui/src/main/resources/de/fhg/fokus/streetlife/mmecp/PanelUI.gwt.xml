@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='PanelUI'>
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='com.google.gwt.user.theme.standard.Standard' />
-	<inherits name='org.gwtopenmaps.openlayers.OpenLayers' />
-	<inherits name="com.google.gwt.resources.Resources" />
-	<inherits name="com.google.gwt.json.JSON" />
-	<inherits name='com.sencha.gxt.ui.GXT' />
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='com.google.gwt.query.Query' />
-	<inherits name='com.sencha.gxt.chart.Chart' />
-	<inherits name='com.google.gwt.visualization.Visualization' />
-	<inherits name="com.google.web.bindery.autobean.AutoBean" />
-	<inherits name="com.google.gwt.json.JSON" />
-	<inherits name="com.google.gwt.http.HTTP" />
-	<inherits name="com.googlecode.gwt.charts.Charts" />
-	<inherits name="com.github.gwtbootstrap.Bootstrap" />
-	<inherits name='com.gwtplatform.mvp.Mvp' />
-	<inherits name="org.gwtbootstrap3.GwtBootstrap3" />
-
-	<stylesheet src="reset.css" />
-	<entry-point class='de.fhg.fokus.streetlife.mmecp.client.PanelUI' />
-	<source path='client' />
-	<source path='share' />
-	<public path="res" />
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+    <inherits name='org.gwtopenmaps.openlayers.OpenLayers'/>
+    <inherits name="com.google.gwt.resources.Resources"/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name='com.sencha.gxt.ui.GXT'/>
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name='com.google.gwt.query.Query'/>
+    <inherits name='com.sencha.gxt.chart.Chart'/>
+    <inherits name='com.google.gwt.visualization.Visualization'/>
+    <inherits name="com.google.web.bindery.autobean.AutoBean"/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name="com.google.gwt.http.HTTP"/>
+    <inherits name="com.googlecode.gwt.charts.Charts"/>
+    <inherits name="com.github.gwtbootstrap.Bootstrap"/>
+    <inherits name='com.gwtplatform.mvp.Mvp'/>
+    <inherits name="org.gwtbootstrap3.GwtBootstrap3"/>
+    <inherits name="com.sksamuel.gwt.GwtWebsockets"/>
 
 
-	<source path='resources' />
-	<replace-with class="de.fhg.fokus.streetlife.mmecp.resources.MyConfigurator">
-		<when-type-is class="com.github.gwtbootstrap.client.ui.config.Configurator" />
-	</replace-with>
-	<public path="resources">
-		<exclude name="** /*.java" />
-		<exclude name="** /*.class" />
-	</public>
+    <stylesheet src="reset.css"/>
+    <entry-point class='de.fhg.fokus.streetlife.mmecp.client.PanelUI'/>
+    <source path='client'/>
+    <source path='share'/>
+    <public path="res"/>
+
+
+    <source path='resources'/>
+    <replace-with class="de.fhg.fokus.streetlife.mmecp.resources.MyConfigurator">
+        <when-type-is class="com.github.gwtbootstrap.client.ui.config.Configurator"/>
+    </replace-with>
+    <public path="resources">
+        <exclude name="** /*.java"/>
+        <exclude name="** /*.class"/>
+    </public>
 
 
 </module>

@@ -12,6 +12,7 @@ import org.glassfish.tyrus.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * Created by bdi on 03/11/14.
@@ -66,12 +67,12 @@ public class ToPanelEndpointTest {
 	}
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
-	// @Test
+	@Test
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
 		if (true) {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-			String uri = "ws://localhost:8080/api-websocket/objects";
-			container.connectToServer(ClientEndpoint.class, URI.create(uri));
+			String uri = "ws://localhost:8080/api-websocket/panelui";
+			container.connectToServer(ClientEndpointTest.class, URI.create(uri));
 		}
 	}
 

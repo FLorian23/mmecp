@@ -53,6 +53,11 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+			<artifactId>configurator</artifactId>
+			<version>0.1</version>
+		</dependency>
     </dependencies>
 
 	<build>

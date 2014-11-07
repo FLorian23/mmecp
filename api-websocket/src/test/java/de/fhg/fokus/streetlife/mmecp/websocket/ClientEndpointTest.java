@@ -15,7 +15,7 @@ import javax.websocket.Session;
  */
 
 @javax.websocket.ClientEndpoint
-public class ClientEndpoint {
+public class ClientEndpointTest {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -29,7 +29,7 @@ public class ClientEndpoint {
 	}
 
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(Session session, String message) throws IOException {
         LOG.info("Received message: {}", message);
     }
 }

@@ -1,5 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.generic;
 
+import de.fhg.fokus.streetlife.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.api.AtomClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.impl.ChannelImpl;
@@ -19,13 +20,12 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import static de.fhg.fokus.streetlife.configurator.Constants.PROPERTY_STORAGE_URL_BASE;
 
 /**
  * Created by benjamin on 20.08.14.
@@ -35,6 +35,9 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     private static final ObjectMapper OM = new ObjectMapper();
     private final static Logger LOG = LoggerFactory.getLogger(DataAggregatorClientImpl.class);
     private AtomClient atom;
+    @Inject
+    @MMECPConfig("storage.url.base")
+    String storageBaseUrl;
 
     public static <T> T convert(JsonNode node, Class<T> clazz) {
         T obj = null;
@@ -61,10 +64,10 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     }
 
     @Override
-    public void init(Properties props) {
+    public void init() {
         RegisterBuiltin.register(ResteasyProviderFactory.getInstance());
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(props.getProperty(PROPERTY_STORAGE_URL_BASE));
+        ResteasyWebTarget target = client.target(storageBaseUrl);
         atom = target.proxy(AtomClient.class);
     }
 

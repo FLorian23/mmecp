@@ -28,6 +28,7 @@
         <org.glassfish.tyrus.version>1.8.3</org.glassfish.tyrus.version>
         <javax.websocket-api.version>1.1</javax.websocket-api.version>
         <javax.enterprise.cdi-api.version>1.2</javax.enterprise.cdi-api.version>
+		<de.fhg.fokus.streetlife.mmecp.configurator.version>${project.version}</de.fhg.fokus.streetlife.mmecp.configurator.version>
 	</properties>
 
 	<dependencies>
@@ -53,11 +54,6 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
-			<artifactId>configurator</artifactId>
-			<version>0.1</version>
-		</dependency>
     </dependencies>
 
 	<build>
@@ -83,6 +79,11 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.9</version>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -1,5 +1,8 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
+import com.google.gwt.core.client.JsonUtils;
+import com.sksamuel.gwt.websockets.Websocket;
+import com.sksamuel.gwt.websockets.WebsocketListener;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -46,10 +49,16 @@ import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 
+import javax.inject.Inject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class MapContainer extends SiteElement<VerticalPanel> implements
 		ClickHandler, ChangeHandler, Observer {
 
 	private static MapContainer instance = null;
+
+	private final static Logger LOG = Logger.getLogger(MapContainer.class.getName());
 
 	private Position currentPosition = null;
 	final Vector vectorLayer = new Vector("Vector layer");
@@ -62,6 +71,31 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// TODP:
 		getPanel().setSize("100%", "100%");
 		Subject.get().addToSubjectList(this);
+
+		final Websocket socket = new Websocket("ws://localhost:8080/api-websocket/panelui");
+		socket.addListener(new WebsocketListener() {
+
+			@Override
+			public void onClose() {
+				// do something on close
+			}
+
+			@Override
+			public void onMessage(String msg) {
+				if (JsonUtils.safeToEval(msg)) {
+					LOG.log(Level.WARNING, "Received: " + msg);
+				}
+				LOG.log(Level.WARNING, "onMessage constructor test!");
+			}
+
+			@Override
+			public void onOpen() {
+				socket.send("Hello MMECP, I'm the PanelUi!");
+			}
+		});
+
+		socket.open();
+		LOG.log(Level.WARNING, "MapContainer constructor test!");
 	}
 
 	public static MapContainer get() {
@@ -136,9 +170,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			map.removeLayer(layers[i]);
 		}
 	}
-	
+
 	public void buildPanel() {
-		
+
 		// create some MapOptions
 		MapOptions defaultMapOptions = new MapOptions();
 		defaultMapOptions.removeDefaultControls();
@@ -162,14 +196,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		map.addControl(new Navigation());
 		map.addControl(new ArgParser());
 		map.addControl(new Attribution());
-		
+
 
 		//Polygon-Control
 		//****************************************
         map.addLayer(vectorLayer);
         drawPolygones();
         //****************************************
-        
+
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
 

@@ -10,7 +10,6 @@
 	<name>STREETLIFE MMECP</name>
 
 	<modules>
-		<module>panel-ui</module>
 		<module>analytics</module>
 		<module>api-rest</module>
         <module>api-websocket</module>
@@ -18,7 +17,8 @@
 		<module>rule-converter</module>
 		<module>data-aggregator</module>
 		<module>configurator</module>
-    </modules>
+		<module>panel-ui</module>
+	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -124,35 +124,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.9</version>
-				<!--<executions>-->
-					<!--<execution>-->
-						<!--<id>copy</id>-->
-						<!--<phase>package</phase>-->
-						<!--<goals>-->
-							<!--<goal>copy</goal>-->
-						<!--</goals>-->
-						<!--<configuration>-->
-							<!--<artifactItems>-->
-								<!--<artifactItem>-->
-									<!--<groupId>${project.groupId}</groupId>-->
-									<!--<artifactId>${project.artifactId}</artifactId>-->
-									<!--<version>${project.version}</version>-->
-									<!--<type>${project.packaging}</type>-->
-									<!--&lt;!&ndash;<classifier> [classifier - optional] </classifier>&ndash;&gt;-->
-									<!--<overWrite>true</overWrite>-->
-									<!--<outputDirectory>dependency-analysation</outputDirectory>-->
-									<!--<destFileName>${project.build.finalName}-dependency-analysation</destFileName>-->
-								<!--</artifactItem>-->
-							<!--</artifactItems>-->
-							<!--&lt;!&ndash; other configurations here &ndash;&gt;-->
-						<!--</configuration>-->
-					<!--</execution>-->
-				<!--</executions>-->
-			</plugin>
 		</plugins>
 	</build>
 

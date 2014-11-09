@@ -55,7 +55,7 @@ public class ToPanelEndpointTest extends Arquillian {
 		}
 	}
 
-	@Test
+	@Test(enabled = false)
 	public void testToPanelEndpointConnectionProgrammatic() throws Exception {
 		messageLatch = new CountDownLatch(1);
 
@@ -87,7 +87,7 @@ public class ToPanelEndpointTest extends Arquillian {
 	}
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
-	// @Test
+	@Test(enabled = false)
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
 		if (true) {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();

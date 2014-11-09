@@ -38,9 +38,8 @@ public class ToPanelEndpointTest extends Arquillian {
 
 	@Deployment
 	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class)
-				.addClass(SessionManager.class).addClass(MessagingUtils.class).addClass(ToPanelEndpoint.class)
-				.addClass(MMECPConfig.class).addClass(MMECPConfigFactory.class)
+		return ShrinkWrap.create(JavaArchive.class).addClass(SessionManager.class).addClass(MessagingUtils.class)
+				.addClass(ToPanelEndpoint.class).addClass(MMECPConfig.class).addClass(MMECPConfigFactory.class)
 				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
@@ -89,11 +88,9 @@ public class ToPanelEndpointTest extends Arquillian {
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
 	@Test(enabled = true)
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
-		if (true) {
-			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-			String uri = "ws://localhost:8080/api-websocket/panelui";
-			container.connectToServer(ClientEndpointTest.class, URI.create(uri));
-		}
+		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+		String uri = "ws://localhost:8080/api-websocket/panelui";
+		container.connectToServer(ClientEndpointTest.class, URI.create(uri));
 	}
 
 	@AfterTest

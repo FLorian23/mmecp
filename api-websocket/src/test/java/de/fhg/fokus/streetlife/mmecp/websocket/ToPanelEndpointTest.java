@@ -5,13 +5,8 @@ import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import javax.enterprise.inject.Default;
 import javax.websocket.*;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.server.Server;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -25,6 +20,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 
 /**
  * Created by bdi on 03/11/14.
@@ -87,7 +87,7 @@ public class ToPanelEndpointTest extends Arquillian {
 	}
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
 		if (true) {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();

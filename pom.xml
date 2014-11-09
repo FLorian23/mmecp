@@ -1,117 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.fhg.fokus.streetlife</groupId>
-	<artifactId>mmecp</artifactId>
-	<packaging>pom</packaging>
-	<version>0.1</version>
-	<name>STREETLIFE MMECP</name>
+    <groupId>de.fhg.fokus.streetlife</groupId>
+    <artifactId>mmecp</artifactId>
+    <packaging>pom</packaging>
+    <version>0.1</version>
+    <name>STREETLIFE MMECP</name>
 
-	<modules>
-		<module>analytics</module>
-		<module>api-rest</module>
+    <modules>
+        <module>analytics</module>
+        <module>api-rest</module>
         <module>api-websocket</module>
-		<module>feed-creator</module>
-		<module>rule-converter</module>
-		<module>data-aggregator</module>
-		<module>configurator</module>
-		<module>panel-ui</module>
-	</modules>
+        <module>feed-creator</module>
+        <module>rule-converter</module>
+        <module>data-aggregator</module>
+        <module>configurator</module>
+        <module>panel-ui</module>
+    </modules>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<slf4j.version>1.7.7</slf4j.version>
+        <slf4j.version>1.7.7</slf4j.version>
         <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
         <org.glassfish.tyrus.version>1.8.3</org.glassfish.tyrus.version>
         <javax.websocket-api.version>1.1</javax.websocket-api.version>
         <javax.enterprise.cdi-api.version>1.2</javax.enterprise.cdi-api.version>
-		<de.fhg.fokus.streetlife.mmecp.configurator.version>${project.version}</de.fhg.fokus.streetlife.mmecp.configurator.version>
-		<version.arquillian>1.0.2.Final</version.arquillian>
-		<version.specs>3.0.2.Final</version.specs>
-	</properties>
+        <de.fhg.fokus.streetlife.mmecp.configurator.version>${project.version}
+        </de.fhg.fokus.streetlife.mmecp.configurator.version>
+        <version.arquillian>1.0.2.Final</version.arquillian>
+        <version.specs>3.0.2.Final</version.specs>
+    </properties>
 
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.jboss.arquillian</groupId>
-				<artifactId>arquillian-bom</artifactId>
-				<version>${version.arquillian}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.jboss.spec</groupId>
-			<artifactId>jboss-javaee-6.0</artifactId>
-			<version>${version.specs}</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.testng</groupId>
-			<artifactId>arquillian-testng-container</artifactId>
-			<version>1.1.5.Final</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.arquillian.container</groupId>
-			<artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-			<version>1.0.0.CR8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-core</artifactId>
-			<version>2.2.6.Final</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>6.8.8</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
+    <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.8</version>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-			<version>2.7.2</version>
-		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>junit</groupId>-->
+        <!--<artifactId>junit</artifactId>-->
+        <!--<version>4.11</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
-				<configuration>
-					<source>${java.compile.version}</source>
-					<target>${java.compile.version}</target>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>${java.compile.version}</source>
+                    <target>${java.compile.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.9</version>
+            </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
@@ -124,7 +87,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 
 </project>

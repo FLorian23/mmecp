@@ -5,26 +5,46 @@ import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import javax.enterprise.inject.Default;
 import javax.websocket.*;
 
+import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.server.Server;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
  * Created by bdi on 03/11/14.
  */
-public class ToPanelEndpointTest {
+public class ToPanelEndpointTest extends Arquillian {
 
 	private static CountDownLatch messageLatch;
 	private static final String SENT_MESSAGE = "Hello STREETLIFE";
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private Server server;
 
-	// @BeforeTest
+	@Deployment
+	public static JavaArchive createDeployment() {
+		return ShrinkWrap.create(JavaArchive.class)
+				.addClass(SessionManager.class).addClass(MessagingUtils.class).addClass(ToPanelEndpoint.class)
+				.addClass(MMECPConfig.class).addClass(MMECPConfigFactory.class)
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+	}
+
+	@BeforeTest
 	public void init() {
 		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
 		try {
@@ -35,7 +55,7 @@ public class ToPanelEndpointTest {
 		}
 	}
 
-	// @Test
+	@Test
 	public void testToPanelEndpointConnectionProgrammatic() throws Exception {
 		messageLatch = new CountDownLatch(1);
 
@@ -62,12 +82,12 @@ public class ToPanelEndpointTest {
 					e.printStackTrace();
 				}
 			}
-		}, cec, new URI("ws://localhost:8025/api-websocket/objects"));
+		}, cec, new URI("ws://localhost:8025/api-websocket/panelui"));
 		messageLatch.await(100, TimeUnit.SECONDS);
 	}
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
-	@Test
+	// @Test
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
 		if (true) {
 			WebSocketContainer container = ContainerProvider.getWebSocketContainer();
@@ -76,7 +96,7 @@ public class ToPanelEndpointTest {
 		}
 	}
 
-	// @AfterTest
+	@AfterTest
 	public void afterClass() {
 		server.stop();
 		LOG.info("Standalone websocket sever stopped...");

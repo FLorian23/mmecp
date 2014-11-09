@@ -94,6 +94,11 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.2</version>
+		</dependency>
     </dependencies>
 
 	<build>
@@ -123,6 +128,30 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.9</version>
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>copy</id>-->
+						<!--<phase>package</phase>-->
+						<!--<goals>-->
+							<!--<goal>copy</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<artifactItems>-->
+								<!--<artifactItem>-->
+									<!--<groupId>${project.groupId}</groupId>-->
+									<!--<artifactId>${project.artifactId}</artifactId>-->
+									<!--<version>${project.version}</version>-->
+									<!--<type>${project.packaging}</type>-->
+									<!--&lt;!&ndash;<classifier> [classifier - optional] </classifier>&ndash;&gt;-->
+									<!--<overWrite>true</overWrite>-->
+									<!--<outputDirectory>dependency-analysation</outputDirectory>-->
+									<!--<destFileName>${project.build.finalName}-dependency-analysation</destFileName>-->
+								<!--</artifactItem>-->
+							<!--</artifactItems>-->
+							<!--&lt;!&ndash; other configurations here &ndash;&gt;-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
 			</plugin>
 		</plugins>
 	</build>

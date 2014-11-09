@@ -8,3 +8,4 @@ target
 /tomcat
 test-output
 /wildfly
+dependency-analysation

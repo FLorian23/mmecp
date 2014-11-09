@@ -20,6 +20,11 @@ public class MMECPConfigFactory {
     private SystemConfiguration systemConfiguration;
 
     @Produces
+    public SystemConfiguration systemConfigurationFactory() {
+        return new SystemConfiguration();
+    }
+
+    @Produces
     @MMECPConfig(value = "", defaultValue = "")
     public String createConfigValue(InjectionPoint injectionPoint) {
         String key = injectionPoint.getAnnotated().getAnnotation(MMECPConfig.class).value();

@@ -78,11 +78,6 @@
             <artifactId>configurator</artifactId>
             <version>${de.fhg.fokus.streetlife.mmecp.configurator.version}</version>
         </dependency>
-        <dependency>
-            <groupId>de.fhg.fokus.streetlife.mmecp</groupId>
-            <artifactId>configurator</artifactId>
-            <version>${de.fhg.fokus.streetlife.mmecp.configurator.version}</version>
-        </dependency>
     </dependencies>
 
 </project>

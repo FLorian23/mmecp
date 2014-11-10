@@ -49,18 +49,17 @@ public class ToPanelEndpoint {
 		sm.addEndpointSession(endpointName, session);
 		
 		// simulate notification
+		//TODO delete for real stuff
 		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), demo);
+		ArrayList<String> demoObjects = new ArrayList<String>();
+		demoObjects.add(demoObjects.toString());
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				LOG.info("Sending new object and notification to {}", endpointName);
 				try {
-					mu.broadcastMessage(endpointName, demo.toString());
-				} catch (SessionManagerException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					mu.broadcastMessage(endpointName, demoObjects.toString());
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -97,6 +96,7 @@ public class ToPanelEndpoint {
 	
 	private String getObjectsOfType(String type) {
 		// example data
+		//TODO real stuff
 		ArrayList<String> objects = new ArrayList<String>();
 		if (type.equals("ParkingStations")) {
 			LOG.info("Get objects of type: {}", type);
@@ -115,6 +115,6 @@ public class ToPanelEndpoint {
 	}
 	
 	private void setNewGuidance(String guidance) {
-		//TODO
+		//TODO generate guidance and save to data storage
 	}
 }

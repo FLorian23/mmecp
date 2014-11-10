@@ -18,7 +18,7 @@ public class MMECPConfigFactory {
 
 	@Inject
 	private SystemConfiguration systemConfiguration;
-
+	
 	@Produces
 	@MMECPConfig(value = "", defaultValue = "")
 	public String createConfigValue(InjectionPoint injectionPoint) {

@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 
 import de.fhg.fokus.streetlife.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
+import de.fhg.fokus.streetlife.configurator.SystemConfiguration;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 
@@ -39,8 +40,8 @@ public class ToPanelEndpointTest extends Arquillian {
 	@Deployment
 	public static JavaArchive createDeployment() {
 		return ShrinkWrap.create(JavaArchive.class).addClass(SessionManager.class).addClass(MessagingUtils.class)
-				.addClass(ToPanelEndpoint.class).addClass(MMECPConfig.class).addClass(MMECPConfigFactory.class)
-				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+				.addClass(ToPanelEndpoint.class).addClass(MMECPConfig.class).addClass(SystemConfiguration.class)
+				.addClass(MMECPConfigFactory.class).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
 	@BeforeTest

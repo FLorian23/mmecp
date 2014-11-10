@@ -4,6 +4,7 @@
 .settings
 .classpath
 .project
+.tern-project
 target
 /tomcat
 test-output

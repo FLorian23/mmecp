@@ -90,7 +90,7 @@ public class ToPanelEndpointTest extends Arquillian {
 	@Test(enabled = true)
 	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
 		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-		String uri = "ws://localhost:8080/api-websocket/panelui";
+		String uri = "ws://localhost:8025/api-websocket/panelui";
 		container.connectToServer(ClientEndpointTest.class, URI.create(uri));
 	}
 

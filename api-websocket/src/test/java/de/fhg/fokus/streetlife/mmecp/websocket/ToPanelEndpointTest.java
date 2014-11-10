@@ -46,13 +46,13 @@ public class ToPanelEndpointTest extends Arquillian {
 
 	@BeforeTest
 	public void init() {
-		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
-		try {
-			server.start();
-			LOG.info("Standalone websocket sever started...");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+//		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
+//		try {
+//			server.start();
+//			LOG.info("Standalone websocket sever started...");
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
 	@Test(enabled = false)
@@ -88,16 +88,18 @@ public class ToPanelEndpointTest extends Arquillian {
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
 	@Test(enabled = true)
-	public void testToPanelEndpointAnnotated() throws IOException, DeploymentException {
+	public void testToPanelEndpointAnnotated() throws Exception {
+		messageLatch = new CountDownLatch(1);
 		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-		String uri = "ws://localhost:8025/api-websocket/panelui";
+		String uri = "ws://localhost:8080/api-websocket/panelui";
 		container.connectToServer(ClientEndpointTest.class, URI.create(uri));
-	}
+		messageLatch.await(40, TimeUnit.SECONDS);
+}
 
 	@AfterTest
 	public void afterClass() {
-		server.stop();
-		LOG.info("Standalone websocket sever stopped...");
+//		server.stop();
+//		LOG.info("Standalone websocket sever stopped...");
 	}
 
 }

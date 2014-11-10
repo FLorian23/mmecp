@@ -18,6 +18,11 @@
 		},
 		{
 			"type": "attribute",
+			"label": "Free slots",
+			"value": "50 slots"
+		},
+		{
+			"type": "attribute",
 			"label": "Fare/h",
 			"value": "1,50 €"
 		},
@@ -139,6 +144,12 @@
 						]
 					]
 				]
+			},
+			"color": {
+				"red": 222,
+				"green": 205,
+				"blue": 1,
+				"alpha": 0.5
 			}
 		}
 	]

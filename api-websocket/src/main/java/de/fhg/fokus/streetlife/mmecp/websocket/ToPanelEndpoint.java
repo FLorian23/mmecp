@@ -3,6 +3,9 @@ package de.fhg.fokus.streetlife.mmecp.websocket;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 import javax.websocket.*;
@@ -12,6 +15,7 @@ import de.fhg.fokus.streetlife.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +28,14 @@ import org.slf4j.LoggerFactory;
 public class ToPanelEndpoint {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	
+	// for simulation
+	private Timer timer = new Timer();
+	StringWriter demo = new StringWriter();
 
 	@Inject
 	private SessionManager sm;
+
 	@Inject
 	private MessagingUtils mu;
 
@@ -35,31 +44,43 @@ public class ToPanelEndpoint {
 	private String endpointName;
 
 	@OnOpen
-	public void onOpen(Session session) throws SessionManagerException, IOException {
+	public void onOpen(Session session) throws IOException, SessionManagerException {
 		LOG.info("User {} connected...", session.getId());
-
 		sm.addEndpointSession(endpointName, session);
-		mu.broadcastMessage(endpointName, "WELCOME to " + endpointName);
-
-		InputStream in = this.getClass().getResourceAsStream("/json/example1.json");
-		StringWriter writer = new StringWriter();
-
-		IOUtils.copy(in, writer);
-		mu.broadcastMessage(endpointName, writer.toString());
-		LOG.info("Sending JSON to session {} \n {}", session.getId(), writer.toString());
+		
+		// simulate notification
+		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), demo);
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				LOG.info("Sending new object and notification to {}", endpointName);
+				try {
+					mu.broadcastMessage(endpointName, demo.toString());
+				} catch (SessionManagerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}, 20*1000); // 20 seconds
 	}
 
 	@OnMessage
-	public void onMessage(String message, Session session) throws IOException, SessionManagerException {
-		mu.broadcastMessage(endpointName, "user " + session.getId() + " says > " + message);
+	public void onMessage(String message, Session session) throws Exception, SessionManagerException {
 		LOG.info("User {} says: {}", session.getId(), message);
+		if (message.startsWith("getObjectsOfType")) {
+			mu.broadcastMessage(endpointName, getObjectsOfType(message.replace("getObjectsOfType:", "")));
+		} else if (message.startsWith("newGuidance")) {
+			setNewGuidance(message.replace("newGuidance:", ""));
+		} else throw new Exception("Can't interpret the message");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) throws IOException, SessionManagerException {
-		mu.broadcastMessage(endpointName, "user" + session.getId() + " closed connection...");
+		LOG.info("Connection to user {} closed...",session.getId());
 		sm.removeSession(endpointName, session);
-		LOG.info("Connection to user {} closed...", session.getId());
 	}
 
 	@OnError
@@ -72,5 +93,28 @@ public class ToPanelEndpoint {
 		} catch (IOException e) {
 			LOG.error("Can not close session [{}]", session.getId(), e);
 		}
+	}
+	
+	private String getObjectsOfType(String type) {
+		// example data
+		ArrayList<String> objects = new ArrayList<String>();
+		if (type.equals("ParkingStations")) {
+			LOG.info("Get objects of type: {}", type);
+			for (int i = 1; i <= 4; i++) {
+				try {
+					StringWriter writer = new StringWriter();
+					IOUtils.copy(this.getClass().getResourceAsStream("/json/example"+i+".json"), writer);
+					objects.add(writer.toString());
+				} catch (IOException e) {
+					LOG.error("Can't read resource!", e);
+				}
+			}
+		}
+		LOG.info("Sending {} objects.", objects.size());
+		return objects.toString();
+	}
+	
+	private void setNewGuidance(String guidance) {
+		//TODO
 	}
 }

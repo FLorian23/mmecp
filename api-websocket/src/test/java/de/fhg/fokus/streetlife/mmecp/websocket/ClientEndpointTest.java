@@ -22,7 +22,8 @@ public class ClientEndpointTest {
     @OnOpen
 	public void onOpen(Session session) {
 		try {
-			session.getBasicRemote().sendText("Hello STREETLIFE! (Annotation)");
+			LOG.info("[Client] Session opened, send request for ParkingStations");
+			session.getBasicRemote().sendText("getObjectsOfType:ParkingStations");
 		} catch (IOException e) {
 			LOG.error(e.getMessage());
 		}
@@ -30,6 +31,6 @@ public class ClientEndpointTest {
 
     @OnMessage
     public void onMessage(Session session, String message) throws IOException {
-        LOG.info("Received message: {}", message);
+        LOG.info("[Client] Received message: {}", message);
     }
 }

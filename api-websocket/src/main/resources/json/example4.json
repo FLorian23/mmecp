@@ -1,0 +1,78 @@
+{
+	"objectID": 4,
+	"objectType": "ParkingStation",
+	"location": {
+		"type": "Point",
+		"coordinates": [11.042702794075012, 45.88981026484726]
+	},
+	"elements": [
+		{
+			"type": "attribute",
+			"label": "Type",
+			"value": "parking area with fee"
+		},
+		{
+			"type": "attribute",
+			"label": "Capacity",
+			"value": "10 slots"
+		},
+		{
+			"type": "attribute",
+			"label": "Free slots",
+			"value": "8 slots"
+		},
+		{
+			"type": "attribute",
+			"label": "Fare/h",
+			"value": "1,50 €"
+		},
+		{
+			"type": "maparea",
+			"area": {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[
+							11.042548,
+							45.8898754
+						],
+						[
+							11.0425355,
+							45.8897749
+						],
+						[
+							11.0424713,
+							45.8897301
+						],
+						[
+							11.0425918,
+							45.8897658
+						],
+						[
+							11.0428712,
+							45.8897615
+						],
+						[
+							11.0428864,
+							45.8898478
+						],
+						[
+							11.0426053,
+							45.8898708
+						],
+						[
+							11.042548,
+							45.8898754
+						]
+					]
+				]
+			},
+			"color": {
+				"red": 190,
+				"green": 223,
+				"blue": 0,
+				"alpha": 0.5
+			}
+		}
+	]
+}

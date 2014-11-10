@@ -31,7 +31,7 @@ public class ToPanelEndpoint {
 	
 	// for simulation
 	private Timer timer = new Timer();
-	StringWriter demo = new StringWriter();
+	ArrayList<String> demoObjects = new ArrayList<String>();
 
 	@Inject
 	private SessionManager sm;
@@ -50,9 +50,9 @@ public class ToPanelEndpoint {
 		
 		// simulate notification
 		//TODO delete for real stuff
-		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), demo);
-		ArrayList<String> demoObjects = new ArrayList<String>();
-		demoObjects.add(demoObjects.toString());
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), writer);
+		demoObjects.add(writer.toString());
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {

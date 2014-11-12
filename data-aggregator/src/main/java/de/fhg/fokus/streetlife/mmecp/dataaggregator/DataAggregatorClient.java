@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public interface DataAggregatorClient {
 
-	public void init(Properties props);
+	public void init();
 
 	public Feed getNotifications(String channelId);
 

@@ -105,18 +105,18 @@
 			<version>${gwtVersion}</version>
 		</dependency>
 
-		<!-- Dependencies for GWT-2.3.0 Compilation -->
+		<!--Dependencies for GWT-2.3.0 Compilation-->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>javax.inject</groupId>-->
+			<!--<artifactId>javax.inject</artifactId>-->
+			<!--<version>1</version>-->
+		<!--</dependency>-->
 
 		<!-- =========================================================== -->
 		<!-- ========================= GIN ============================= -->
@@ -159,6 +159,56 @@
 			<artifactId>gson</artifactId>
 			<version>2.2.4</version>
 		</dependency>
+
+
+		<!-- WEBSOCKETS -->
+		<dependency>
+			<groupId>com.sksamuel.gwt</groupId>
+			<artifactId>gwt-websockets</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<!--<dependency>-->
+		<!--<groupId>org.glassfish.tyrus</groupId>-->
+		<!--<artifactId>tyrus-server</artifactId>-->
+		<!--<version>${org.glassfish.tyrus.version}</version>-->
+		<!--<scope>test</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>org.glassfish.tyrus</groupId>-->
+		<!--<artifactId>tyrus-client</artifactId>-->
+		<!--<version>${org.glassfish.tyrus.version}</version>-->
+		<!--<scope>test</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>org.glassfish.tyrus</groupId>-->
+		<!--<artifactId>tyrus-container-grizzly-server</artifactId>-->
+		<!--<version>${org.glassfish.tyrus.version}</version>-->
+		<!--<scope>test</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>javax.websocket</groupId>-->
+		<!--<artifactId>javax.websocket-api</artifactId>-->
+		<!--<version>${javax.websocket-api.version}</version>-->
+		<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>javax.enterprise</groupId>-->
+		<!--<artifactId>cdi-api</artifactId>-->
+		<!--<version>${javax.enterprise.cdi-api.version}</version>-->
+		<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+		<!--<groupId>javax.ejb</groupId>-->
+		<!--<artifactId>javax.ejb-api</artifactId>-->
+		<!--<version>3.2</version>-->
+		<!--<scope>provided</scope>-->
+		<!--</dependency>-->
+
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+			<version>2.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -188,16 +238,9 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<!-- <goals> -->
-						<!-- <goal>exploded</goal> -->
-						<!-- </goals> -->
-					</execution>
-				</executions>
+				<version>2.5</version>
 				<configuration>
+					<warName>${project.build.finalName}</warName>
 					<webappDirectory>${webappDirectory}</webappDirectory>
 				</configuration>
 			</plugin>

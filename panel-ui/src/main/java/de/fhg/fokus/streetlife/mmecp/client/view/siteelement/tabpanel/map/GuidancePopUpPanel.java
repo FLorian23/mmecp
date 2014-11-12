@@ -1,23 +1,19 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
+import java.util.logging.Logger;
+
 import org.gwtopenmaps.openlayers.client.LonLat;
-import org.gwtopenmaps.openlayers.client.Pixel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-
+import com.google.gwt.user.client.ui.*;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 
-public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
-		ClickHandler {
+public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements ClickHandler {
 
 	LonLat position;
 	VerticalPanel content = new VerticalPanel();
+	private final Logger LOG = Logger.getLogger(GuidancePopUpPanel.class.getName());
 
 	public GuidancePopUpPanel(boolean autoHide, LonLat p1, LonLat p2) {
 		super(new PopupPanel(autoHide), "guidancePopUpPanel", null);
@@ -35,7 +31,7 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 	public void onClick(ClickEvent event) {
 		getPanel().hide();
 	}
-	
+
 	public Widget asWidget() {
 		return getPanel();
 	}

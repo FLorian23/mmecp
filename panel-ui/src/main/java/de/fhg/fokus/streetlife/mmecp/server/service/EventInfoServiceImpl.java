@@ -53,7 +53,7 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 			try {
 				Thread.sleep(500);
 				if (counter++ == 10){
-					System.out.println(">>zeitueberlauf");
+//					System.out.println(">>zeitueberlauf");
 					EventInfo eventInfo2 = new EventInfo();
 					eventInfo2.setMessage("error: exceeded the time requirement");
 					return eventInfo2;

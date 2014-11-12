@@ -70,7 +70,7 @@ public class ToPanelEndpoint {
 	public void onMessage(String message, Session session) throws Exception, SessionManagerException {
 		LOG.info("User {} says: {}", session.getId(), message);
 		if (message.startsWith("getObjectsOfType")) {
-			mu.broadcastMessage(endpointName, getObjectsOfType(message.replace("getObjectsOfType:", "")));
+			mu.broadcastMessage(endpointName, getObjectsOfType("ParkingStations"));
 		} else if (message.startsWith("newGuidance")) {
 			setNewGuidance(message.replace("newGuidance:", ""));
 		} else throw new Exception("Can't interpret the message");

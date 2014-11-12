@@ -20,6 +20,58 @@
 	</properties>
 
 	<dependencies>
+
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
+        </dependency>
+		<!-- normal atmosphere -->
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-gwt-client</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-gwt-server</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-runtime</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+
+		<!-- normal atmosphere -->
+
+		<!-- atmosphere 2.0 -->
+		<dependency>
+			<groupId>org.atmosphere.extensions</groupId>
+			<artifactId>atmosphere-gwt20-client</artifactId>
+			<version>2.2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere.client</groupId>
+			<artifactId>javascript</artifactId>
+			<version>2.2.5</version>
+			<type>war</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-jersey</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere.extensions</groupId>
+			<artifactId>atmosphere-gwt20-server</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+		<!-- atmosphere 2.0 -->
 		<dependency>
 			<groupId>org.glassfish.tyrus</groupId>
 			<artifactId>tyrus-server</artifactId>
@@ -105,18 +157,18 @@
 			<version>${gwtVersion}</version>
 		</dependency>
 
-		<!--Dependencies for GWT-2.3.0 Compilation-->
+		<!--Dependencies for GWT-2.3.0 Compilation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>javax.inject</groupId>-->
-			<!--<artifactId>javax.inject</artifactId>-->
-			<!--<version>1</version>-->
-		<!--</dependency>-->
+		<!--<dependency> -->
+		<!--<groupId>javax.inject</groupId> -->
+		<!--<artifactId>javax.inject</artifactId> -->
+		<!--<version>1</version> -->
+		<!--</dependency> -->
 
 		<!-- =========================================================== -->
 		<!-- ========================= GIN ============================= -->
@@ -167,42 +219,42 @@
 			<artifactId>gwt-websockets</artifactId>
 			<version>1.0.4</version>
 		</dependency>
-		<!--<dependency>-->
-		<!--<groupId>org.glassfish.tyrus</groupId>-->
-		<!--<artifactId>tyrus-server</artifactId>-->
-		<!--<version>${org.glassfish.tyrus.version}</version>-->
-		<!--<scope>test</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>org.glassfish.tyrus</groupId>-->
-		<!--<artifactId>tyrus-client</artifactId>-->
-		<!--<version>${org.glassfish.tyrus.version}</version>-->
-		<!--<scope>test</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>org.glassfish.tyrus</groupId>-->
-		<!--<artifactId>tyrus-container-grizzly-server</artifactId>-->
-		<!--<version>${org.glassfish.tyrus.version}</version>-->
-		<!--<scope>test</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>javax.websocket</groupId>-->
-		<!--<artifactId>javax.websocket-api</artifactId>-->
-		<!--<version>${javax.websocket-api.version}</version>-->
-		<!--<scope>provided</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>javax.enterprise</groupId>-->
-		<!--<artifactId>cdi-api</artifactId>-->
-		<!--<version>${javax.enterprise.cdi-api.version}</version>-->
-		<!--<scope>provided</scope>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>javax.ejb</groupId>-->
-		<!--<artifactId>javax.ejb-api</artifactId>-->
-		<!--<version>3.2</version>-->
-		<!--<scope>provided</scope>-->
-		<!--</dependency>-->
+		<!--<dependency> -->
+		<!--<groupId>org.glassfish.tyrus</groupId> -->
+		<!--<artifactId>tyrus-server</artifactId> -->
+		<!--<version>${org.glassfish.tyrus.version}</version> -->
+		<!--<scope>test</scope> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.glassfish.tyrus</groupId> -->
+		<!--<artifactId>tyrus-client</artifactId> -->
+		<!--<version>${org.glassfish.tyrus.version}</version> -->
+		<!--<scope>test</scope> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>org.glassfish.tyrus</groupId> -->
+		<!--<artifactId>tyrus-container-grizzly-server</artifactId> -->
+		<!--<version>${org.glassfish.tyrus.version}</version> -->
+		<!--<scope>test</scope> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>javax.websocket</groupId> -->
+		<!--<artifactId>javax.websocket-api</artifactId> -->
+		<!--<version>${javax.websocket-api.version}</version> -->
+		<!--<scope>provided</scope> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>javax.enterprise</groupId> -->
+		<!--<artifactId>cdi-api</artifactId> -->
+		<!--<version>${javax.enterprise.cdi-api.version}</version> -->
+		<!--<scope>provided</scope> -->
+		<!--</dependency> -->
+		<!--<dependency> -->
+		<!--<groupId>javax.ejb</groupId> -->
+		<!--<artifactId>javax.ejb-api</artifactId> -->
+		<!--<version>3.2</version> -->
+		<!--<scope>provided</scope> -->
+		<!--</dependency> -->
 
 		<dependency>
 			<groupId>xalan</groupId>
@@ -210,6 +262,18 @@
 			<version>2.7.2</version>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>http://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<build>
 		<finalName>panelUI</finalName>

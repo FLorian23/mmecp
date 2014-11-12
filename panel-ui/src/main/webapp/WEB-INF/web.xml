@@ -5,8 +5,7 @@
 
 <web-app>
 
-	<!-- Servlets -->
-
+	<!-- Servlets -->	
 	<servlet>
 		<servlet-name>EventInfoServiceImpl</servlet-name>
 		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.EventInfoServiceImpl</servlet-class>
@@ -18,12 +17,7 @@
 		<description></description>
 		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.ExampleData</servlet-class>
 	</servlet>
-	<servlet>
-		<servlet-name>PanelServlet</servlet-name>
-		<display-name>PanelServlet</display-name>
-		<description></description>
-		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.PanelServlet</servlet-class>
-	</servlet>
+
 
 	<servlet-mapping>
 		<servlet-name>EventInfoServiceImpl</servlet-name>
@@ -34,12 +28,11 @@
 		<servlet-name>ExampleData</servlet-name>
 		<url-pattern>/ExampleData</url-pattern>
 	</servlet-mapping>
-		<servlet-mapping>
-		<servlet-name>PanelServlet</servlet-name>
-		<url-pattern>/PanelServlet</url-pattern>
-	</servlet-mapping>
-	
 
+	<!-- atmosphere -->
+
+
+	<!-- atmosphere -->
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

@@ -39,15 +39,20 @@ import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 
-public class MapContainer extends SiteElement<VerticalPanel> implements ClickHandler, ChangeHandler, Observer {
+public class MapContainer extends SiteElement<VerticalPanel> implements
+		ClickHandler, ChangeHandler, Observer {
 
 	private static MapContainer instance = null;
 
-	private final static Logger LOG = Logger.getLogger(MapContainer.class.getName());
+	private final static Logger LOG = Logger.getLogger(MapContainer.class
+			.getName());
 
 	private Position currentPosition = null;
 	final Vector vectorLayer = new Vector("Vector layer");
 	MapWidget mapWidget;
+
+	private Websocket socket;
+	private int h = 0;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -57,30 +62,37 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		getPanel().setSize("100%", "100%");
 		Subject.get().addToSubjectList(this);
 
-		final Websocket socket = new Websocket("ws://localhost:8080/api-websocket/panelui");
+		socket = new Websocket("ws://localhost:8080/api-websocket/panelui");
 		socket.addListener(new WebsocketListener() {
 
 			@Override
 			public void onClose() {
-				// do something on close
+				LOG.log(Level.WARNING, "connection closed...");
 			}
 
 			@Override
 			public void onMessage(String msg) {
-				if (JsonUtils.safeToEval(msg)) {
-					LOG.log(Level.WARNING, "Received: " + msg);
+				// if (JsonUtils.safeToEval(msg)) {
+				// LOG.log(Level.WARNING, "Received: " + msg);
+				// }
+				// LOG.log(Level.WARNING, "onMessage constructor test!");
+				LOG.log(Level.WARNING, "msg from server: " + msg);
+				if (++h != 10)
+					socket.send("getObjectsOfType");
+				else{
+					socket.close();
 				}
-				LOG.log(Level.WARNING, "onMessage constructor test!");
 			}
 
 			@Override
 			public void onOpen() {
-				socket.send("Hello MMECP, I'm the PanelUi!");
+				socket.send("getObjectsOfType");
 			}
 		});
 
 		socket.open();
-		LOG.log(Level.WARNING, "MapContainer constructor test!");
+		// LOG.log(Level.WARNING, "MapContainer constructor test!");
+		LOG.log(Level.WARNING, "socket.state(): " + socket.getState());
 	}
 
 	public static MapContainer get() {
@@ -96,7 +108,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 
 	private Map map;
 
-	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
+	private static final Projection DEFAULT_PROJECTION = new Projection(
+			"EPSG:4326");
 	private boolean isGoogleMaps = true;
 
 	public void buildGoogleMaps() {
@@ -114,7 +127,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		GoogleV3Options gSatelliteOptions = new GoogleV3Options();
 		gSatelliteOptions.setIsBaseLayer(true);
 		gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
-		GoogleV3 gSatellite = new GoogleV3("Google Satellite", gSatelliteOptions);
+		GoogleV3 gSatellite = new GoogleV3("Google Satellite",
+				gSatelliteOptions);
 
 		GoogleV3Options gTerrainOptions = new GoogleV3Options();
 		gTerrainOptions.setIsBaseLayer(true);
@@ -188,16 +202,23 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		map.addMapClickListener(new MapClickListener() {
 
 			public void onClick(MapClickEvent mapClickEvent) {
-				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent.getLonLat());
-				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(), mapClickEvent.getLonLat().lat());
-				l.transform(map.getProjection(), DEFAULT_PROJECTION.getProjectionCode());
-				GuidancePopUpPanel g = new GuidancePopUpPanel(true, mapClickEvent.getLonLat(), l);
+				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
+						.getLonLat());
+				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(),
+						mapClickEvent.getLonLat().lat());
+				l.transform(map.getProjection(),
+						DEFAULT_PROJECTION.getProjectionCode());
+				GuidancePopUpPanel g = new GuidancePopUpPanel(true,
+						mapClickEvent.getLonLat(), l);
 
-				int maxRightPixel = Window.getClientWidth() - SlideBarRight.get().getCurrentWidth();
+				int maxRightPixel = Window.getClientWidth()
+						- SlideBarRight.get().getCurrentWidth();
 				int maxBottomPixel = getPanel().getElement().getClientHeight();
 
-				int xPixel = pixelFromLonLat.x() + getPanel().getElement().getAbsoluteLeft();
-				int yPixel = pixelFromLonLat.y() + getPanel().getElement().getAbsoluteTop();
+				int xPixel = pixelFromLonLat.x()
+						+ getPanel().getElement().getAbsoluteLeft();
+				int yPixel = pixelFromLonLat.y()
+						+ getPanel().getElement().getAbsoluteTop();
 
 				if (xPixel + CSSDynamicData.guidancePopUpPanel_WIDTH > maxRightPixel) {
 					xPixel -= CSSDynamicData.guidancePopUpPanel_WIDTH;
@@ -211,7 +232,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		});
 		// Center and zoom to a location
 		LonLat lonLat = new LonLat(DAO.BERLIN_GEO_lon, DAO.BERLIN_GEO_lat);
-		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
+		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
+				map.getProjection());
 		map.setCenter(lonLat, DAO.getDefaultZoomLevelForCity(DAO.DEFAULT_CITY));
 
 		addWidgetToPanel(mapWidget, "mapWidget", "");
@@ -220,14 +242,18 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 	}
 
 	private void drawPolygones() {
-		drawPolygon(ExampleData.getExamplePolygonForBER(), false, ExampleData.getStyleForPolygon(DAO.RED));
-		drawPolygon(ExampleData.getExamplePolygonForROV(), false, ExampleData.getStyleForPolygon(DAO.RED));
-		drawPolygon(ExampleData.getExamplePolygonForTAM(), false, ExampleData.getStyleForPolygon(DAO.RED));
+		drawPolygon(ExampleData.getExamplePolygonForBER(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
+		drawPolygon(ExampleData.getExamplePolygonForROV(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
+		drawPolygon(ExampleData.getExamplePolygonForTAM(), false,
+				ExampleData.getStyleForPolygon(DAO.RED));
 	}
 
 	public static void switchLocation(double lon, double lat) {
 		LonLat lonLat = new LonLat(lon, lat);
-		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(), get().map.getProjection());
+		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
+				get().map.getProjection());
 		get().map.setCenter(lonLat, DAO.MapContainer_DEFAULTZOOMSIZE);
 	}
 
@@ -235,11 +261,13 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		Point[] pointList = new Point[lonlat.length];
 		for (int i = 0; i < lonlat.length; i++) {
 			if (isGPSPosition)
-				lonlat[i].transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
+				lonlat[i].transform(DEFAULT_PROJECTION.getProjectionCode(),
+						map.getProjection());
 			pointList[i] = new Point(lonlat[i].lon(), lonlat[i].lat());
 		}
 		LinearRing linearRing = new LinearRing(pointList);
-		VectorFeature polygonFeature = new VectorFeature(new Polygon(new LinearRing[] { linearRing }));
+		VectorFeature polygonFeature = new VectorFeature(new Polygon(
+				new LinearRing[] { linearRing }));
 		polygonFeature.setStyle(s);
 		vectorLayer.addFeature(polygonFeature);
 	}
@@ -291,20 +319,26 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 				Geolocation.PositionOptions geoOptions = new Geolocation.PositionOptions();
 				geoOptions.setHighAccuracyEnabled(true);
 				if (currentPosition == null)
-					geoLocation.watchPosition(new Callback<Position, PositionError>() {
+					geoLocation.watchPosition(
+							new Callback<Position, PositionError>() {
 
-						public void onFailure(PositionError reason) {
-							Window.alert("Something went wrong fetching the geolocation:\n" + reason);
-						}
+								public void onFailure(PositionError reason) {
+									Window.alert("Something went wrong fetching the geolocation:\n"
+											+ reason);
+								}
 
-						public void onSuccess(Position result) {
-							currentPosition = result;
-							switchLocation(result.getCoordinates().getLongitude(), result.getCoordinates().getLatitude());
+								public void onSuccess(Position result) {
+									currentPosition = result;
+									switchLocation(result.getCoordinates()
+											.getLongitude(), result
+											.getCoordinates().getLatitude());
 
-						}
-					}, geoOptions);
+								}
+							}, geoOptions);
 				else {
-					switchLocation(currentPosition.getCoordinates().getLongitude(), currentPosition.getCoordinates().getLatitude());
+					switchLocation(currentPosition.getCoordinates()
+							.getLongitude(), currentPosition.getCoordinates()
+							.getLatitude());
 				}
 			}
 

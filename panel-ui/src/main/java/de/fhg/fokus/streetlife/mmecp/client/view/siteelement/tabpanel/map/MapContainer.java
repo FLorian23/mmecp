@@ -77,16 +77,16 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				// }
 				// LOG.log(Level.WARNING, "onMessage constructor test!");
 				LOG.log(Level.WARNING, "msg from server: " + msg);
-				if (++h != 10)
-					socket.send("getObjectsOfType");
-				else{
-					socket.close();
-				}
+				//if (++h != 10)
+				//	socket.send("getObjectsOfType");
+				//else{
+				//	socket.close();
+				//}
 			}
 
 			@Override
 			public void onOpen() {
-				socket.send("getObjectsOfType");
+				socket.send("getObjectsOfType:ParkingStations");
 			}
 		});
 

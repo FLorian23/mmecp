@@ -1,24 +1,21 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.inject.Inject;
-import javax.websocket.*;
-import javax.websocket.server.ServerEndpoint;
-
 import de.fhg.fokus.streetlife.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -31,7 +28,7 @@ public class ToPanelEndpoint {
 	
 	// for simulation
 	private Timer timer = new Timer();
-	ArrayList<String> demoObjects = new ArrayList<String>();
+	ArrayList<String> demoObjects = new ArrayList<>();
 
 	@Inject
 	private SessionManager sm;
@@ -67,18 +64,18 @@ public class ToPanelEndpoint {
 	}
 
 	@OnMessage
-	public void onMessage(String message, Session session) throws Exception, SessionManagerException {
+	public void onMessage(String message, Session session) throws IOException, SessionManagerException {
 		LOG.info("User {} says: {}", session.getId(), message);
 		if (message.startsWith("getObjectsOfType")) {
-			mu.broadcastMessage(endpointName, getObjectsOfType("ParkingStations"));
+			mu.broadcastMessage(endpointName, getObjectsOfType(message.replace("getObjectsOfType:", "")));
 		} else if (message.startsWith("newGuidance")) {
 			setNewGuidance(message.replace("newGuidance:", ""));
-		} else throw new Exception("Can't interpret the message");
+		} else throw new IOException("Can't interpret the message");
 	}
 
 	@OnClose
 	public void onClose(Session session, CloseReason closeReason) throws IOException, SessionManagerException {
-		LOG.info("Connection to user {} closed...",session.getId());
+		LOG.info("Connection to user {} closed because: {}", session.getId(), closeReason.toString());
 		sm.removeSession(endpointName, session);
 	}
 
@@ -97,7 +94,7 @@ public class ToPanelEndpoint {
 	private String getObjectsOfType(String type) {
 		// example data
 		//TODO real stuff
-		ArrayList<String> objects = new ArrayList<String>();
+		ArrayList<String> objects = new ArrayList<>();
 		if (type.equals("ParkingStations")) {
 			LOG.info("Get objects of type: {}", type);
 			for (int i = 1; i <= 4; i++) {

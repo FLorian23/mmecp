@@ -1,12 +1,10 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import javax.websocket.*;
-
+import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
+import de.fhg.fokus.streetlife.configurator.SystemConfiguration;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.server.Server;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -21,11 +19,11 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
-import de.fhg.fokus.streetlife.configurator.SystemConfiguration;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
+import javax.websocket.*;
+import java.io.IOException;
+import java.net.URI;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by bdi on 03/11/14.
@@ -46,13 +44,13 @@ public class ToPanelEndpointTest extends Arquillian {
 
 	@BeforeTest
 	public void init() {
-//		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
-//		try {
-//			server.start();
-//			LOG.info("Standalone websocket sever started...");
-//		} catch (Exception e) {
-//			throw new RuntimeException(e);
-//		}
+		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
+		try {
+			server.start();
+			LOG.info("Standalone websocket sever started...");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Test(enabled = false)
@@ -94,12 +92,12 @@ public class ToPanelEndpointTest extends Arquillian {
 		String uri = "ws://localhost:8080/api-websocket/panelui";
 		container.connectToServer(ClientEndpointTest.class, URI.create(uri));
 		messageLatch.await(40, TimeUnit.SECONDS);
-}
+	}
 
 	@AfterTest
 	public void afterClass() {
-//		server.stop();
-//		LOG.info("Standalone websocket sever stopped...");
+		server.stop();
+		LOG.info("Standalone websocket sever stopped...");
 	}
 
 }

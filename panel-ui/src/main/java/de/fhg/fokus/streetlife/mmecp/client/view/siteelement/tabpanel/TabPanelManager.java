@@ -1,20 +1,17 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
-import de.fhg.fokus.streetlife.mmecp.client.controller.EventInfoScheduler;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
-import de.fhg.fokus.streetlife.mmecp.client.view.ui.Example;
 
-public class TabPanelManager extends TabPanel  {
+public class TabPanelManager extends TabPanel {
 
 	private static TabPanelManager instance = null;
 	public static final String cssID = "tabpanel";
@@ -42,8 +39,8 @@ public class TabPanelManager extends TabPanel  {
 		SlideBarLeft.get().setParentPanel(lp);
 		SlideBarRight.get().setParentPanel(lp);
 
-//		Timer t = new EventInfoScheduler(PopUpPanelContainer.get());
-//		t.scheduleRepeating(5000);
+		// Timer t = new EventInfoScheduler(PopUpPanelContainer.get());
+		// t.scheduleRepeating(5000);
 
 		// Fill Tabpanel
 		add(lp, "Map");
@@ -55,7 +52,6 @@ public class TabPanelManager extends TabPanel  {
 
 		MathPanel.get().getPanel().getElement().getParentElement().getStyle()
 				.setHeight(Window.getClientHeight() - 90, Unit.PX);
-		
 
 		selectTab(0);
 	}

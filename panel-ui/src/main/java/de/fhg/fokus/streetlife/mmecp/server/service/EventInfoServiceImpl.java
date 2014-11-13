@@ -1,21 +1,9 @@
 package de.fhg.fokus.streetlife.mmecp.server.service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
-import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
 import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 
 public class EventInfoServiceImpl extends RemoteServiceServlet implements
@@ -30,49 +18,51 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-	private static int eventID = 1;
-	private static ArrayList<EventInfo> eventInfoQueue = new ArrayList<EventInfo>();
-	private static JSONProcessor jSONProcessor = null;
-	private static ServletContext context = null;
+	// private static int eventID = 1;
+	// private static ArrayList<EventInfo> eventInfoQueue = new
+	// ArrayList<EventInfo>();
+	// private static JSONProcessor jSONProcessor = null;
+	// private static ServletContext context = null;
 
-	public EventInfo getEventInfo() {
+	// public EventInfo getEventInfo() {
+	//
+	// context = getServletContext();
+	// // get JSON schema
+	// if (jSONProcessor == null) {
+	// try {
+	// jSONProcessor = new JSONProcessor(
+	// getContentOfFile("/WEB-INF/schema.json"));
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	//
+	// EventInfo eventInfo = null;
+	// int counter = 0;
+	// while ((eventInfoQueue.size() == 0)) {
+	// try {
+	// Thread.sleep(500);
+	// if (counter++ == 10){
+	// // System.out.println(">>zeitueberlauf");
+	// EventInfo eventInfo2 = new EventInfo();
+	// eventInfo2.setMessage("error: exceeded the time requirement");
+	// return eventInfo2;
+	// }
+	// } catch (InterruptedException e1) {
+	// e1.printStackTrace();
+	// }
+	// }
+	//
+	//
+	// // Not consider multiple clients! TODO!
+	// eventInfo = eventInfoQueue.remove(0);
+	// System.out.println("Remove EventInfo [" + eventInfo.getId() +
+	// "] (Message: " + eventInfo.getMessage() + ")");
+	//
+	// return eventInfo;
+	// }
 
-		context = getServletContext();
-		// get JSON schema
-		if (jSONProcessor == null) {
-			try {
-				jSONProcessor = new JSONProcessor(
-						getContentOfFile("/WEB-INF/schema.json"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		EventInfo eventInfo = null;
-		int counter = 0;
-		while ((eventInfoQueue.size() == 0)) {
-			try {
-				Thread.sleep(500);
-				if (counter++ == 10){
-//					System.out.println(">>zeitueberlauf");
-					EventInfo eventInfo2 = new EventInfo();
-					eventInfo2.setMessage("error: exceeded the time requirement");
-					return eventInfo2;
-				}
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
-		
-
-		// Not consider multiple clients! TODO!
-		eventInfo = eventInfoQueue.remove(0);
-		System.out.println("Remove EventInfo [" + eventInfo.getId() + "] (Message: " +  eventInfo.getMessage() + ")");
-
-		return eventInfo;
-	}
-
-	public MapObject[] getJSONObject(String jSONExample){
+	public MapObject[] getJSONObject(String jSONExample) {
 		// Parse
 		try {
 			return JSONProcessor.parse(jSONExample);
@@ -81,58 +71,58 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		}
 		return null;
 	}
-	
-	private static String getJSONExample() throws IOException {
-		String filename = "/WEB-INF/example.json";
-		return getContentOfFile(filename);
-	}
 
-	private static String getContentOfFile(String path) throws IOException {
-		String string = "";
+	// private static String getJSONExample() throws IOException {
+	// String filename = "/WEB-INF/example.json";
+	// return getContentOfFile(filename);
+	// }
+	//
+	// private static String getContentOfFile(String path) throws IOException {
+	// String string = "";
+	//
+	// InputStream inp = context.getResourceAsStream(path);
+	// if (inp != null) {
+	// InputStreamReader isr = new InputStreamReader(inp);
+	// BufferedReader reader = new BufferedReader(isr);
+	// String text = "";
+	// while ((text = reader.readLine()) != null) {
+	// string += text;
+	// }
+	// }
+	// return string;
+	// }
 
-		InputStream inp = context.getResourceAsStream(path);
-		if (inp != null) {
-			InputStreamReader isr = new InputStreamReader(inp);
-			BufferedReader reader = new BufferedReader(isr);
-			String text = "";
-			while ((text = reader.readLine()) != null) {
-				string += text;
-			}
-		}
-		return string;
-	}
-
-
-	public static void newEvent() {
-		if (context == null) return;
-		
-		EventInfo eventInfo = new EventInfo();
-		// get JSON example
-		String jSONExample = "";
-		try {
-			// Example at first
-			jSONExample = getJSONExample();
-		} catch (IOException e) {
-			e.printStackTrace();
-			eventInfo.setMessage(e.getMessage());
-		}
-
-		// validation
-		if (!jSONProcessor.validate(jSONExample)) {
-			eventInfo.setMessage("json file not valid");
-		}
-
-		// Parse
-		try {
-			eventInfo = JSONProcessor.parse(jSONExample);
-		} catch (Exception e) {
-			eventInfo.setMessage(e.getMessage());
-			System.out.println(eventInfo.getMessage());
-		}
-		eventInfo.setMessage("success");
-		eventInfo.setId(eventID++);
-		eventInfoQueue.add(eventInfo);
-		
-		System.out.println("add EventInfo [" + eventInfo.getId() + "] (Message: " +  eventInfo.getMessage() + ")");
-	}
+	// public static void newEvent() {
+	// if (context == null) return;
+	//
+	// EventInfo eventInfo = new EventInfo();
+	// // get JSON example
+	// String jSONExample = "";
+	// try {
+	// // Example at first
+	// jSONExample = getJSONExample();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// eventInfo.setMessage(e.getMessage());
+	// }
+	//
+	// // validation
+	// if (!jSONProcessor.validate(jSONExample)) {
+	// eventInfo.setMessage("json file not valid");
+	// }
+	//
+	// // Parse
+	// try {
+	// eventInfo = JSONProcessor.parse(jSONExample);
+	// } catch (Exception e) {
+	// eventInfo.setMessage(e.getMessage());
+	// System.out.println(eventInfo.getMessage());
+	// }
+	// eventInfo.setMessage("success");
+	// eventInfo.setId(eventID++);
+	// eventInfoQueue.add(eventInfo);
+	//
+	// System.out.println("add EventInfo [" + eventInfo.getId() + "] (Message: "
+	// + eventInfo.getMessage() + ")");
+	// }
 }

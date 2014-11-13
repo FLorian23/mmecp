@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Generated;
 import javax.validation.Valid;
+
 import com.google.gson.annotations.Expose;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 @Generated("org.jsonschema2pojo")
-public class Area {
+public class Area implements IsSerializable{
 
     @Expose
     private Area.Type type;

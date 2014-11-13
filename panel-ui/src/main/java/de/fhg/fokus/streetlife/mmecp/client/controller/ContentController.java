@@ -34,11 +34,13 @@ public class ContentController {
 		switch (k) {
 		case IMPRESSUM:
 			getVerticalPanel().add(Impressum.get().getPanel());
-			Impressum.get().getPanel().getElement().getParentElement().setId(Impressum.cssID + "Wrapper");
+			Impressum.get().getPanel().getElement().getParentElement()
+					.setId(Impressum.cssID + "Wrapper");
 			break;
 		case TABPANEL:
 			getVerticalPanel().add(TabPanelManager.get());
-			TabPanelManager.get().getElement().getParentElement().setId(TabPanelManager.cssID + "Wrapper");
+			TabPanelManager.get().getElement().getParentElement()
+					.setId(TabPanelManager.cssID + "Wrapper");
 			break;
 		default:
 			break;

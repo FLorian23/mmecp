@@ -1,9 +1,12 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.gwtopenmaps.openlayers.client.*;
+import org.gwtopenmaps.openlayers.client.LonLat;
+import org.gwtopenmaps.openlayers.client.Map;
+import org.gwtopenmaps.openlayers.client.MapOptions;
+import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.Pixel;
+import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.ArgParser;
 import org.gwtopenmaps.openlayers.client.control.Attribution;
 import org.gwtopenmaps.openlayers.client.control.Navigation;
@@ -12,10 +15,14 @@ import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
 import org.gwtopenmaps.openlayers.client.geometry.Polygon;
-import org.gwtopenmaps.openlayers.client.layer.*;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3MapType;
+import org.gwtopenmaps.openlayers.client.layer.GoogleV3Options;
+import org.gwtopenmaps.openlayers.client.layer.Layer;
+import org.gwtopenmaps.openlayers.client.layer.OSM;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.JsonUtils;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,8 +35,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.sksamuel.gwt.websockets.Websocket;
-import com.sksamuel.gwt.websockets.WebsocketListener;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.Observer;
 import de.fhg.fokus.streetlife.mmecp.client.controller.Subject;
@@ -44,15 +49,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 	private static MapContainer instance = null;
 
-	private final static Logger LOG = Logger.getLogger(MapContainer.class
-			.getName());
-
 	private Position currentPosition = null;
 	final Vector vectorLayer = new Vector("Vector layer");
 	MapWidget mapWidget;
-
-	private Websocket socket;
-	private int h = 0;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -61,38 +60,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// TODP:
 		getPanel().setSize("100%", "100%");
 		Subject.get().addToSubjectList(this);
-
-		socket = new Websocket("ws://localhost:8080/api-websocket/panelui");
-		socket.addListener(new WebsocketListener() {
-
-			@Override
-			public void onClose() {
-				LOG.log(Level.WARNING, "connection closed...");
-			}
-
-			@Override
-			public void onMessage(String msg) {
-				// if (JsonUtils.safeToEval(msg)) {
-				// LOG.log(Level.WARNING, "Received: " + msg);
-				// }
-				// LOG.log(Level.WARNING, "onMessage constructor test!");
-				LOG.log(Level.WARNING, "msg from server: " + msg);
-				if (++h != 10)
-					socket.send("getObjectsOfType");
-				else{
-					socket.close();
-				}
-			}
-
-			@Override
-			public void onOpen() {
-				socket.send("getObjectsOfType");
-			}
-		});
-
-		socket.open();
-		// LOG.log(Level.WARNING, "MapContainer constructor test!");
-		LOG.log(Level.WARNING, "socket.state(): " + socket.getState());
 	}
 
 	public static MapContainer get() {

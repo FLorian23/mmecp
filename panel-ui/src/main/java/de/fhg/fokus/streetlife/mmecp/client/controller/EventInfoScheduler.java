@@ -22,13 +22,13 @@ public class EventInfoScheduler extends Timer implements
 	
 	@Override
 	public void run() {
-		if (!isWaiting) {
-			EventInfoServiceAsync eventInfoService = GWT
-					.create(EventInfoService.class);
-			eventInfoService.getEventInfo(this);
-			isWaiting = true;
-		} else {
-		}
+//		if (!isWaiting) {
+//			EventInfoServiceAsync eventInfoService = GWT
+//					.create(EventInfoService.class);
+//			eventInfoService.getEventInfo(this);
+//			isWaiting = true;
+//		} else {
+//		}
 	}
 
 	public void onFailure(Throwable caught) {

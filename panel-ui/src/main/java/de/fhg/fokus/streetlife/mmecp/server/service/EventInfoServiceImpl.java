@@ -16,6 +16,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
 import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
+import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 
 public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		EventInfoService {
@@ -71,6 +72,16 @@ public class EventInfoServiceImpl extends RemoteServiceServlet implements
 		return eventInfo;
 	}
 
+	public MapObject[] getJSONObject(String jSONExample){
+		// Parse
+		try {
+			return JSONProcessor.parse(jSONExample);
+		} catch (Exception e) {
+			System.out.println("error parsing");
+		}
+		return null;
+	}
+	
 	private static String getJSONExample() throws IOException {
 		String filename = "/WEB-INF/example.json";
 		return getContentOfFile(filename);

@@ -28,7 +28,7 @@ public class ToPanelEndpoint {
 	
 	// for simulation
 	private Timer timer = new Timer();
-	ArrayList<String> demoObjects = new ArrayList<>();
+	ArrayList<String> demoObjects = new ArrayList<String>();
 
 	@Inject
 	private SessionManager sm;
@@ -94,7 +94,7 @@ public class ToPanelEndpoint {
 	private String getObjectsOfType(String type) {
 		// example data
 		//TODO real stuff
-		ArrayList<String> objects = new ArrayList<>();
+		ArrayList<String> objects = new ArrayList<String>();
 		if (type.equals("ParkingStations")) {
 			LOG.info("Get objects of type: {}", type);
 			for (int i = 1; i <= 4; i++) {

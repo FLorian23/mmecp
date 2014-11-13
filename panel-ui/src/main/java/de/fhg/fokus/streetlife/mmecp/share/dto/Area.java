@@ -7,25 +7,23 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Generated;
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 import com.google.gson.annotations.Expose;
 
 @Generated("org.jsonschema2pojo")
-public class Location {
+public class Area {
 
     @Expose
-    private Location.Type type;
+    private Area.Type type;
     @Expose
-    @Size(min = 2, max = 2)
     @Valid
-    private List<Double> coordinates = new ArrayList<Double>();
+    private List<List<List<Double>>> coordinates = new ArrayList<List<List<Double>>>();
 
     /**
      * 
      * @return
      *     The type
      */
-    public Location.Type getType() {
+    public Area.Type getType() {
         return type;
     }
 
@@ -34,7 +32,7 @@ public class Location {
      * @param type
      *     The type
      */
-    public void setType(Location.Type type) {
+    public void setType(Area.Type type) {
         this.type = type;
     }
 
@@ -43,7 +41,7 @@ public class Location {
      * @return
      *     The coordinates
      */
-    public List<Double> getCoordinates() {
+    public List<List<List<Double>>> getCoordinates() {
         return coordinates;
     }
 
@@ -52,19 +50,19 @@ public class Location {
      * @param coordinates
      *     The coordinates
      */
-    public void setCoordinates(List<Double> coordinates) {
+    public void setCoordinates(List<List<List<Double>>> coordinates) {
         this.coordinates = coordinates;
     }
 
     @Generated("org.jsonschema2pojo")
     public static enum Type {
 
-        POINT("Point");
+        POLYGON("Polygon");
         private final String value;
-        private static Map<String, Location.Type> constants = new HashMap<String, Location.Type>();
+        private static Map<String, Area.Type> constants = new HashMap<String, Area.Type>();
 
         static {
-            for (Location.Type c: values()) {
+            for (Area.Type c: values()) {
                 constants.put(c.value, c);
             }
         }
@@ -78,8 +76,8 @@ public class Location {
             return this.value;
         }
 
-        public static Location.Type fromValue(String value) {
-            Location.Type constant = constants.get(value);
+        public static Area.Type fromValue(String value) {
+            Area.Type constant = constants.get(value);
             if (constant == null) {
                 throw new IllegalArgumentException(value);
             } else {

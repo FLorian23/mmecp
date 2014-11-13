@@ -1,150 +1,120 @@
+
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import com.google.gson.annotations.Expose;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "itemtype", "label", "value", "chart" })
-public class Element implements IsSerializable{
+public class Element {
 
-	@JsonProperty("itemtype")
-	private Element.Itemtype itemtype;
-	@JsonProperty("label")
-	private String label;
-	@JsonProperty("value")
-	private String value;
-	@JsonProperty("chart")
-	private Chart chart;
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    /**
+     * An element type to visualize a single label value pair.
+     * 
+     */
+    @Expose
+    @Valid
+    private Attribute attribute;
+    /**
+     * An element type to visualize a chart for a list of label value pairs.
+     * 
+     */
+    @Expose
+    @Valid
+    private Chart chart;
+    /**
+     * An element type to visualize and place an image at the defined position.
+     * 
+     */
+    @Expose
+    @Valid
+    private Icon icon;
+    /**
+     * An element type to visualize and colorize a specific geolocation.
+     * 
+     */
+    @Expose
+    @Valid
+    private Maparea maparea;
 
-	@JsonProperty("itemtype")
-	public Element.Itemtype getItemtype() {
-		return itemtype;
-	}
+    /**
+     * An element type to visualize a single label value pair.
+     * 
+     * @return
+     *     The attribute
+     */
+    public Attribute getAttribute() {
+        return attribute;
+    }
 
-	@JsonProperty("itemtype")
-	public void setItemtype(Element.Itemtype itemtype) {
-		this.itemtype = itemtype;
-	}
+    /**
+     * An element type to visualize a single label value pair.
+     * 
+     * @param attribute
+     *     The attribute
+     */
+    public void setAttribute(Attribute attribute) {
+        this.attribute = attribute;
+    }
 
-	@JsonProperty("label")
-	public String getLabel() {
-		return label;
-	}
+    /**
+     * An element type to visualize a chart for a list of label value pairs.
+     * 
+     * @return
+     *     The chart
+     */
+    public Chart getChart() {
+        return chart;
+    }
 
-	@JsonProperty("label")
-	public void setLabel(String label) {
-		this.label = label;
-	}
+    /**
+     * An element type to visualize a chart for a list of label value pairs.
+     * 
+     * @param chart
+     *     The chart
+     */
+    public void setChart(Chart chart) {
+        this.chart = chart;
+    }
 
-	@JsonProperty("value")
-	public String getValue() {
-		return value;
-	}
+    /**
+     * An element type to visualize and place an image at the defined position.
+     * 
+     * @return
+     *     The icon
+     */
+    public Icon getIcon() {
+        return icon;
+    }
 
-	@JsonProperty("value")
-	public void setValue(String value) {
-		this.value = value;
-	}
+    /**
+     * An element type to visualize and place an image at the defined position.
+     * 
+     * @param icon
+     *     The icon
+     */
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+    }
 
-	@JsonProperty("chart")
-	public Chart getChart() {
-		return chart;
-	}
+    /**
+     * An element type to visualize and colorize a specific geolocation.
+     * 
+     * @return
+     *     The maparea
+     */
+    public Maparea getMaparea() {
+        return maparea;
+    }
 
-	@JsonProperty("chart")
-	public void setChart(Chart chart) {
-		this.chart = chart;
-	}
-
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
-
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
-
-	@Override
-	public String toString() {
-		String ret = "Element: " + itemtype + "\n";
-		switch (getItemtype()) {
-		case BARCHART:
-			ret += "Chart: \n" + getChart().toString();
-			break;
-		case CAPTION:
-			ret += "Caption:" + getValue();
-			break;
-		case DATE:
-			ret += "Date:" + getValue();
-			break;
-		case DESCRIPTION:
-			ret += "Description:" + getValue();
-			break;
-		case LABEL:
-			ret += getLabel() + ": " + getValue();
-			break;
-		case PIECHART:
-			ret += "Chart: \n" + getChart().toString();
-			break;
-
-		default:
-			break;
-		}
-		ret += "\n";
-		return ret;
-	}
-
-	@Generated("org.jsonschema2pojo")
-	public static enum Itemtype implements com.google.gwt.user.client.rpc.IsSerializable {
-
-		LABEL("label"), PIECHART("piechart"), BARCHART("barchart"), CAPTION(
-				"caption"), DESCRIPTION("description"), DATE("date");
-		private final String value;
-		private static Map<String, Element.Itemtype> constants = new HashMap<String, Element.Itemtype>();
-
-		static {
-			for (Element.Itemtype c : Element.Itemtype.values()) {
-				constants.put(c.value, c);
-			}
-		}
-
-		private Itemtype(String value) {
-			this.value = value;
-		}
-
-		@JsonValue
-		@Override
-		public String toString() {
-			return this.value;
-		}
-
-		@JsonCreator
-		public static Element.Itemtype fromValue(String value) {
-			Element.Itemtype constant = constants.get(value);
-			if (constant == null) {
-				throw new IllegalArgumentException(value);
-			} else {
-				return constant;
-			}
-		}
-
-	}
+    /**
+     * An element type to visualize and colorize a specific geolocation.
+     * 
+     * @param maparea
+     *     The maparea
+     */
+    public void setMaparea(Maparea maparea) {
+        this.maparea = maparea;
+    }
 
 }

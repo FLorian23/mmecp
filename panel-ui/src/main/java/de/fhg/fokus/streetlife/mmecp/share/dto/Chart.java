@@ -1,96 +1,140 @@
+
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
+import com.google.gson.annotations.Expose;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.google.gwt.user.client.rpc.IsSerializable;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+/**
+ * An element type to visualize a chart for a list of label value pairs.
+ * 
+ */
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "labeldescription", "valuedescription", "data" })
-public class Chart implements IsSerializable{
+public class Chart {
 
-	@JsonProperty("labeldescription")
-	private String labeldescription;
-	@JsonProperty("valuedescription")
-	private String valuedescription;
-	/**
+    @Expose
+    private Chart.Type type;
+    @Expose
+    @Size(max = 30)
+    private String labeldescription;
+    @Expose
+    @Size(max = 30)
+    private String valuedescription;
+    @Expose
+    @Size(min = 1)
+    @Valid
+    private List<Datum> data = new ArrayList<Datum>();
+
+    /**
      * 
+     * @return
+     *     The type
      */
-	@JsonProperty("data")
-	private List<Datum> data = new ArrayList<Datum>();
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    public Chart.Type getType() {
+        return type;
+    }
 
-	@JsonProperty("labeldescription")
-	public String getLabeldescription() {
-		return labeldescription;
-	}
-
-	@JsonProperty("labeldescription")
-	public void setLabeldescription(String labeldescription) {
-		this.labeldescription = labeldescription;
-	}
-
-	@JsonProperty("valuedescription")
-	public String getValuedescription() {
-		return valuedescription;
-	}
-
-	@JsonProperty("valuedescription")
-	public void setValuedescription(String valuedescription) {
-		this.valuedescription = valuedescription;
-	}
-
-	/**
+    /**
      * 
+     * @param type
+     *     The type
      */
-	@JsonProperty("data")
-	public List<Datum> getData() {
-		return data;
-	}
+    public void setType(Chart.Type type) {
+        this.type = type;
+    }
 
-	/**
+    /**
      * 
+     * @return
+     *     The labeldescription
      */
-	@JsonProperty("data")
-	public void setData(List<Datum> data) {
-		this.data = data;
-	}
+    public String getLabeldescription() {
+        return labeldescription;
+    }
 
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
+    /**
+     * 
+     * @param labeldescription
+     *     The labeldescription
+     */
+    public void setLabeldescription(String labeldescription) {
+        this.labeldescription = labeldescription;
+    }
 
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
+    /**
+     * 
+     * @return
+     *     The valuedescription
+     */
+    public String getValuedescription() {
+        return valuedescription;
+    }
 
-	@Override
-	public String toString() {
-		String ret = "";
-		ret += "Labeldescription: " + getLabeldescription() + "\n";
-		ret += "Valuedescription: " + getValuedescription() + "\n";
+    /**
+     * 
+     * @param valuedescription
+     *     The valuedescription
+     */
+    public void setValuedescription(String valuedescription) {
+        this.valuedescription = valuedescription;
+    }
 
-		ret += "Daten:\n";
-		for (Datum d : getData()) {
-			ret += d.toString();
-		}
+    /**
+     * 
+     * @return
+     *     The data
+     */
+    public List<Datum> getData() {
+        return data;
+    }
 
-		ret += "\n";
-		return ret;
-	}
+    /**
+     * 
+     * @param data
+     *     The data
+     */
+    public void setData(List<Datum> data) {
+        this.data = data;
+    }
+
+    @Generated("org.jsonschema2pojo")
+    public static enum Type {
+
+        PIECHART("piechart"),
+        BARCHART("barchart");
+        private final String value;
+        private static Map<String, Chart.Type> constants = new HashMap<String, Chart.Type>();
+
+        static {
+            for (Chart.Type c: values()) {
+                constants.put(c.value, c);
+            }
+        }
+
+        private Type(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return this.value;
+        }
+
+        public static Chart.Type fromValue(String value) {
+            Chart.Type constant = constants.get(value);
+            if (constant == null) {
+                throw new IllegalArgumentException(value);
+            } else {
+                return constant;
+            }
+        }
+
+    }
 
 }

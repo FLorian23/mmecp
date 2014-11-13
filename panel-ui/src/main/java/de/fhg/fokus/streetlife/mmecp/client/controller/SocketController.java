@@ -2,8 +2,14 @@ package de.fhg.fokus.streetlife.mmecp.client.controller;
 
 import java.util.logging.Level;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sksamuel.gwt.websockets.Websocket;
 import com.sksamuel.gwt.websockets.WebsocketListener;
+
+import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
+import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoServiceAsync;
+import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 
 public class SocketController {
 
@@ -31,20 +37,28 @@ public class SocketController {
 			}
 
 			public void onMessage(String msg) {
-				// if (JsonUtils.safeToEval(msg)) {
-				// LOG.log(Level.WARNING, "Received: " + msg);
-				// }
-				// LOG.log(Level.WARNING, "onMessage constructor test!");
 				LOG.getLogger().log(Level.WARNING, "msg from server: " + msg);
-				if (++h != 10)
-					socketToBackEnd.send("getObjectsOfType");
-				else {
-					socketToBackEnd.close();
-				}
+
+				AsyncCallback<MapObject[]> callback = new AsyncCallback<MapObject[]>() {
+
+					public void onSuccess(MapObject[] result) {
+						LOG._log("result is success!!");
+						LOG._log("size: " + result.length);
+						LOG._log("id: " + result[0].getObjectID());
+					}
+
+					public void onFailure(Throwable caught) {
+						LOG._log("FAIL!!");
+					}
+				};
+
+				EventInfoServiceAsync eventInfoService = GWT
+						.create(EventInfoService.class);
+				eventInfoService.getJSONObject(msg, callback);
 			}
 
 			public void onOpen() {
-				socketToBackEnd.send("getObjectsOfType");
+				socketToBackEnd.send("getObjectsOfType:ParkingStations");
 			}
 		});
 

@@ -2,15 +2,23 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
 import javax.annotation.Generated;
+import javax.validation.constraints.Size;
 import com.google.gson.annotations.Expose;
 
+
+/**
+ * An element type to visualize a single label value pair.
+ * 
+ */
 @Generated("org.jsonschema2pojo")
-public class Datum {
+public class Attribute {
 
     @Expose
+    @Size(max = 30)
     private String label;
     @Expose
-    private double value;
+    @Size(max = 50)
+    private String value;
 
     /**
      * 
@@ -35,7 +43,7 @@ public class Datum {
      * @return
      *     The value
      */
-    public double getValue() {
+    public String getValue() {
         return value;
     }
 
@@ -44,7 +52,7 @@ public class Datum {
      * @param value
      *     The value
      */
-    public void setValue(double value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

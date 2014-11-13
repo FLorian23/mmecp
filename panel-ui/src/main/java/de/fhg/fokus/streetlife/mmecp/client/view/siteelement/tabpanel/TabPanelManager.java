@@ -42,8 +42,8 @@ public class TabPanelManager extends TabPanel  {
 		SlideBarLeft.get().setParentPanel(lp);
 		SlideBarRight.get().setParentPanel(lp);
 
-		Timer t = new EventInfoScheduler(PopUpPanelContainer.get());
-		t.scheduleRepeating(5000);
+//		Timer t = new EventInfoScheduler(PopUpPanelContainer.get());
+//		t.scheduleRepeating(5000);
 
 		// Fill Tabpanel
 		add(lp, "Map");

@@ -1,14 +1,12 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import java.io.IOException;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import java.io.IOException;
 
 /**
  * Created by bdi on 03/11/14.

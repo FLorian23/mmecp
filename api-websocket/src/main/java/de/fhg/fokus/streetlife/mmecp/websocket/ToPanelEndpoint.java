@@ -1,24 +1,24 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
 
 
 /**
@@ -86,9 +86,9 @@ public class ToPanelEndpoint {
 		LOG.error("Something went wrong in session [{}]", session.getId(), t);
 		LOG.error("Trying to close session {}", session.getId());
 		try {
-			session.close();
+			onClose(session, new CloseReason(CloseReason.CloseCodes.UNEXPECTED_CONDITION, t.getMessage()));
 			LOG.error("Session {} closed", session.getId());
-		} catch (IOException e) {
+		} catch (IOException | SessionManagerException e) {
 			LOG.error("Can not close session [{}]", session.getId(), e);
 		}
 	}

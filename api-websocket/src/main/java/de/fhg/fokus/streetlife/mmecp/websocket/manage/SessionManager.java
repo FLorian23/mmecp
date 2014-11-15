@@ -1,16 +1,17 @@
 package de.fhg.fokus.streetlife.mmecp.websocket.manage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.websocket.Session;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.websocket.Session;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by bdi on 06/11/14.
@@ -41,24 +42,25 @@ public class SessionManager implements Serializable {
 	public List<Session> getEndpointSessions(String endpoint) throws SessionManagerException {
 		List<Session> sessions;
 
-		if (sessionMap.get(endpoint) != null) {
+		if (sessionMap.get(endpoint) != null)
 			sessions = sessionMap.get(endpoint);
-		} else {
+		else
 			throw new SessionManagerException("Endpoint " + endpoint + " does not exist.");
-		}
 
 		return sessions;
 	}
 
 	/**
-	 * Created a new endpoint with an empty list for sessions. Overrides existing endpoint.
+	 * Created a new endpoint with an empty list for sessions if endpoint is not existing.
 	 *
 	 * @param endpoint
 	 *            The endpoint to create
 	 */
 	public void addEndpoint(String endpoint) {
-		sessionMap.put(endpoint, new ArrayList<Session>());
-		LOG.info("Added new endpoint {}", endpoint);
+		if (sessionMap.putIfAbsent(endpoint, new ArrayList<Session>()) != null)
+			LOG.warn("Endpoint {} already exists", endpoint);
+		else
+			LOG.info("Added new endpoint {}", endpoint);
 	}
 
 	/**
@@ -104,8 +106,10 @@ public class SessionManager implements Serializable {
 	 *            The session to remove
 	 */
 	public void removeSession(String endpoint, Session session) {
-		sessionMap.get(endpoint).remove(session);
-		LOG.info("Session {} removed", session.getId());
+		if (sessionMap.get(endpoint).remove(session))
+			LOG.info("Session {} removed from endpoint {}", session.getId(), endpoint);
+		else
+			LOG.warn("Can not remove session {}, because it does not exist in endpoint {}", session, endpoint);
 	}
 
 }

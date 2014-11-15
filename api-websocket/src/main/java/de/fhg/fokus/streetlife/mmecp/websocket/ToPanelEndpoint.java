@@ -16,6 +16,9 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -27,8 +30,9 @@ public class ToPanelEndpoint {
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 	
 	// for simulation
-	private Timer timer = new Timer();
+	private static final ScheduledExecutorService SCHEDULED_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
 	ArrayList<String> demoObjects = new ArrayList<String>();
+	private final int TWENTY_SECONDS = 20*1000;
 
 	@Inject
 	private SessionManager sm;
@@ -50,17 +54,15 @@ public class ToPanelEndpoint {
 		StringWriter writer = new StringWriter();
 		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), writer);
 		demoObjects.add(writer.toString());
-		timer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				LOG.info("Sending new object and notification to {}", endpointName);
-				try {
-					mu.broadcastMessage(endpointName, demoObjects.toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+
+		SCHEDULED_EXECUTOR_SERVICE.schedule(() -> {
+			LOG.info("Sending new object and notification to {}", endpointName);
+			try {
+				mu.broadcastMessage(endpointName, demoObjects.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		}, 20*1000); // 20 seconds
+		}, TWENTY_SECONDS, TimeUnit.MILLISECONDS);
 	}
 
 	@OnMessage

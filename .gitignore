@@ -10,3 +10,4 @@ target
 test-output
 /wildfly
 dependency-analysation
+overlays

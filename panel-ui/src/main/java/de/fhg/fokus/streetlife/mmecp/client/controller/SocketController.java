@@ -10,10 +10,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sksamuel.gwt.websockets.Websocket;
 import com.sksamuel.gwt.websockets.WebsocketListener;
 
-import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoService;
 import de.fhg.fokus.streetlife.mmecp.client.service.EventInfoServiceAsync;
-import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Color;
 import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
@@ -21,9 +19,7 @@ import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 public class SocketController {
 
 	private final static SocketController instance = new SocketController();
-
-	private final Websocket socketToBackEnd = new Websocket(
-			"ws://localhost:8080/api-websocket/panelui");
+	private final Websocket socketToBackEnd = new Websocket("ws://localhost:8080/api-websocket/panelui");
 
 	private SocketController() {
 		openSocketToBackEnd();
@@ -33,31 +29,22 @@ public class SocketController {
 		return instance;
 	}
 
-	int h = 0;
-
 	private void openSocketToBackEnd() {
-
 		socketToBackEnd.addListener(new WebsocketListener() {
-
 			public void onClose() {
 				LOG.getLogger().log(Level.WARNING, "connection closed...");
 			}
 
 			public void onMessage(String msg) {
-				LOG.getLogger().log(Level.WARNING, "msg from server: " + msg);
+				LOG.getLogger().info("New objects to draw from server");
 
 				AsyncCallback<MapObject[]> callback = new AsyncCallback<MapObject[]>() {
-
 					public void onSuccess(MapObject[] result) {
-						LOG._log("result is success!!");
-						LOG._log("size: " + result.length);
-						LOG._log("id: " + result[0].getObjectID());
 
-						LOG._log("result.length: " + result.length);
-						for (int i_result = 0; i_result < result.length; i_result++) {
+						for (int i = 0; i < result.length; i++) {
+							MapContainer.get().drawObject(result[i]);
 
-							LOG._log("result[i_result].getElements().size(): "
-									+ result[i_result].getElements().size());
+							/*
 							for (int i_elements = 0; i_elements < result[i_result]
 									.getElements().size(); i_elements++) {
 								if (result[i_result].getElements()
@@ -71,23 +58,15 @@ public class SocketController {
 											.getElements().get(i_elements)
 											.getMaparea().getColor();
 									// Coordinaten
-									LOG._log("coordinates.get(0).size(): "
-											+ coordinates.get(0).size());
+									LOG._log("coordinates.get(0).size(): "+ coordinates.get(0).size());
 
-									LonLat[] lonLatArray = new LonLat[coordinates
-											.get(0).size()];
-									for (int i_coordinates = 0; i_coordinates < coordinates
-											.get(0).size(); i_coordinates++) {
-
+									LonLat[] lonLatArray = new LonLat[coordinates.get(0).size()];
+									for (int i_coordinates = 0; i_coordinates < coordinates.get(0).size(); i_coordinates++) {
 										// Ein Wertepaar
-										Double d1 = coordinates.get(0)
-												.get(i_coordinates).get(0);
-										Double d2 = coordinates.get(0)
-												.get(i_coordinates).get(1);
+										Double d1 = coordinates.get(0).get(i_coordinates).get(0);
+										Double d2 = coordinates.get(0).get(i_coordinates).get(1);
 										LOG._log(d1 + "/" + d2);
-
-										lonLatArray[i_coordinates] = new LonLat(
-												d1, d2);
+										lonLatArray[i_coordinates] = new LonLat(d1, d2);
 									}
 									// String hex =
 									// String.format("#%02x%02x%02x",
@@ -106,6 +85,7 @@ public class SocketController {
 									LOG._log("result[i_result].getElements().get(i_elements).getMaparea() == NULL == TRUE!!");
 								}
 							}
+							*/
 						}
 					}
 
@@ -114,8 +94,7 @@ public class SocketController {
 					}
 				};
 
-				EventInfoServiceAsync eventInfoService = GWT
-						.create(EventInfoService.class);
+				EventInfoServiceAsync eventInfoService = GWT.create(EventInfoService.class);
 				eventInfoService.getJSONObject(msg, callback);
 			}
 

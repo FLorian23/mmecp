@@ -78,6 +78,13 @@ public class Color implements IsSerializable {
 		this.blue = blue;
 	}
 
+	public String getHex() {
+		return ("#" +
+				Integer.toHexString(0x100 | (int) red).substring(1) +
+				Integer.toHexString(0x100 | (int) green).substring(1) +
+				Integer.toHexString(0x100 | (int) blue).substring(1));
+	}
+
 	/**
 	 * 
 	 * @return The alpha

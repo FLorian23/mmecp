@@ -97,4 +97,21 @@ public class MapObject implements IsSerializable {
 		this.elements = elements;
 	}
 
+	public Maparea getMaparea() {
+		/* Can't execute in gwt jre emulation library
+		List<Element> result = getElements().stream()
+				.filter(element -> element.getMaparea() != null)
+				.collect(Collectors.toList());
+		if (!result.isEmpty())
+			return result.get(0).getMaparea();
+		else
+			return null;
+		*/
+		for (int i = 0; i < elements.size(); i++) {
+			if (elements.get(i).getMaparea() != null)
+				return elements.get(i).getMaparea();
+		}
+		return null;
+	}
+
 }

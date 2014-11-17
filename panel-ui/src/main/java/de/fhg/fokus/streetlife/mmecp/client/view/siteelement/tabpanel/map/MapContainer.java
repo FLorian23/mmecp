@@ -1,5 +1,7 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
+import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
+import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -43,21 +45,27 @@ import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
+import org.mortbay.log.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
 		ClickHandler, ChangeHandler, Observer {
 
 	private static MapContainer instance = null;
-
-	private Position currentPosition = null;
 	final Vector vectorLayer = new Vector("Vector layer");
-	MapWidget mapWidget;
+	private Position currentPosition = null;
+	private MapWidget mapWidget;
+	private Map map;
+	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
+	private boolean isGoogleMaps = true;
+	private HashMap<String, MapObject> drawnObjects = new HashMap();
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
 		buildPanel();
-
-		// TODP:
 		getPanel().setSize("100%", "100%");
 		Subject.get().addToSubjectList(this);
 	}
@@ -73,11 +81,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		return (ClickHandler) get();
 	}
 
-	private Map map;
-
-	private static final Projection DEFAULT_PROJECTION = new Projection(
-			"EPSG:4326");
-	private boolean isGoogleMaps = true;
 
 	public void buildGoogleMaps() {
 		removeAllLayers();
@@ -162,7 +165,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// Polygon-Control
 		// ****************************************
 		map.addLayer(vectorLayer);
-		drawPolygones();
 		// ****************************************
 
 		// Add clickhandler for map
@@ -208,13 +210,23 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 	}
 
-	private void drawPolygones() {
-		drawPolygon(ExampleData.getExamplePolygonForBER(), false,
-				ExampleData.getStyleForPolygon(DAO.RED));
-		drawPolygon(ExampleData.getExamplePolygonForROV(), false,
-				ExampleData.getStyleForPolygon(DAO.RED));
-		drawPolygon(ExampleData.getExamplePolygonForTAM(), false,
-				ExampleData.getStyleForPolygon(DAO.RED));
+	public void drawPolygon(LonLat[] lonLat, String color, double alpha, boolean isGPSPosition, String id) {
+		Style s = new Style();
+		s.setStrokeColor(color);
+		s.setFillColor(color);
+		s.setFillOpacity(alpha);
+		Point[] pointList = new Point[lonLat.length];
+		for (int i = 0; i < lonLat.length; i++) {
+			if (isGPSPosition)
+				lonLat[i].transform(DEFAULT_PROJECTION.getProjectionCode(),
+						map.getProjection());
+			pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
+		}
+		LinearRing linearRing = new LinearRing(pointList);
+		VectorFeature polygonFeature = new VectorFeature(new Polygon(new LinearRing[] { linearRing }));
+		polygonFeature.setFeatureId(id);
+		polygonFeature.setStyle(s);
+		vectorLayer.addFeature(polygonFeature);
 	}
 
 	public static void switchLocation(double lon, double lat) {
@@ -224,19 +236,20 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		get().map.setCenter(lonLat, DAO.MapContainer_DEFAULTZOOMSIZE);
 	}
 
-	public void drawPolygon(LonLat[] lonlat, boolean isGPSPosition, Style s) {
-		Point[] pointList = new Point[lonlat.length];
-		for (int i = 0; i < lonlat.length; i++) {
-			if (isGPSPosition)
-				lonlat[i].transform(DEFAULT_PROJECTION.getProjectionCode(),
-						map.getProjection());
-			pointList[i] = new Point(lonlat[i].lon(), lonlat[i].lat());
+	public void drawObject(MapObject object) {
+		String key = object.getObjectType() + ":" + object.getObjectID();
+		if (drawnObjects.containsKey(key)) {
+			// redraw object
+			LOG.getLogger().info("Redraw object " + key);
+			vectorLayer.removeFeature(vectorLayer.getFeatureById(key));
+		} else {
+			// add and draw object
+			LOG.getLogger().info("Add and draw object " + key);
+			drawnObjects.put(key, object);
 		}
-		LinearRing linearRing = new LinearRing(pointList);
-		VectorFeature polygonFeature = new VectorFeature(new Polygon(
-				new LinearRing[] { linearRing }));
-		polygonFeature.setStyle(s);
-		vectorLayer.addFeature(polygonFeature);
+		List<LonLat> coordinates = object.getMaparea().getArea().getCoordinatesLonLat().get(0);
+		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
+		drawPolygon(lonLats, object.getMaparea().getColor().getHex(), object.getMaparea().getColor().getAlpha(), true, key);
 	}
 
 	public static void switchLocation(DAO.CITY city) {
@@ -245,7 +258,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		switch (city) {
 		case BERLIN:
-
 			lon = DAO.BERLIN_GEO_lon;
 			lat = DAO.BERLIN_GEO_lat;
 			break;
@@ -256,9 +268,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		case TAMPERE:
 			lon = DAO.TAMPERE_GEO_lon;
 			lat = DAO.TAMPERE_GEO_lat;
-
 			break;
-
 		default:
 			break;
 		}

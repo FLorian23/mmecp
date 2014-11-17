@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import com.google.gson.annotations.Expose;
 import com.google.gwt.user.client.rpc.IsSerializable;
+import org.gwtopenmaps.openlayers.client.LonLat;
 
 @Generated("org.jsonschema2pojo")
 public class Area implements IsSerializable{
@@ -46,6 +47,21 @@ public class Area implements IsSerializable{
      */
     public List<List<List<Double>>> getCoordinates() {
         return coordinates;
+    }
+
+    public List<List<LonLat>> getCoordinatesLonLat() {
+        List<List<LonLat>> result = new ArrayList<List<LonLat>>();
+        for (int j = 0; j < coordinates.size(); j++) {
+            List<LonLat> lonLatArray = new ArrayList<LonLat>();
+            for (int i = 0; i < coordinates.get(j).size(); i++) {
+                lonLatArray.add(new LonLat(
+                        coordinates.get(j).get(i).get(0),
+                        coordinates.get(j).get(i).get(1)
+                ));
+            }
+            result.add(lonLatArray);
+        }
+        return result;
     }
 
     /**

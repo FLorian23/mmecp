@@ -3,6 +3,7 @@ package de.fhg.fokus.streetlife.mmecp.websocket;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +21,6 @@ import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
 
-
 /**
  * Created by bdi on 03/11/14.
  */
@@ -28,11 +28,12 @@ import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
 public class ToPanelEndpoint {
 
 	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-	
+
 	// for simulation
 	private static final ScheduledExecutorService SCHEDULED_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
-	ArrayList<String> demoObjects = new ArrayList<String>();
-	private final int TWENTY_SECONDS = 20*1000;
+	private final int TWENTY_SECONDS = 20 * 1000;
+	List<String> demoObject = new ArrayList<>();
+	List<String> demoNotification = new ArrayList<>();
 
 	@Inject
 	private SessionManager sm;
@@ -48,21 +49,6 @@ public class ToPanelEndpoint {
 	public void onOpen(Session session) throws IOException, SessionManagerException {
 		LOG.info("User {} connected...", session.getId());
 		sm.addEndpointSession(endpointName, session);
-		
-		// simulate notification
-		//TODO delete for real stuff
-		StringWriter writer = new StringWriter();
-		IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), writer);
-		demoObjects.add(writer.toString());
-
-		SCHEDULED_EXECUTOR_SERVICE.schedule(() -> {
-			LOG.info("Sending new object and notification to {}", endpointName);
-			try {
-				mu.broadcastMessage(endpointName, demoObjects.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}, TWENTY_SECONDS, TimeUnit.MILLISECONDS);
 	}
 
 	@OnMessage
@@ -72,7 +58,27 @@ public class ToPanelEndpoint {
 			mu.broadcastMessage(endpointName, getObjectsOfType(message.replace("getObjectsOfType:", "")));
 		} else if (message.startsWith("newGuidance")) {
 			setNewGuidance(message.replace("newGuidance:", ""));
-		} else throw new IOException("Can't interpret the message");
+		} else if (message.startsWith("demo")) {
+			// simulate notification
+			//TODO delete for real stuff
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), writer);
+			demoObject.add(writer.toString());
+			writer = new StringWriter();
+			IOUtils.copy(this.getClass().getResourceAsStream("/json/exampleNotify.json"), writer);
+			demoNotification.add(writer.toString());
+
+			SCHEDULED_EXECUTOR_SERVICE.schedule(() -> {
+				LOG.info("Sending new object and notification to {}", endpointName);
+				try {
+					mu.broadcastMessage(endpointName, demoObject.toString());
+					mu.broadcastMessage(endpointName, demoNotification.toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}, TWENTY_SECONDS, TimeUnit.MILLISECONDS);
+		} else
+			throw new IOException("Can't interpret the message");
 	}
 
 	@OnClose
@@ -92,7 +98,7 @@ public class ToPanelEndpoint {
 			LOG.error("Can not close session [{}]", session.getId(), e);
 		}
 	}
-	
+
 	private String getObjectsOfType(String type) {
 		// example data
 		//TODO real stuff
@@ -102,7 +108,7 @@ public class ToPanelEndpoint {
 			for (int i = 1; i <= 4; i++) {
 				try {
 					StringWriter writer = new StringWriter();
-					IOUtils.copy(this.getClass().getResourceAsStream("/json/example"+i+".json"), writer);
+					IOUtils.copy(this.getClass().getResourceAsStream("/json/example" + i + ".json"), writer);
 					objects.add(writer.toString());
 				} catch (IOException e) {
 					LOG.error("Can't read resource!", e);
@@ -112,7 +118,7 @@ public class ToPanelEndpoint {
 		LOG.info("Sending {} objects.", objects.size());
 		return objects.toString();
 	}
-	
+
 	private void setNewGuidance(String guidance) {
 		//TODO generate guidance and save to data storage
 	}

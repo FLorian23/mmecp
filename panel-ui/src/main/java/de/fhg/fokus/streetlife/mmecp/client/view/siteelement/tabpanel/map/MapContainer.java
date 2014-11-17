@@ -1,6 +1,7 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
+import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
 import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -262,6 +263,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			lat = DAO.BERLIN_GEO_lat;
 			break;
 		case ROVERETO:
+			SocketController.get().requestForDemo();
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
 			break;

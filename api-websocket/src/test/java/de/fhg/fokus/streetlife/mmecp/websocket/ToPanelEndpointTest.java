@@ -1,8 +1,8 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.configurator.MMECPConfigFactory;
-import de.fhg.fokus.streetlife.configurator.SystemConfiguration;
+import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfigFactory;
+import de.fhg.fokus.streetlife.mmecp.configurator.SystemConfiguration;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import org.glassfish.tyrus.client.ClientManager;
@@ -85,7 +85,7 @@ public class ToPanelEndpointTest extends Arquillian {
 	}
 
 	// This is just to show how to start the annoted client! Please use annotated method for further implementation.
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void testToPanelEndpointAnnotated() throws Exception {
 		messageLatch = new CountDownLatch(1);
 		WebSocketContainer container = ContainerProvider.getWebSocketContainer();

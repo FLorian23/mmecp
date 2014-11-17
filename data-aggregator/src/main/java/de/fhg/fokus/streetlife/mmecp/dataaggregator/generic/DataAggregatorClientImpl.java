@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.dataaggregator.generic;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.DataAggregatorClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.api.AtomClient;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.impl.ChannelImpl;
@@ -25,7 +25,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by benjamin on 20.08.14.

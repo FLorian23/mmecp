@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.configurator;
+package de.fhg.fokus.streetlife.mmecp.configurator;
 
 import java.io.IOException;
 import java.io.InputStream;

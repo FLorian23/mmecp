@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.fhg.fokus.streetlife.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;

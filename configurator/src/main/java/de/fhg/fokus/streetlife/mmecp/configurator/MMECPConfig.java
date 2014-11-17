@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.configurator;
+package de.fhg.fokus.streetlife.mmecp.configurator;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;

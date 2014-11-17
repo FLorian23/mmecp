@@ -1,4 +1,4 @@
-package de.fhg.fokus.streetlife.configurator;
+package de.fhg.fokus.streetlife.mmecp.configurator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;

@@ -7,8 +7,8 @@
 
 	<!-- Servlets -->	
 	<servlet>
-		<servlet-name>EventInfoServiceImpl</servlet-name>
-		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.EventInfoServiceImpl</servlet-class>
+		<servlet-name>JSONObjectServiceImpl</servlet-name>
+		<servlet-class>de.fhg.fokus.streetlife.mmecp.server.service.JSONObjectServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
@@ -20,8 +20,8 @@
 
 
 	<servlet-mapping>
-		<servlet-name>EventInfoServiceImpl</servlet-name>
-		<url-pattern>/PanelUI/EventInfoService</url-pattern>
+		<servlet-name>JSONObjectServiceImpl</servlet-name>
+		<url-pattern>/PanelUI/JSONObject</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

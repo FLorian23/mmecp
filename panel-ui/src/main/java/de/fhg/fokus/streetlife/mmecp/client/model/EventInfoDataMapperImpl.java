@@ -4,6 +4,8 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
+
 public class EventInfoDataMapperImpl implements IEventInfoDataMapper {
 
 	Label caption;

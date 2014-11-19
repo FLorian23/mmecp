@@ -3,6 +3,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
 import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
+
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -46,9 +47,11 @@ import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
+
 import org.mortbay.log.Log;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,7 +85,19 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		return (ClickHandler) get();
 	}
 
-
+	public MapObject getMapObjectByID(String objectType, int id){
+		Collection<MapObject> values = drawnObjects.values();
+		for (MapObject a : values){
+			LOG.logToConsole(a.getObjectType() + ":" + a.getObjectID() + "<<>>" + objectType + ":" + id);
+			if (a.getObjectID() == id && objectType.compareTo(a.getObjectType()) == 0){
+				LOG.logToConsole("MATCH Objekt");
+				return a;
+			}
+				
+		}
+		return null;
+	}
+	
 	public void buildGoogleMaps() {
 		removeAllLayers();
 		GoogleV3Options gHybridOptions = new GoogleV3Options();
@@ -231,10 +246,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	public static void switchLocation(double lon, double lat) {
+		switchLocation(lon, lat, DAO.MapContainer_DEFAULTZOOMSIZE);
+	}
+	
+	public static void switchLocation(double lon, double lat, int zoom) {
 		LonLat lonLat = new LonLat(lon, lat);
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
-		get().map.setCenter(lonLat, DAO.MapContainer_DEFAULTZOOMSIZE);
+		get().map.setCenter(lonLat, zoom);
 	}
 
 	public void drawObject(MapObject object) {

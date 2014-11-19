@@ -11,7 +11,7 @@ public class EventInfoScheduler {
 	public EventInfoScheduler(EventNotificationReceiver receiver) {
 		this.receiver = receiver;
 	}
-
+//TODO: delete
 	// @Override
 	// public void run() {
 	// if (!isWaiting) {

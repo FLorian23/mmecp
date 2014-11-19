@@ -14,7 +14,7 @@ import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.fhg.fokus.streetlife.mmecp.share.dto.EventInfo;
+import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
 import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
 
 public class JSONProcessor {
@@ -42,10 +42,10 @@ public class JSONProcessor {
 		this.jSONString = jSONString;
 	}
 
-	public static MapObject[] parse(String jSONExample) throws Exception {
+	public static <T> T parse(String jSONExample, Class<T> myClass) throws Exception {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
 				.create();
-		MapObject[] eI = gson.fromJson(jSONExample, MapObject[].class);
+		T eI = gson.fromJson(jSONExample, myClass);
 
 		return eI;
 	}

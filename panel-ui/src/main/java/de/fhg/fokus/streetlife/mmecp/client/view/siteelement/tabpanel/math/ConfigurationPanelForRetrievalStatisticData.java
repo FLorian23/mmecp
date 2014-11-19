@@ -60,7 +60,7 @@ public class ConfigurationPanelForRetrievalStatisticData extends
 		addWidgetToPanel(vp1, "listOfAttributeIdentifiersPanelWrapperID",
 				"listOfAttributeIdentifiersPanelWrapper");
 
-		// list_of_condition_keywords (Todo:)
+		// list_of_condition_keywords
 		VerticalPanel vp2 = new VerticalPanel();
 		VerticalPanel listOfConditionKeywords = getListOfConditionKeywords();
 		addWidgetToPanel(listOfConditionKeywords, "listOfConditionKeywords",

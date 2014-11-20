@@ -130,8 +130,11 @@ body {
 
 #slideRightPanelContentWrapper, #slideRightPanelContent{
 	background-color: #EEEEEE;
-	width: 300px;
+	width: 400px;
 	pointer-events:visiblePainted;
+	opacity: 0.9;
+	border-spacing: 5px;
+	border-collapse: initial;
 }
 
 #slideLeftPanelContentWrapper, #slideLeftPanelContent{

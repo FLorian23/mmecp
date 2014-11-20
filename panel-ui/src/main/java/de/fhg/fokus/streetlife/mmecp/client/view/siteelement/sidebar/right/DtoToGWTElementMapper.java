@@ -2,6 +2,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 
@@ -74,15 +75,21 @@ public class DtoToGWTElementMapper {
 		List<Element> elements = panelObject.getElements();
 
 		// Caption
-		eventInfo.setCaption(new Label(panelObject.getDescription()));
+		Label captionlabel = new Label(panelObject.getDescription());
+		captionlabel.getElement().setClassName("page-header");
+		eventInfo.setCaption(captionlabel);
 
 		int i = 0;
 		IsWidget[] w = new IsWidget[elements.size()];
 
 		for (Element e : elements) {
 			if (e.getAttribute() != null) {
-				w[i++] = new Label(e.getAttribute().getLabel() + " : "
+				Label l = new Label(e.getAttribute().getLabel() + " : "
 						+ e.getAttribute().getValue());
+				l.getElement().setClassName("label");
+				l.getElement().getStyle().setFontSize(17, Unit.PX);
+				l.getElement().getStyle().setColor("black");
+				w[i++] = l;
 			}
 			if (e.getChart() != null) {
 
@@ -93,8 +100,9 @@ public class DtoToGWTElementMapper {
 					w[i++] = new ColumnChart(DiagramData.fromDTOChartData(data));
 					break;
 				case LINECHART:
-//					w[i++] = new LineChart(DiagramData.fromDTOChartData(data));
-					w[i++] = new ColumnChart(DiagramData.fromDTOChartData(data));
+					w[i++] = new LineChart(DiagramData.fromDTOChartData(data));
+					// w[i++] = new
+					// ColumnChart(DiagramData.fromDTOChartData(data));
 					break;
 				case PIECHART:
 					w[i++] = new PieChart(DiagramData.fromDTOChartData(data));

@@ -2,6 +2,7 @@
 	"type": "mapobject",
 	"objectID": 3,
 	"objectType": "ParkingStation",
+	"description" : "Parkingstation",
 	"location": {
 		"type": "Point",
 		"coordinates": [

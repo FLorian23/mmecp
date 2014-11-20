@@ -7,7 +7,9 @@ import com.google.gwt.user.client.ui.Label;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.EventInfoDataMapperImpl;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
+import de.fhg.fokus.streetlife.mmecp.client.view.dia.ColumnChart;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.DiagramData;
+import de.fhg.fokus.streetlife.mmecp.client.view.dia.LineChart;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.PieChart;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Element;
@@ -68,28 +70,46 @@ public class DtoToGWTElementMapper {
 
 	public static IEventInfoDataMapper map(PanelObject panelObject) {
 		EventInfoDataMapperImpl eventInfo = new EventInfoDataMapperImpl();
-		
+
 		List<Element> elements = panelObject.getElements();
 
-		//Caption
-		eventInfo.setCaption( new Label("ModalSplit"));
-		
+		// Caption
+		eventInfo.setCaption(new Label(panelObject.getDescription()));
+
 		int i = 0;
 		IsWidget[] w = new IsWidget[elements.size()];
-		
-		for (Element e : elements){
-			if (e.getAttribute() != null){
-				w[i++] = new Label(e.getAttribute().getLabel() + " : " + e.getAttribute().getValue());
+
+		for (Element e : elements) {
+			if (e.getAttribute() != null) {
+				w[i++] = new Label(e.getAttribute().getLabel() + " : "
+						+ e.getAttribute().getValue());
 			}
-			if (e.getChart() != null){
+			if (e.getChart() != null) {
+
 				List<Datum> data = e.getChart().getData();
-				w[i++] = new PieChart(DiagramData.fromDTOChartData(data));
+
+				switch (e.getChart().getType()) {
+				case BARCHART:
+					w[i++] = new ColumnChart(DiagramData.fromDTOChartData(data));
+					break;
+				case LINECHART:
+//					w[i++] = new LineChart(DiagramData.fromDTOChartData(data));
+					w[i++] = new ColumnChart(DiagramData.fromDTOChartData(data));
+					break;
+				case PIECHART:
+					w[i++] = new PieChart(DiagramData.fromDTOChartData(data));
+					break;
+
+				default:
+					break;
+				}
+
 			}
-			if (e.getIcon() != null){
-				
+			if (e.getIcon() != null) {
+
 			}
 		}
-		
+
 		eventInfo.setWidgets(w);
 		return eventInfo;
 	}

@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.query.client.css.CSS;
 import com.google.gwt.query.client.css.TextAlignProperty.TextAlign;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -63,11 +64,12 @@ public class PopUpPanel extends SiteElement<SimplePanel> implements
 
 		// Zoom
 		/*
-		 * GEO Location(1): 1228781.1226039/5762482.0842204 GEO Location(2):
+		 * GEO Location(1): 1228781.1226039/5762482.0842204 
+		 * GEO Location(2):
 		 * 11.038328634262818/45.888392762760496
 		 */
 		// TODO: Coords anpassen
-		List<Double> coordinates = getPanelObject().getLocation()
+		List<Double> coordinates = getPanelObject().getMapObject().getLocation()
 				.getCoordinates();
 		MapContainer.switchLocation(coordinates.get(0), coordinates.get(1), 16);
 	}

@@ -52,7 +52,10 @@ public class SocketController {
 							}else if(result[i].getType().equals(Type.NOTIFICATION)){
 								LOG.logToConsole("New Notification: " + result[i].getDescription());
 								result[i].setMapObject(MapContainer.get().getMapObjectByID("ParkingStation", 1));
-								if (result[i].getMapObject() == null) break;
+								if (result[i].getMapObject() == null){
+									LOG.logToConsole("NO MATCH MAPOBJECT");
+									break;
+								}
 								PopUpPanelContainer.get().newNotification(result[i], 0);
 							}
 						}

@@ -8,7 +8,7 @@ public class DAO {
 
 	// Map
 	public final static int MapContainer_DEFAULTZOOMSIZE = 12;
-	public final static int MapContainer_SetNumZoomLevels = 16;
+	public final static int MapContainer_SetNumZoomLevels = 19;
 	public final static CITY DEFAULT_CITY = CITY.BERLIN;
 
 	public static int getDefaultZoomLevelForCity(CITY c) {

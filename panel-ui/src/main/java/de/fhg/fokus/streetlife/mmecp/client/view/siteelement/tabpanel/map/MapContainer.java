@@ -278,20 +278,23 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		case BERLIN:
 			lon = DAO.BERLIN_GEO_lon;
 			lat = DAO.BERLIN_GEO_lat;
+			switchLocation(lon, lat, DAO.BERLIN_ZOOMLEVEL);
 			break;
 		case ROVERETO:
 			SocketController.get().requestForDemo();
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
+			switchLocation(lon, lat, DAO.ROVERETO_ZOOMLEVEL);
 			break;
 		case TAMPERE:
 			lon = DAO.TAMPERE_GEO_lon;
 			lat = DAO.TAMPERE_GEO_lat;
+			switchLocation(lon, lat, DAO.TAMPERE_ZOOMLEVEL);
 			break;
 		default:
 			break;
 		}
-		switchLocation(lon, lat);
+		
 	}
 
 	public void onClick(ClickEvent event) {

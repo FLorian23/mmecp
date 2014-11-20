@@ -2,7 +2,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
-import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
@@ -65,7 +65,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private Map map;
 	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
 	private boolean isGoogleMaps = true;
-	private HashMap<String, MapObject> drawnObjects = new HashMap();
+	private HashMap<String, PanelObject> drawnObjects = new HashMap();
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -85,12 +85,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		return (ClickHandler) get();
 	}
 
-	public MapObject getMapObjectByID(String objectType, int id){
-		Collection<MapObject> values = drawnObjects.values();
-		for (MapObject a : values){
-			LOG.logToConsole(a.getObjectType() + ":" + a.getObjectID() + "<<>>" + objectType + ":" + id);
+	public PanelObject getMapObjectByID(String objectType, int id){
+		Collection<PanelObject> values = drawnObjects.values();
+		for (PanelObject a : values){
 			if (a.getObjectID() == id && objectType.compareTo(a.getObjectType()) == 0){
-				LOG.logToConsole("MATCH Objekt");
 				return a;
 			}
 				
@@ -256,7 +254,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		get().map.setCenter(lonLat, zoom);
 	}
 
-	public void drawObject(MapObject object) {
+	public void drawObject(PanelObject object) {
 		String key = object.getObjectType() + ":" + object.getObjectID();
 		if (drawnObjects.containsKey(key)) {
 			// redraw object

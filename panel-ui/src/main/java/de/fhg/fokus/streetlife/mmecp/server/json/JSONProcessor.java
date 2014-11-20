@@ -14,9 +14,6 @@ import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
-import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
-
 public class JSONProcessor {
 
 	private String jSONString = "-1";
@@ -42,7 +39,8 @@ public class JSONProcessor {
 		this.jSONString = jSONString;
 	}
 
-	public static <T> T parse(String jSONExample, Class<T> myClass) throws Exception {
+	public static <T> T parse(String jSONExample, Class<T> myClass)
+			throws Exception {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX")
 				.create();
 		T eI = gson.fromJson(jSONExample, myClass);
@@ -60,8 +58,8 @@ public class JSONProcessor {
 		ProcessingReport report = null;
 		boolean result = false;
 		try {
-//			System.out.println("Applying schema: @<@<" + jsonSchema
-//					+ ">@>@ to data: #<#<" + jsonData + ">#>#");
+			// System.out.println("Applying schema: @<@<" + jsonSchema
+			// + ">@>@ to data: #<#<" + jsonData + ">#>#");
 			JsonNode schemaNode = JsonLoader.fromString(jsonSchema);
 			JsonNode data = JsonLoader.fromString(jsonData);
 			JsonSchemaFactory factory = JsonSchemaFactory.byDefault();

@@ -4,8 +4,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
-import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 		JSONObjectService {
@@ -63,20 +62,10 @@ public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 	// return eventInfo;
 	// }
 
-	public MapObject[] getMapObject(String jSONExample) {
+	public PanelObject[] getPanelObject(String jSONExample) {
 		// Parse
 		try {
-			return JSONProcessor.parse(jSONExample, MapObject[].class);
-		} catch (Exception e) {
-			System.out.println("error parsing");
-		}
-		return null;
-	}
-
-	public Notification getNotificationObject(String jSONExample) {
-		// Parse
-		try {
-			return JSONProcessor.parse(jSONExample, Notification.class);
+			return JSONProcessor.parse(jSONExample, PanelObject[].class);
 		} catch (Exception e) {
 			System.out.println("error parsing");
 		}

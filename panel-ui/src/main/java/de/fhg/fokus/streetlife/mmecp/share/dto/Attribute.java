@@ -1,29 +1,57 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import javax.annotation.Generated;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.google.gson.annotations.Expose;
-import com.google.gwt.user.client.rpc.IsSerializable;
+import javax.annotation.Generated;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * An element type to visualize a single label value pair.
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-public class Attribute implements IsSerializable {
+@JsonPropertyOrder({ "type", "label", "value" })
+public class Attribute implements Serializable {
 
-	@Expose
-	@Size(max = 30)
+	@JsonProperty("type")
+	private Attribute.Type type;
+	@JsonProperty("label")
 	private String label;
-	@Expose
-	@Size(max = 50)
+	@JsonProperty("value")
 	private String value;
+
+	/**
+	 * 
+	 * @return The type
+	 */
+	@JsonProperty("type")
+	public Attribute.Type getType() {
+		return type;
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            The type
+	 */
+	@JsonProperty("type")
+	public void setType(Attribute.Type type) {
+		this.type = type;
+	}
 
 	/**
 	 * 
 	 * @return The label
 	 */
+	@JsonProperty("label")
 	public String getLabel() {
 		return label;
 	}
@@ -33,6 +61,7 @@ public class Attribute implements IsSerializable {
 	 * @param label
 	 *            The label
 	 */
+	@JsonProperty("label")
 	public void setLabel(String label) {
 		this.label = label;
 	}
@@ -41,6 +70,7 @@ public class Attribute implements IsSerializable {
 	 * 
 	 * @return The value
 	 */
+	@JsonProperty("value")
 	public String getValue() {
 		return value;
 	}
@@ -50,8 +80,44 @@ public class Attribute implements IsSerializable {
 	 * @param value
 	 *            The value
 	 */
+	@JsonProperty("value")
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	@Generated("org.jsonschema2pojo")
+	public static enum Type {
+
+		ATTRIBUTE("attribute");
+		private final String value;
+		private static Map<String, Attribute.Type> constants = new HashMap<String, Attribute.Type>();
+
+		static {
+			for (Attribute.Type c : values()) {
+				constants.put(c.value, c);
+			}
+		}
+
+		private Type(String value) {
+			this.value = value;
+		}
+
+		@JsonValue
+		@Override
+		public String toString() {
+			return this.value;
+		}
+
+		@JsonCreator
+		public static Attribute.Type fromValue(String value) {
+			Attribute.Type constant = constants.get(value);
+			if (constant == null) {
+				throw new IllegalArgumentException(value);
+			} else {
+				return constant;
+			}
+		}
+
 	}
 
 }

@@ -11,8 +11,8 @@ import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
-import de.fhg.fokus.streetlife.mmecp.share.dto.MapObject;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
 
 public class SocketController {
 
@@ -36,21 +36,25 @@ public class SocketController {
 
 			public void onMessage(String msg) {
 				LOG.getLogger().info("New objects to draw from server");
-
+				LOG.getLogger().info(msg);
 				//If MapObjekt
 				//*******************************************
-				AsyncCallback<MapObject[]> callback = new AsyncCallback<MapObject[]>() {
-					public void onSuccess(MapObject[] result) {
+				AsyncCallback<PanelObject[]> callback = new AsyncCallback<PanelObject[]>() {
+					public void onSuccess(PanelObject[] result) {
+						LOG.logToConsole(result.length + " new PanelObjetcs");
+						LOG.logToConsole(result[0].getObjectType() + "");
 						for (int i = 0; i < result.length; i++) {
-							MapContainer.get().drawObject(result[i]);
+							LOG.logToConsole(result[i].getType() + "");
 							
-							
-							//For Testing
-							Notification notification = new Notification();
-							notification.setId(counter++ + "");
-							notification.setNotificationText("Status of parking lot has changed!");
-							notification.setMapObject(MapContainer.get().getMapObjectByID("ParkingStation", 1));
-							PopUpPanelContainer.get().newNotification(notification, 0);
+							if (result[i].getType().equals(Type.MAPOBJECT)){
+								LOG.logToConsole("New MAPOBJECT");
+								MapContainer.get().drawObject(result[i]);
+							}else if(result[i].getType().equals(Type.NOTIFICATION)){
+								LOG.logToConsole("New Notification: " + result[i].getDescription());
+								result[i].setMapObject(MapContainer.get().getMapObjectByID("ParkingStation", 1));
+								if (result[i].getMapObject() == null) break;
+								PopUpPanelContainer.get().newNotification(result[i], 0);
+							}
 						}
 					}
 
@@ -60,7 +64,7 @@ public class SocketController {
 				};
 
 				JSONObjectServiceAsync eventInfoService = GWT.create(JSONObjectService.class);
-				eventInfoService.getMapObject(msg, callback);
+				eventInfoService.getPanelObject(msg, callback);
 				//*******************************************
 				
 				

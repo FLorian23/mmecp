@@ -31,7 +31,7 @@
 		{
 			"attribute": {
 				"label": "Fare/h",
-				"value": "1,50 €"
+				"value": "1,50 EURO"
 			}
 		},
 		{
@@ -159,6 +159,43 @@
 					"blue": 0,
 					"alpha": 0.5
 				}
+			}
+		},
+		{
+			"chart": {
+				"type": "linechart",
+				"labeldescription": "weekdays",
+				"valuedescription": "average usage (%)",
+				"data": [
+					{
+						"label": "Mon.",
+						"value": 65
+					},
+					{
+						"label": "Tue.",
+						"value": 68
+					},
+					{
+						"label": "Wed.",
+						"value": 72
+					},
+					{
+						"label": "Thu.",
+						"value": 65
+					},
+					{
+						"label": "Fri.",
+						"value": 62
+					},
+					{
+						"label": "Sat.",
+						"value": 34
+					},
+					{
+						"label": "Sun.",
+						"value": 29
+					}
+				]
 			}
 		}
 	]

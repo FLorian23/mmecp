@@ -1,37 +1,40 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Generated;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 
-import com.google.gson.annotations.Expose;
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-public class Color implements IsSerializable {
+@JsonPropertyOrder({ "red", "green", "blue", "alpha" })
+public class Color implements Serializable {
 
-	@Expose
-	@DecimalMin("0")
-	@DecimalMax("255")
-	private double red;
-	@Expose
-	@DecimalMin("0")
-	@DecimalMax("255")
-	private double green;
-	@Expose
-	@DecimalMin("0")
-	@DecimalMax("255")
-	private double blue;
-	@Expose
-	@DecimalMin("0.0")
-	@DecimalMax("1.0")
-	private double alpha;
+	@JsonProperty("red")
+	private Double red;
+	@JsonProperty("green")
+	private Double green;
+	@JsonProperty("blue")
+	private Double blue;
+	@JsonProperty("alpha")
+	private Double alpha;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	/**
 	 * 
 	 * @return The red
 	 */
-	public double getRed() {
+	@JsonProperty("red")
+	public Double getRed() {
 		return red;
 	}
 
@@ -40,7 +43,8 @@ public class Color implements IsSerializable {
 	 * @param red
 	 *            The red
 	 */
-	public void setRed(double red) {
+	@JsonProperty("red")
+	public void setRed(Double red) {
 		this.red = red;
 	}
 
@@ -48,7 +52,8 @@ public class Color implements IsSerializable {
 	 * 
 	 * @return The green
 	 */
-	public double getGreen() {
+	@JsonProperty("green")
+	public Double getGreen() {
 		return green;
 	}
 
@@ -57,7 +62,8 @@ public class Color implements IsSerializable {
 	 * @param green
 	 *            The green
 	 */
-	public void setGreen(double green) {
+	@JsonProperty("green")
+	public void setGreen(Double green) {
 		this.green = green;
 	}
 
@@ -65,7 +71,8 @@ public class Color implements IsSerializable {
 	 * 
 	 * @return The blue
 	 */
-	public double getBlue() {
+	@JsonProperty("blue")
+	public Double getBlue() {
 		return blue;
 	}
 
@@ -74,23 +81,24 @@ public class Color implements IsSerializable {
 	 * @param blue
 	 *            The blue
 	 */
-	public void setBlue(double blue) {
+	@JsonProperty("blue")
+	public void setBlue(Double blue) {
 		this.blue = blue;
-	}
-
-	public String getHex() {
-		return ("#" +
-				Integer.toHexString(0x100 | (int) red).substring(1) +
-				Integer.toHexString(0x100 | (int) green).substring(1) +
-				Integer.toHexString(0x100 | (int) blue).substring(1));
 	}
 
 	/**
 	 * 
 	 * @return The alpha
 	 */
-	public double getAlpha() {
+	@JsonProperty("alpha")
+	public Double getAlpha() {
 		return alpha;
+	}
+
+	public String getHex() {
+		return ("#" + Integer.toHexString(0x100 | red.intValue()).substring(1)
+				+ Integer.toHexString(0x100 | green.intValue()).substring(1) + Integer
+				.toHexString(0x100 | blue.intValue()).substring(1));
 	}
 
 	/**
@@ -98,8 +106,19 @@ public class Color implements IsSerializable {
 	 * @param alpha
 	 *            The alpha
 	 */
-	public void setAlpha(double alpha) {
+	@JsonProperty("alpha")
+	public void setAlpha(Double alpha) {
 		this.alpha = alpha;
+	}
+
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
+
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
 	}
 
 }

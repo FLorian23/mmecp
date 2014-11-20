@@ -1,41 +1,43 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
 
-import com.google.gson.annotations.Expose;
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * An element type to visualize a chart for a list of label value pairs.
  * 
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-public class Chart implements IsSerializable {
+@JsonPropertyOrder({ "type", "labeldescription", "valuedescription", "data" })
+public class Chart implements Serializable {
 
-	@Expose
+	@JsonProperty("type")
 	private Chart.Type type;
-	@Expose
-	@Size(max = 30)
+	@JsonProperty("labeldescription")
 	private String labeldescription;
-	@Expose
-	@Size(max = 30)
+	@JsonProperty("valuedescription")
 	private String valuedescription;
-	@Expose
-	@Size(min = 1)
-	@Valid
+	@JsonProperty("data")
 	private List<Datum> data = new ArrayList<Datum>();
 
 	/**
 	 * 
 	 * @return The type
 	 */
+	@JsonProperty("type")
 	public Chart.Type getType() {
 		return type;
 	}
@@ -45,6 +47,7 @@ public class Chart implements IsSerializable {
 	 * @param type
 	 *            The type
 	 */
+	@JsonProperty("type")
 	public void setType(Chart.Type type) {
 		this.type = type;
 	}
@@ -53,6 +56,7 @@ public class Chart implements IsSerializable {
 	 * 
 	 * @return The labeldescription
 	 */
+	@JsonProperty("labeldescription")
 	public String getLabeldescription() {
 		return labeldescription;
 	}
@@ -62,6 +66,7 @@ public class Chart implements IsSerializable {
 	 * @param labeldescription
 	 *            The labeldescription
 	 */
+	@JsonProperty("labeldescription")
 	public void setLabeldescription(String labeldescription) {
 		this.labeldescription = labeldescription;
 	}
@@ -70,6 +75,7 @@ public class Chart implements IsSerializable {
 	 * 
 	 * @return The valuedescription
 	 */
+	@JsonProperty("valuedescription")
 	public String getValuedescription() {
 		return valuedescription;
 	}
@@ -79,6 +85,7 @@ public class Chart implements IsSerializable {
 	 * @param valuedescription
 	 *            The valuedescription
 	 */
+	@JsonProperty("valuedescription")
 	public void setValuedescription(String valuedescription) {
 		this.valuedescription = valuedescription;
 	}
@@ -87,6 +94,7 @@ public class Chart implements IsSerializable {
 	 * 
 	 * @return The data
 	 */
+	@JsonProperty("data")
 	public List<Datum> getData() {
 		return data;
 	}
@@ -96,6 +104,7 @@ public class Chart implements IsSerializable {
 	 * @param data
 	 *            The data
 	 */
+	@JsonProperty("data")
 	public void setData(List<Datum> data) {
 		this.data = data;
 	}
@@ -103,7 +112,14 @@ public class Chart implements IsSerializable {
 	@Generated("org.jsonschema2pojo")
 	public static enum Type {
 
-		PIECHART("piechart"), BARCHART("barchart");
+		@SerializedName("piechart")
+		PIECHART("piechart"),
+		
+		@SerializedName("barchart")
+		BARCHART("barchart"),
+		
+		@SerializedName("linechart")
+		LINECHART("linechart");
 		private final String value;
 		private static Map<String, Chart.Type> constants = new HashMap<String, Chart.Type>();
 
@@ -117,11 +133,13 @@ public class Chart implements IsSerializable {
 			this.value = value;
 		}
 
+		@JsonValue
 		@Override
 		public String toString() {
 			return this.value;
 		}
 
+		@JsonCreator
 		public static Chart.Type fromValue(String value) {
 			Chart.Type constant = constants.get(value);
 			if (constant == null) {

@@ -1,48 +1,56 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Generated;
-import javax.validation.Valid;
 
-import com.google.gson.annotations.Expose;
-import com.google.gwt.user.client.rpc.IsSerializable;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-public class Element implements IsSerializable {
+@JsonPropertyOrder({ "attribute", "chart", "icon", "maparea" })
+public class Element implements Serializable {
 
 	/**
 	 * An element type to visualize a single label value pair.
 	 * 
 	 */
-	@Expose
-	@Valid
+	@JsonProperty("attribute")
 	private Attribute attribute;
 	/**
 	 * An element type to visualize a chart for a list of label value pairs.
 	 * 
 	 */
-	@Expose
-	@Valid
+	@JsonProperty("chart")
 	private Chart chart;
 	/**
 	 * An element type to visualize and place an image at the defined position.
 	 * 
 	 */
-	@Expose
-	@Valid
+	@JsonProperty("icon")
 	private Icon icon;
 	/**
 	 * An element type to visualize and colorize a specific geolocation.
 	 * 
 	 */
-	@Expose
-	@Valid
+	@JsonProperty("maparea")
 	private Maparea maparea;
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	/**
 	 * An element type to visualize a single label value pair.
 	 * 
 	 * @return The attribute
 	 */
+	@JsonProperty("attribute")
 	public Attribute getAttribute() {
 		return attribute;
 	}
@@ -53,6 +61,7 @@ public class Element implements IsSerializable {
 	 * @param attribute
 	 *            The attribute
 	 */
+	@JsonProperty("attribute")
 	public void setAttribute(Attribute attribute) {
 		this.attribute = attribute;
 	}
@@ -62,6 +71,7 @@ public class Element implements IsSerializable {
 	 * 
 	 * @return The chart
 	 */
+	@JsonProperty("chart")
 	public Chart getChart() {
 		return chart;
 	}
@@ -72,6 +82,7 @@ public class Element implements IsSerializable {
 	 * @param chart
 	 *            The chart
 	 */
+	@JsonProperty("chart")
 	public void setChart(Chart chart) {
 		this.chart = chart;
 	}
@@ -81,6 +92,7 @@ public class Element implements IsSerializable {
 	 * 
 	 * @return The icon
 	 */
+	@JsonProperty("icon")
 	public Icon getIcon() {
 		return icon;
 	}
@@ -91,6 +103,7 @@ public class Element implements IsSerializable {
 	 * @param icon
 	 *            The icon
 	 */
+	@JsonProperty("icon")
 	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
@@ -100,6 +113,7 @@ public class Element implements IsSerializable {
 	 * 
 	 * @return The maparea
 	 */
+	@JsonProperty("maparea")
 	public Maparea getMaparea() {
 		return maparea;
 	}
@@ -110,8 +124,19 @@ public class Element implements IsSerializable {
 	 * @param maparea
 	 *            The maparea
 	 */
+	@JsonProperty("maparea")
 	public void setMaparea(Maparea maparea) {
 		this.maparea = maparea;
+	}
+
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
+
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
 	}
 
 }

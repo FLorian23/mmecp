@@ -11,7 +11,7 @@ import de.fhg.fokus.streetlife.mmecp.client.view.dia.DiagramData;
 import de.fhg.fokus.streetlife.mmecp.client.view.dia.PieChart;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Element;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 public class DtoToGWTElementMapper {
 
@@ -66,10 +66,10 @@ public class DtoToGWTElementMapper {
 	// return eventInfo;
 	// }
 
-	public static IEventInfoDataMapper map(Notification notification) {
+	public static IEventInfoDataMapper map(PanelObject panelObject) {
 		EventInfoDataMapperImpl eventInfo = new EventInfoDataMapperImpl();
 		
-		List<Element> elements = notification.getMapObject().getElements();
+		List<Element> elements = panelObject.getElements();
 
 		//Caption
 		eventInfo.setCaption( new Label("ModalSplit"));

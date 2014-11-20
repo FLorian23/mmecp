@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
 		EventNotificationReceiver {
@@ -27,8 +27,8 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
 		return instance;
 	}
 
-	public void newNotification(Notification notification, int position) {
-		PopUpPanel popUpPanel = new PopUpPanel(notification);
+	public void newNotification(PanelObject panelObject, int position) {
+		PopUpPanel popUpPanel = new PopUpPanel(panelObject);
 		notifications.add(position, popUpPanel);
 
 		// visual stuff
@@ -40,19 +40,19 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
 		popUpPanel.show();
 	}
 
-	public void hideNotification(PopUpPanel p) {
+	public void hidePanelObject(PopUpPanel p) {
 		currentHight = currentHight - 56;
-		$("#eventinfo_" + p.getNotification().getId()).hide();
+		$("#eventinfo_" + p.getId()).hide();
 		// $("#wrapperPopupPanel").css("height", currentHight + "");
 		$("#" + get().getWrapperID()).css("height", currentHight + "");
 		$("#" + get().getID()).css("height", currentHight + "");
 		getPanel().remove(p.getPanel());
 	}
 
-	public void hideNotification(Notification event) {
+	public void hideNotification(PanelObject event) {
 		for (int i = 0; i < notifications.size(); i++) {
-			if (event == notifications.get(i).getNotification())
-				hideNotification(notifications.get(i));
+			if (event == notifications.get(i).getPanelObject())
+				hidePanelObject(notifications.get(i));
 		}
 	}
 

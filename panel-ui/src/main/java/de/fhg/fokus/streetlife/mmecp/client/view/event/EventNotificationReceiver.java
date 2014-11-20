@@ -1,8 +1,8 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.event;
 
-import de.fhg.fokus.streetlife.mmecp.share.dto.Notification;
+import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 public interface EventNotificationReceiver {
 
-	public void newNotification(Notification event, int position);
+	public void newNotification(PanelObject event, int position);
 }

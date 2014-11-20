@@ -1,4 +1,5 @@
 {
+	"type": "mapobject",
 	"objectID": 1,
 	"objectType": "ParkingStation",
 	"location": {
@@ -24,7 +25,7 @@
 		{
 			"attribute": {
 				"label": "Free slots",
-				"value": "50 slots"
+				"value": "6 slots"
 			}
 		},
 		{
@@ -153,9 +154,9 @@
 					]
 				},
 				"color": {
-					"red": 222,
-					"green": 205,
-					"blue": 1,
+					"red": 223,
+					"green": 45,
+					"blue": 0,
 					"alpha": 0.5
 				}
 			}

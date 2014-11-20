@@ -62,10 +62,10 @@ public class ToPanelEndpoint {
 			// simulate notification
 			//TODO delete for real stuff
 			StringWriter writer = new StringWriter();
-			IOUtils.copy(this.getClass().getResourceAsStream("/json/example5.json"), writer);
+			IOUtils.copy(this.getClass().getResourceAsStream("/json/mapExample5.json"), writer);
 			demoObject.add(writer.toString());
 			writer = new StringWriter();
-			IOUtils.copy(this.getClass().getResourceAsStream("/json/exampleNotify.json"), writer);
+			IOUtils.copy(this.getClass().getResourceAsStream("/json/notifyExample5.json"), writer);
 			demoNotification.add(writer.toString());
 
 			SCHEDULED_EXECUTOR_SERVICE.schedule(() -> {
@@ -108,7 +108,7 @@ public class ToPanelEndpoint {
 			for (int i = 1; i <= 4; i++) {
 				try {
 					StringWriter writer = new StringWriter();
-					IOUtils.copy(this.getClass().getResourceAsStream("/json/example" + i + ".json"), writer);
+					IOUtils.copy(this.getClass().getResourceAsStream("/json/mapExample" + i + ".json"), writer);
 					objects.add(writer.toString());
 				} catch (IOException e) {
 					LOG.error("Can't read resource!", e);

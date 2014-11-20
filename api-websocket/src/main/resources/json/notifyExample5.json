@@ -1,0 +1,6 @@
+{
+	"type": "notification",
+	"objectID": 1,
+	"objectType": "ParkingStation",
+	"description": "Status of parking lot has changed!"
+}

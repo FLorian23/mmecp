@@ -4,9 +4,12 @@ import java.util.logging.Logger;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
 
+import com.github.gwtbootstrap.client.ui.TextArea;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DatePicker;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 
@@ -23,7 +26,7 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 
 		Button button = new Button("OK");
 		button.getElement().setId("guidancepopupbutton");
-		button.getElement().setClassName("btn btn-default");
+		button.getElement().setClassName("btn btn-primary");
 		button.addClickHandler(this);
 
 		// content.add(new HTML("GEO Location(1): " + p1.lon() + "/" +
@@ -46,17 +49,18 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 		htmlForm += "<dl class=\"dl-horizontal\">";
 
 		// Geo
-		htmlForm += "<dt>GEO</dt>";
+		htmlForm += "<dt>Location</dt>";
 		htmlForm += "<dd>" + Math.round(p2.lon()) + "/" + Math.round(p2.lat())
 				+ "</dd>";
 
 		// From
 		htmlForm += "<dt>From</dt>";
-		htmlForm += "<dd>" + new TextBox().toString() + "</dd>";
+		htmlForm += "<dd>" + new DateBox().toString() + "</dd>";
 
 		// To
 		htmlForm += "<dt>To</dt>";
-		htmlForm += "<dd>" + new TextBox().toString() + "</dd>";
+		htmlForm += "<dd>" + new DateBox().toString() + "</dd>";
+		
 
 		// Effect
 		htmlForm += "<dt>Effect</dt>";
@@ -74,8 +78,10 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 		htmlForm += "<dd>" + lb.toString() + "</dd>";
 		
 		// Note
+		TextArea textArea = new TextArea();
+		textArea.setId("guidancetextarea");
 		htmlForm += "<dt>Note</dt>";
-		htmlForm += "<dd>" + new TextBox().toString() + "</dd>";
+		htmlForm += "<dd>" + textArea.toString() + "</dd>";
 		
 		htmlForm += "</dl>";
 

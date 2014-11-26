@@ -2,12 +2,9 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right;
 
 import java.util.List;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
 
 import de.fhg.fokus.streetlife.mmecp.client.model.EventInfoDataMapperImpl;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
@@ -36,19 +33,19 @@ public class DtoToGWTElementMapper {
 
 		for (Element e : elements) {
 			if (e.getAttribute() != null) {
-				
+
 				String htmlForm = "";
 				htmlForm += "<dl class=\"dl-horizontal\">";
-				
-//				Label l = new Label(e.getAttribute().getLabel() + " : "
-//						+ e.getAttribute().getValue());
-//				l.getElement().setClassName("label");
-//				l.getElement().getStyle().setFontSize(17, Unit.PX);
-//				l.getElement().getStyle().setColor("black");
-				
+
+				// Label l = new Label(e.getAttribute().getLabel() + " : "
+				// + e.getAttribute().getValue());
+				// l.getElement().setClassName("label");
+				// l.getElement().getStyle().setFontSize(17, Unit.PX);
+				// l.getElement().getStyle().setColor("black");
+
 				htmlForm += "<dt>" + e.getAttribute().getLabel() + "</dt>";
 				htmlForm += "<dd>" + e.getAttribute().getValue() + "</dd>";
-				
+
 				htmlForm += "</dl>";
 
 				w[i++] = new HTML(htmlForm);

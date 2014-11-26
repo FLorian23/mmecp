@@ -3,8 +3,8 @@ package de.fhg.fokus.streetlife.mmecp.client.view;
 public class CSSDynamicData {
 
 	// guidancePopUpPanel
-	public final static int guidancePopUpPanel_WIDTH = 280;
-	public final static int guidancePopUpPanel_HEIGHT = 210;
+	public final static int guidancePopUpPanel_WIDTH = 350;
+	public final static int guidancePopUpPanel_HEIGHT = 255;
 
 	public static final int PopUpPanelContainer_WIDTH_ROLL_IN = 0;
 	public static final int PopUpPanelContainer_WIDTH_ROLL_OUT = 175;

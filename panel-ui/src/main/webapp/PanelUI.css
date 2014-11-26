@@ -11,7 +11,6 @@ body>table:nth-child(5) {
 }
 
 #guidancepopupbutton {
-	background-color: #66CC99; 
 	right: 23px;
 	position: absolute;
 	margin-top: 5px;
@@ -21,13 +20,25 @@ body>table:nth-child(5) {
 	margin-left: -120px;
 }
 
+#guidancePopUpPanel > div > table > tbody > tr > td > div > dl > dd > input{
+	width: 250px;
+}
+
 #slideRightPanelContent>tbody>tr>td>div>dl {
 	margin-left: -90px;
+}
+
+#guidancePopUpPanel > div > table > tbody > tr > td > div > dl > dt{
+	margin: 5px;
 }
 
 #slideRightPanelContent>tbody>tr>td>div>dl>dd:before {
 	content: none;
 	display: none;
+}
+
+#guidancePopUpPanel > div > table > tbody > tr:nth-child(1) > td > div > dl > dd:nth-child(10) > select{
+	width: 100%;
 }
 
 #SwitchMapButton,#SwitchMapButtonWrapper,#CurrentLocationButton,#CurrentLocationButtonWrapper,#cityListBox
@@ -222,8 +233,8 @@ body {
 }
 
 #guidancePopUpPanel {
-	width: 280px;
-	height: 210px;
+	width: 350px;
+	height: 255px;
 	padding: 4px;
 	border-radius: 10px;
 	border-width: 3px;
@@ -232,6 +243,12 @@ body {
 	background-color: #EEEEEE;
 	z-index: 1000;
 }
+
+#guidancetextarea{
+	resize: none;
+	width: 250px;
+}
+
 
 #guidancePopUpPanel>div {
 	padding: 3px;

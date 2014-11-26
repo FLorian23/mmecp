@@ -235,9 +235,9 @@ body {
 #guidancePopUpPanel {
 	width: 350px;
 	height: 255px;
+	box-shadow:4px 4px #666;
 	padding: 4px;
-	border-radius: 10px;
-	border-width: 3px;
+	border-width: 1px;
 	border-style: solid;
 	border-color: black;
 	background-color: #EEEEEE;

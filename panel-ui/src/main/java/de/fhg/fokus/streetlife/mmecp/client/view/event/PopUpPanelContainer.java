@@ -32,7 +32,7 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
 		notifications.add(position, popUpPanel);
 
 		// visual stuff
-		currentHight = currentHight + 56;
+		currentHight = currentHight + 36;
 		// $("#wrapperPopupPanel").css("height", currentHight + "");
 		$("#" + get().getWrapperID()).css("height", currentHight + "");
 		$("#" + get().getID()).css("height", currentHight + "");
@@ -41,7 +41,7 @@ public class PopUpPanelContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	public void hidePanelObject(PopUpPanel p) {
-		currentHight = currentHight - 56;
+		currentHight = currentHight - 36;
 		$("#eventinfo_" + p.getId()).hide();
 		// $("#wrapperPopupPanel").css("height", currentHight + "");
 		$("#" + get().getWrapperID()).css("height", currentHight + "");

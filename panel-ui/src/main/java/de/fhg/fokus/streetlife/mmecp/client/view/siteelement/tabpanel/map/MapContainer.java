@@ -2,6 +2,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
+import de.fhg.fokus.streetlife.mmecp.share.dto.Maparea;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
 import org.gwtopenmaps.openlayers.client.LonLat;
@@ -224,9 +225,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 	}
 
-	public void drawPolygon(LonLat[] lonLat, String color, double alpha, boolean isGPSPosition, String id) {
+	public void drawPolygon(LonLat[] lonLat, String color, double alpha, double borderWidth, String borderStyle, boolean isGPSPosition, String id) {
 		Style s = new Style();
 		s.setStrokeColor(color);
+		s.setStrokeWidth(borderWidth);
+		if (borderStyle.equals("solid"))
+			s.setStrokeDashstyle("1,0");
+		else if (borderStyle.equals("dashed"))
+			s.setStrokeDashstyle("10,10");
 		s.setFillColor(color);
 		s.setFillOpacity(alpha);
 		Point[] pointList = new Point[lonLat.length];
@@ -265,9 +271,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			LOG.getLogger().info("Add and draw object " + key);
 			drawnObjects.put(key, object);
 		}
-		List<LonLat> coordinates = object.getMaparea().getArea().getCoordinatesLonLat().get(0);
+		Maparea maparea = object.getMaparea();
+		List<LonLat> coordinates = maparea.getArea().getCoordinatesLonLat().get(0);
 		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
-		drawPolygon(lonLats, object.getMaparea().getColor().getHex(), object.getMaparea().getColor().getAlpha(), true, key);
+		if (maparea.getBorder() != null)
+			drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(),
+					maparea.getBorder().getWidth(), maparea.getBorder().getStyle().toString(), true, key);
+		else
+			drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", true, key);
 	}
 
 	public static void switchLocation(DAO.CITY city) {

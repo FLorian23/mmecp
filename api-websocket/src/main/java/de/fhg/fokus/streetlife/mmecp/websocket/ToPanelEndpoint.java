@@ -77,6 +77,21 @@ public class ToPanelEndpoint {
 					e.printStackTrace();
 				}
 			}, TWENTY_SECONDS, TimeUnit.MILLISECONDS);
+
+			List<String> demoObjectBorder = new ArrayList<>();
+			writer = new StringWriter();
+			IOUtils.copy(this.getClass().getResourceAsStream("/json/borderExample6.json"), writer);
+			demoObjectBorder.add(writer.toString());
+
+			SCHEDULED_EXECUTOR_SERVICE.schedule(() -> {
+				LOG.info("Sending new border object to {}", endpointName);
+				try {
+					mu.broadcastMessage(endpointName, demoObjectBorder.toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}, TWENTY_SECONDS+TWENTY_SECONDS, TimeUnit.MILLISECONDS);
+
 		} else
 			throw new IOException("Can't interpret the message");
 	}

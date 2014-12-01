@@ -18,18 +18,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "type", "area", "color" })
+@JsonPropertyOrder({ "type", "area", "color" , "border" })
 public class Maparea implements Serializable {
 
 	@JsonProperty("type")
 	private Maparea.Type type;
 	@JsonProperty("area")
 	private Area area;
-	/**
-     * 
-     */
 	@JsonProperty("color")
 	private Color color;
+	@JsonProperty("border")
+	private Border border;
 
 	/**
 	 * 
@@ -86,6 +85,25 @@ public class Maparea implements Serializable {
 	@JsonProperty("color")
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	/**
+	 *
+	 * @return The border
+	 */
+	@JsonProperty("border")
+	public Border getBorder() {
+		return border;
+	}
+
+	/**
+	 *
+	 * @param border
+	 *            The border
+	 */
+	@JsonProperty("border")
+	public void setBorder(Border border) {
+		this.border = border;
 	}
 
 	@Generated("org.jsonschema2pojo")

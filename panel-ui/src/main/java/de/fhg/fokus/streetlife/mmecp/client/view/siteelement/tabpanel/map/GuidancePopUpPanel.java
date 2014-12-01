@@ -50,7 +50,7 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 
 		// Geo
 		htmlForm += "<dt>Location</dt>";
-		htmlForm += "<dd>" + Math.round(p2.lon()) + "/" + Math.round(p2.lat())
+		htmlForm += "<dd>" + p2.lon() + "/" + p2.lat()
 				+ "</dd>";
 
 		// From

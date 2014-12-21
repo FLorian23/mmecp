@@ -7,7 +7,6 @@ import org.jboss.resteasy.plugins.providers.atom.Feed;
 
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Properties;
 
 public interface DataAggregatorClient {
 
@@ -24,4 +23,6 @@ public interface DataAggregatorClient {
     public Response deleteNotification(String channelId, String notificationId, boolean force);
 
     public JsonNode getChannelForm(String channelId);
+
+    public JsonNode parseResponse(String response);
 }

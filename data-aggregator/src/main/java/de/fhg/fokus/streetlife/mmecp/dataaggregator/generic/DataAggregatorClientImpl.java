@@ -16,6 +16,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.atom.Entry;
 import org.jboss.resteasy.plugins.providers.atom.Feed;
+import org.jboss.resteasy.spi.NotImplementedYetException;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,5 +108,10 @@ public class DataAggregatorClientImpl implements DataAggregatorClient {
     @Override
     public JsonNode getChannelForm(String channelId) {
         return atom.getChannelForm(channelId);
+    }
+
+    @Override
+    public JsonNode parseResponse(String response) {
+        throw new NotImplementedYetException("Not yet implemented...");
     }
 }

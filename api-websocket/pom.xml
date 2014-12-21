@@ -119,6 +119,11 @@
 			<artifactId>configurator</artifactId>
 			<version>${de.fhg.fokus.streetlife.mmecp.configurator.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.fhg.fokus.streetlife.mmecp</groupId>
+			<artifactId>data-aggregator</artifactId>
+			<version>${de.fhg.fokus.streetlife.mmecp.dataaggregator.version}</version>
+		</dependency>
 	</dependencies>
 
 </project>

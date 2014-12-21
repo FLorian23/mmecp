@@ -30,6 +30,8 @@
         <javax.enterprise.cdi-api.version>1.2</javax.enterprise.cdi-api.version>
         <de.fhg.fokus.streetlife.mmecp.configurator.version>${project.version}
         </de.fhg.fokus.streetlife.mmecp.configurator.version>
+        <de.fhg.fokus.streetlife.mmecp.dataaggregator.version>${project.version}
+        </de.fhg.fokus.streetlife.mmecp.dataaggregator.version>
         <version.arquillian>1.0.2.Final</version.arquillian>
         <version.specs>3.0.2.Final</version.specs>
     </properties>

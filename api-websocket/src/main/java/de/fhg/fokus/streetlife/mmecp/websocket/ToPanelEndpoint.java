@@ -1,5 +1,19 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
+import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.engine.ResponeParseEngineMethod;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.EngineType;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.ResponseParseEngine;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
+import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import javax.websocket.*;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -8,22 +22,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Inject;
-import javax.websocket.*;
-import javax.websocket.server.ServerEndpoint;
-
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManager;
-import de.fhg.fokus.streetlife.mmecp.websocket.manage.SessionManagerException;
-
-/**
- * Created by bdi on 03/11/14.
- */
 @ServerEndpoint(value = "/panelui")
 public class ToPanelEndpoint {
 
@@ -45,6 +43,10 @@ public class ToPanelEndpoint {
 	@MMECPConfig(value = "mmecp.backend.api.websocket.endpoint.panelui")
 	private String endpointName;
 
+	@Inject
+	@ResponeParseEngineMethod(EngineType.FIWARE)
+	private ResponseParseEngine fiwareEngine;
+
 	@OnOpen
 	public void onOpen(Session session) throws IOException, SessionManagerException {
 		LOG.info("User {} connected...", session.getId());
@@ -59,6 +61,14 @@ public class ToPanelEndpoint {
 		} else if (message.startsWith("newGuidance")) {
 			setNewGuidance(message.replace("newGuidance:", ""));
 		} else if (message.startsWith("demo")) {
+
+			//DataAggregator integration example
+			try {
+				fiwareEngine.parseResponse("This is just a not working example...");
+			} catch (Exception e) {
+				LOG.debug("Not working example...");
+			}
+
 			// simulate notification
 			//TODO delete for real stuff
 			StringWriter writer = new StringWriter();

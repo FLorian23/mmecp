@@ -1,7 +1,7 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
 import de.fhg.fokus.streetlife.mmecp.configurator.MMECPConfig;
-import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.engine.ResponeParseEngineMethod;
+import de.fhg.fokus.streetlife.mmecp.dataaggregator.generic.engine.ResponseParseEngineMethod;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.EngineType;
 import de.fhg.fokus.streetlife.mmecp.dataaggregator.model.ResponseParseEngine;
 import de.fhg.fokus.streetlife.mmecp.websocket.manage.MessagingUtils;
@@ -44,7 +44,7 @@ public class ToPanelEndpoint {
 	private String endpointName;
 
 	@Inject
-	@ResponeParseEngineMethod(EngineType.FIWARE)
+	@ResponseParseEngineMethod(EngineType.FIWARE)
 	private ResponseParseEngine fiwareEngine;
 
 	@OnOpen

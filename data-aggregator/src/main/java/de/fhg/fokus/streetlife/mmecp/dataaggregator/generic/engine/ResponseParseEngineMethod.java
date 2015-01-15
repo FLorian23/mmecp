@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.*;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({TYPE, METHOD, FIELD})
-public @interface ResponeParseEngineMethod {
+public @interface ResponseParseEngineMethod {
 
     EngineType value();
 }

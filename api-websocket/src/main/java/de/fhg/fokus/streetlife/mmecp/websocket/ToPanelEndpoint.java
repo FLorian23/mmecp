@@ -62,6 +62,7 @@ public class ToPanelEndpoint {
 			setNewGuidance(message.replace("newGuidance:", ""));
 		} else if (message.startsWith("demo")) {
 
+			/*
 			//DataAggregator integration example
 			try {
 				fiwareEngine.parseResponse("This is just a not working example...");
@@ -70,7 +71,6 @@ public class ToPanelEndpoint {
 			}
 
 			// simulate notification
-			//TODO delete for real stuff
 			StringWriter writer = new StringWriter();
 			IOUtils.copy(this.getClass().getResourceAsStream("/json/mapExample5.json"), writer);
 			demoObject.add(writer.toString());
@@ -101,6 +101,7 @@ public class ToPanelEndpoint {
 					e.printStackTrace();
 				}
 			}, TWENTY_SECONDS+TWENTY_SECONDS, TimeUnit.MILLISECONDS);
+			*/
 
 		} else
 			throw new IOException("Can't interpret the message");
@@ -126,10 +127,18 @@ public class ToPanelEndpoint {
 
 	private String getObjectsOfType(String type) {
 		// example data
-		//TODO real stuff
-		ArrayList<String> objects = new ArrayList<String>();
+		//TODO replace example data with real data
 		if (type.equals("ParkingStations")) {
 			LOG.info("Get objects of type: {}", type);
+			StringWriter writer = new StringWriter();
+			try {
+				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStations.json"), writer);
+			} catch (IOException e) {
+				LOG.error("Can't read resource!", e);
+			}
+			return writer.toString();
+			/*
+			ArrayList<String> objects = new ArrayList<String>();
 			for (int i = 1; i <= 4; i++) {
 				try {
 					StringWriter writer = new StringWriter();
@@ -139,9 +148,11 @@ public class ToPanelEndpoint {
 					LOG.error("Can't read resource!", e);
 				}
 			}
+			LOG.info("Sending {} objects.", objects.size());
+			return objects.toString();
+			*/
 		}
-		LOG.info("Sending {} objects.", objects.size());
-		return objects.toString();
+		return null;
 	}
 
 	private void setNewGuidance(String guidance) {

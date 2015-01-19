@@ -67,7 +67,7 @@ public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 		try {
 			return JSONProcessor.parse(jSONExample, PanelObject[].class);
 		} catch (Exception e) {
-			System.out.println("error parsing");
+			System.out.println("error parsing: " + e.getMessage());
 		}
 		return null;
 	}

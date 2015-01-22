@@ -5,6 +5,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
+import org.gwtopenmaps.openlayers.client.LonLat;
+
+import java.awt.*;
+import java.awt.List;
+import java.util.*;
 
 public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 		JSONObjectService {
@@ -61,6 +66,17 @@ public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 	//
 	// return eventInfo;
 	// }
+
+	public PanelObject getPanelObjectByCoordinate(ArrayList<PanelObject> list){
+		java.awt.Polygon pol = new Polygon();
+		for (int x = 0;x<list.size();x++){
+			java.util.List<java.util.List<LonLat>> lonlatList =  list.get(x).getMaparea().getArea().getCoordinatesLonLat();
+			for (int y = 0;y<lonlatList.size();y++){
+				//pol.addPoint();
+			}
+		}
+		return null;
+	}
 
 	public PanelObject[] getPanelObject(String jSONExample) {
 		// Parse

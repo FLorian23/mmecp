@@ -34,7 +34,7 @@ public class PanelObject implements Serializable {
 	@JsonProperty("type")
 	private PanelObject.Type type;
 	@JsonProperty("objectID")
-	private Integer objectID;
+	private String objectID;
 	@JsonProperty("objectType")
 	private String objectType;
 	@JsonProperty("location")
@@ -70,7 +70,7 @@ public class PanelObject implements Serializable {
 	 * @return The objectID
 	 */
 	@JsonProperty("objectID")
-	public Integer getObjectID() {
+	public String getObjectID() {
 		return objectID;
 	}
 
@@ -80,7 +80,7 @@ public class PanelObject implements Serializable {
 	 *            The objectID
 	 */
 	@JsonProperty("objectID")
-	public void setObjectID(Integer objectID) {
+	public void setObjectID(String objectID) {
 		this.objectID = objectID;
 	}
 

@@ -1,10 +1,16 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
+import de.fhg.fokus.streetlife.mmecp.client.model.Data;
+import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
+import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Maparea;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -86,7 +92,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		return (ClickHandler) get();
 	}
 
-	public PanelObject getMapObjectByID(String objectType, int id){
+	public PanelObject getMapObjectByID(String objectType, String id){
 		Collection<PanelObject> values = drawnObjects.values();
 		for (PanelObject a : values){
 			if (a.getObjectID() == id && objectType.compareTo(a.getObjectType()) == 0){
@@ -179,13 +185,19 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		// Polygon-Control
 		// ****************************************
-		map.addLayer(vectorLayer);
+		//map.addLayer(vectorLayer);
 		// ****************************************
 
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
 
 			public void onClick(MapClickEvent mapClickEvent) {
+
+				/*if (mapObjectclicked(mapClickEvent)){
+					PanelObject panelObject = null;
+					openSiteBar(panelObject);
+				}*/
+
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
 				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(),
@@ -225,6 +237,39 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 	}
 
+	private boolean mapObjectclicked(MapClickListener.MapClickEvent mapClickEvent){
+		ArrayList<PanelObject> myList = Data.myPanelObjects;
+
+
+		AsyncCallback<PanelObject> callback = new AsyncCallback<PanelObject>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				LOG.logToConsole("FAIL CALLBACK FOR getPanelObjectByCoordinate\n" + caught);
+			}
+
+			@Override
+			public void onSuccess(PanelObject result) {
+				LOG.logToConsole("FOUND: " + result.getObjectID());
+			}
+		};
+
+		JSONObjectServiceAsync eventInfoService = GWT.create(JSONObjectService.class);
+		eventInfoService.getPanelObjectByCoordinate(myList, callback);
+
+		return false;
+	}
+
+	private void openSiteBar(PanelObject panelObject){
+		return;
+	}
+
+	protected static native double[] convert(double[] code, String src, String dest)
+	/*-{
+        var a = $wnd.proj4(src, dest, code);
+        console.log(a);
+		return a;
+    }-*/;
+
 	public void drawPolygon(LonLat[] lonLat, String color, double alpha, double borderWidth, String borderStyle, boolean isGPSPosition, String id) {
 		Style s = new Style();
 		s.setStrokeColor(color);
@@ -235,18 +280,31 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			s.setStrokeDashstyle("10,10");
 		s.setFillColor(color);
 		s.setFillOpacity(alpha);
+
 		Point[] pointList = new Point[lonLat.length];
 		for (int i = 0; i < lonLat.length; i++) {
-			if (isGPSPosition)
-				lonLat[i].transform(DEFAULT_PROJECTION.getProjectionCode(),
-						map.getProjection());
-			pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
+			double[] b = null;
+			if (isGPSPosition) {
+				//lonLat[i].transform("EPSG:4326",
+				//		map.getProjection());
+				double[] a = {lonLat[i].lon(), lonLat[i].lat()};
+				LOG.logToConsole("a:" + a[0] + ";" + a[1]);
+				b = convert(a, "+proj=utm +zone=32 +ellps=WGS84 +units=m +no_defs", map.getProjection());//"EPSG:4326");
+				LOG.logToConsole("b:" + b[0] + ";" + b[1]);
+
+				pointList[i] = new Point(b[0], b[1]);
+			}else{
+				pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
+			}
 		}
+
+
 		LinearRing linearRing = new LinearRing(pointList);
 		VectorFeature polygonFeature = new VectorFeature(new Polygon(new LinearRing[] { linearRing }));
 		polygonFeature.setFeatureId(id);
 		polygonFeature.setStyle(s);
 		vectorLayer.addFeature(polygonFeature);
+		LOG.getLogger().info("drawPolygon_end " + vectorLayer.getFeatures().length);
 	}
 
 	public static void switchLocation(double lon, double lat) {
@@ -258,6 +316,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
 		get().map.setCenter(lonLat, zoom);
+		LOG.getLogger().info("set new center");
 	}
 
 	public void drawObject(PanelObject object) {
@@ -273,6 +332,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		}
 		Maparea maparea = object.getMaparea();
 		List<LonLat> coordinates = maparea.getArea().getCoordinatesLonLat().get(0);
+		LOG.getLogger().info("StartKoordinate: " + coordinates.get(0).lon() + ";" + coordinates.get(0).lat());
+		LOG.getLogger().info("Farbe: " + maparea.getColor());
 		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
 		if (maparea.getBorder() != null)
 			drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(),
@@ -285,6 +346,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		double lon = 0;
 		double lat = 0;
 
+		LOG.getLogger().info("next: Switch Location");
 		switch (city) {
 		case BERLIN:
 			lon = DAO.BERLIN_GEO_lon;
@@ -292,7 +354,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			switchLocation(lon, lat, DAO.BERLIN_ZOOMLEVEL);
 			break;
 		case ROVERETO:
-			SocketController.get().requestForDemo();
+			//SocketController.get().requestForDemo();
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
 			switchLocation(lon, lat, DAO.ROVERETO_ZOOMLEVEL);

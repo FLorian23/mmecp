@@ -45,6 +45,18 @@ public class ExampleData {
 		return lonLatArray;
 	}
 
+	public static LonLat[] getExamplePolygonForTry() {
+		LonLat[] lonLatArray = new LonLat[5];
+
+		lonLatArray[0] = new LonLat(657735.1514995369, 5083251.390425465);
+		lonLatArray[1] = new LonLat(657736.0804824738, 5083282.577709784);
+		lonLatArray[2] = new LonLat(657747.3182850722, 5083282.24296672);
+		lonLatArray[3] = new LonLat(657746.389302135, 5083251.055682405);
+		lonLatArray[4] = new LonLat(657735.1514995369, 5083251.390425465);
+
+		return lonLatArray;
+	}
+
 	// Zentrum 1491338.7317411/6894982.6497644
 
 	// UseCase Friedrichsstraße

@@ -1,7 +1,7 @@
 [
   {
     "type": "mapobject", 
-    "objectID": "Abetone _ 01", 
+    "objectID": "Abetone _ 01",
     "objectType": "ParkingStation", 
     "description": "Parkingstation", 
     "location": {
@@ -259,7 +259,7 @@
   }, 
   {
     "type": "mapobject", 
-    "objectID": "Abetone _ 02", 
+    "objectID": "Abetone _ 02",
     "objectType": "ParkingStation", 
     "description": "Parkingstation", 
     "location": {

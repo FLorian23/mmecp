@@ -5,8 +5,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
 import de.fhg.fokus.streetlife.mmecp.client.model.Data;
+import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.DtoToGWTElementMapper;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Maparea;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
@@ -17,11 +20,15 @@ import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
+import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.ArgParser;
 import org.gwtopenmaps.openlayers.client.control.Attribution;
 import org.gwtopenmaps.openlayers.client.control.Navigation;
+import org.gwtopenmaps.openlayers.client.control.SelectFeature;
 import org.gwtopenmaps.openlayers.client.event.MapClickListener;
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
@@ -57,6 +64,7 @@ import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.Slide
 
 import org.mortbay.log.Log;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,6 +81,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
 	private boolean isGoogleMaps = true;
 	private HashMap<String, PanelObject> drawnObjects = new HashMap();
+	private HashMap<String, PanelObject> myfeatures = new HashMap<String, PanelObject>();
+	private VectorFeature selectedFeature = null;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -159,6 +169,40 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		}
 	}
 
+
+	SelectFeature clickSelectFeature = null;
+	private void createSelectFeatureStuff(){
+
+		clickSelectFeature = new SelectFeature(vectorLayer); //no options needed because no hover is needed
+		clickSelectFeature.setClickOut(true);
+		clickSelectFeature.setToggle(true);
+		clickSelectFeature.setMultiple(false); //do not select multiple when clicked normally
+		clickSelectFeature.setToggleKey("ctrlKey"); //Do toggle the selection when user holds CTRL key
+		clickSelectFeature.setMultipleKey("shiftKey"); //Do select multiple features when user holds SHIFT key
+		map.addControl(clickSelectFeature);
+		clickSelectFeature.activate();
+
+		vectorLayer.addVectorFeatureAddedListener(new VectorFeatureAddedListener() {
+			@Override
+			public void onFeatureAdded(FeatureAddedEvent eventObject) {
+				LOG.logToConsole("new Feature added");
+			}
+		});
+		vectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
+			@Override
+			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+				LOG.logToConsole("feature selected!!");
+				PanelObject po =  myfeatures.get(eventObject.getVectorFeature().getFeatureId());
+				//selectedFeature = eventObject.getVectorFeature();
+				LOG.logToConsole("po: " + po.getObjectID());
+				openSiteBar(po);
+				//TODO:
+				//selectedFeature.setStyle(selectedFeatureStyle);
+			}
+		});
+	}
+
+
 	public void buildPanel() {
 
 		// create some MapOptions
@@ -183,6 +227,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		map.addControl(new ArgParser());
 		map.addControl(new Attribution());
 
+		createSelectFeatureStuff();
+
 		// Polygon-Control
 		// ****************************************
 		//map.addLayer(vectorLayer);
@@ -197,7 +243,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 					PanelObject panelObject = null;
 					openSiteBar(panelObject);
 				}*/
-
+/*
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
 				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(),
@@ -223,7 +269,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 					yPixel -= CSSDynamicData.guidancePopUpPanel_HEIGHT;
 				}
 				g.getPanel().setPopupPosition(xPixel, yPixel);
-				g.getPanel().show();
+				g.getPanel().show();*/
 			}
 		});
 		// Center and zoom to a location
@@ -260,17 +306,24 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	private void openSiteBar(PanelObject panelObject){
-		return;
+		VerticalPanel content = SlideBarRight.get().getContent();
+		content.clear();
+		// TODO: mapObject Inhalt nutzen für das seitliche Panel und zoom dort
+		// hin!
+		IEventInfoDataMapper eventInfo = DtoToGWTElementMapper
+				.map(panelObject.getMapObject());
+		eventInfo.fillContent(content);
+
+		SlideBarRight.get().setStatus(SlideBar.STATUS.OPEN);
 	}
 
 	protected static native double[] convert(double[] code, String src, String dest)
 	/*-{
         var a = $wnd.proj4(src, dest, code);
-        console.log(a);
 		return a;
     }-*/;
 
-	public void drawPolygon(LonLat[] lonLat, String color, double alpha, double borderWidth, String borderStyle, boolean isGPSPosition, String id) {
+	public VectorFeature drawPolygon(LonLat[] lonLat, String color, double alpha, double borderWidth, String borderStyle, boolean isGPSPosition, String id) {
 		Style s = new Style();
 		s.setStrokeColor(color);
 		s.setStrokeWidth(borderWidth);
@@ -288,12 +341,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				//lonLat[i].transform("EPSG:4326",
 				//		map.getProjection());
 				double[] a = {lonLat[i].lon(), lonLat[i].lat()};
-				LOG.logToConsole("a:" + a[0] + ";" + a[1]);
 				b = convert(a, "+proj=utm +zone=32 +ellps=WGS84 +units=m +no_defs", map.getProjection());//"EPSG:4326");
-				LOG.logToConsole("b:" + b[0] + ";" + b[1]);
-
 				pointList[i] = new Point(b[0], b[1]);
-			}else{
+			} else {
 				pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
 			}
 		}
@@ -305,6 +355,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		polygonFeature.setStyle(s);
 		vectorLayer.addFeature(polygonFeature);
 		LOG.getLogger().info("drawPolygon_end " + vectorLayer.getFeatures().length);
+		return polygonFeature;
 	}
 
 	public static void switchLocation(double lon, double lat) {
@@ -316,9 +367,11 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
 				get().map.getProjection());
 		get().map.setCenter(lonLat, zoom);
-		LOG.getLogger().info("set new center");
 	}
 
+
+	int featureCounter = 0;
+	//TODO: remove feature -> hashmap
 	public void drawObject(PanelObject object) {
 		String key = object.getObjectType() + ":" + object.getObjectID();
 		if (drawnObjects.containsKey(key)) {
@@ -332,21 +385,24 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		}
 		Maparea maparea = object.getMaparea();
 		List<LonLat> coordinates = maparea.getArea().getCoordinatesLonLat().get(0);
-		LOG.getLogger().info("StartKoordinate: " + coordinates.get(0).lon() + ";" + coordinates.get(0).lat());
-		LOG.getLogger().info("Farbe: " + maparea.getColor());
+
 		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
+
+		VectorFeature vf = null;
 		if (maparea.getBorder() != null)
-			drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(),
+			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(),
 					maparea.getBorder().getWidth(), maparea.getBorder().getStyle().toString(), true, key);
 		else
-			drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", true, key);
+			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", true, key);
+
+		vf.setFeatureId("" + featureCounter++);
+		myfeatures.put(vf.getFeatureId(), object);
 	}
 
 	public static void switchLocation(DAO.CITY city) {
 		double lon = 0;
 		double lat = 0;
 
-		LOG.getLogger().info("next: Switch Location");
 		switch (city) {
 		case BERLIN:
 			lon = DAO.BERLIN_GEO_lon;
@@ -431,14 +487,3 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
 	}
 }
-
-// How to set Markers!
-// Markers layer = new Markers("Example Marker");
-// map.addLayer(layer);
-//
-// Icon icon = new
-// Icon("http://icongal.com/gallery/image/98728/map_pin_location_push_pin_gps_pushpin.png",
-// new Size(32, 32));
-// final Marker marker = new Marker(mapClickEvent.getLonLat(), icon);
-// layer.addMarker(marker);
-// map.addLayer(layer);

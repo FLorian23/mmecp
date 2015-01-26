@@ -1,11 +1,12 @@
 package de.fhg.fokus.streetlife.mmecp.websocket;
 
-import org.jboss.arquillian.testng.Arquillian;
+//import org.jboss.arquillian.testng.Arquillian;
 
 /**
  * Created by bdi on 03/11/14.
  */
-public class ToPanelEndpointTest extends Arquillian {
+//public class ToPanelEndpointTest extends Arquillian {
+public class ToPanelEndpointTest {
 
 //	private static CountDownLatch messageLatch;
 //	private static final String SENT_MESSAGE = "Hello STREETLIFE";

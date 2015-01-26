@@ -42,7 +42,7 @@ public class ToPanelEndpointTest extends Arquillian {
 				.addClass(MMECPConfigFactory.class).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
-	@BeforeTest
+	@BeforeTest(enabled = false)
 	public void init() {
 		server = new Server("localhost", 8025, "/api-websocket", null, ToPanelEndpoint.class);
 		try {
@@ -94,7 +94,7 @@ public class ToPanelEndpointTest extends Arquillian {
 		messageLatch.await(40, TimeUnit.SECONDS);
 	}
 
-	@AfterTest
+	@AfterTest(enabled = false)
 	public void afterClass() {
 		server.stop();
 		LOG.info("Standalone websocket sever stopped...");

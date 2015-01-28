@@ -80,6 +80,7 @@ public class DtoToGWTElementMapper {
 			}
 		}
 		Button b = new Button("guidance");
+		b.getElement().setClassName("btn btn-default");
 		b.getElement().setId("guidanceButton");
 		w[i++] = b;
 		b.addClickHandler(new ClickHandler() {

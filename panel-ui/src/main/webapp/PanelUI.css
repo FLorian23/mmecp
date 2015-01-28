@@ -47,6 +47,13 @@ body>table:nth-child(5) {
 	width: 150px;
 }
 
+#guidanceButton{
+	margin-left: 20%;
+	height: 50px;
+	width: 200px;
+	margin-top: 40px;
+}
+
 #cityListBox,#SwitchMapButton {
 	width: 150px;
 }

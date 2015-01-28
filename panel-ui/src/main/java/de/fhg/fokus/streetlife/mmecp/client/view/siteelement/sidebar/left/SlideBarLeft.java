@@ -69,6 +69,8 @@ public class SlideBarLeft extends SlideBar {
 		content.addWidgetToPanel(createSwitchButton(), "SwitchMapButton",
 				"btn btn-primary");
 		content.addWidgetToPanel(createListBox(), "cityListBox", "form-control");
+
+		//add checkboxes for control the visibility of the several layers
 	}
 
 	private ListBox createListBox() {

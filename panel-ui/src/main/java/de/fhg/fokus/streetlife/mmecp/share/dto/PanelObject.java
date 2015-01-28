@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.gson.annotations.SerializedName;
+import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 
 /**
  * Schema for STREETLIFE MMECP panel objects.
@@ -45,6 +46,21 @@ public class PanelObject implements Serializable {
 	private List<Element> elements = new ArrayList<Element>();
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+
+	public void printObject(){
+		//mapObject;
+
+		LOG.logToConsole("type: " + type);
+		LOG.logToConsole("objectID: " + objectID);
+		LOG.logToConsole("objectType: " + objectType);
+		LOG.logToConsole("location: " + location);
+		LOG.logToConsole("description: " + description);
+		LOG.logToConsole("elements:");
+		for (int i = 0;i<elements.size();i++){
+			elements.get(i).printObject();
+		}
+	}
 
 	/**
 	 * 

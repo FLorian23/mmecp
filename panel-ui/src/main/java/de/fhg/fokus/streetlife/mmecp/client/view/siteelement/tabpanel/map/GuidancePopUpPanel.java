@@ -21,7 +21,7 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 	private final Logger LOG = Logger.getLogger(GuidancePopUpPanel.class
 			.getName());
 
-	public GuidancePopUpPanel(boolean autoHide, LonLat p1, LonLat p2) {
+	public GuidancePopUpPanel(boolean autoHide) {
 		super(new PopupPanel(autoHide), "guidancePopUpPanel", null);
 
 		Button button = new Button("OK");
@@ -47,11 +47,6 @@ public class GuidancePopUpPanel extends SiteElement<PopupPanel> implements
 
 		String htmlForm = "";
 		htmlForm += "<dl class=\"dl-horizontal\">";
-
-		// Geo
-		htmlForm += "<dt>Location</dt>";
-		htmlForm += "<dd>" + p2.lon() + "/" + p2.lat()
-				+ "</dd>";
 
 		// From
 		htmlForm += "<dt>From</dt>";

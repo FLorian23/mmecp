@@ -64,7 +64,7 @@ public class PopUpPanel extends SiteElement<SimplePanel> implements
 
 		// Zoom
 		/*
-		 * GEO Location(1): 1228781.1226039/5762482.0842204 
+		 * GEO Location(1): 1228781.1226039/5762482.0842204
 		 * GEO Location(2):
 		 * 11.038328634262818/45.888392762760496
 		 */

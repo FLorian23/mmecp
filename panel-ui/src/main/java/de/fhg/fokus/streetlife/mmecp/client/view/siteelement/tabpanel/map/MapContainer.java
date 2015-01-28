@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
-import de.fhg.fokus.streetlife.mmecp.client.model.Data;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
@@ -81,7 +80,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
 	private boolean isGoogleMaps = true;
 	private HashMap<String, PanelObject> drawnObjects = new HashMap();
-	private HashMap<String, PanelObject> myfeatures = new HashMap<String, PanelObject>();
+	//private HashMap<String, PanelObject> myfeatures = new HashMap<String, PanelObject>();
 	private VectorFeature selectedFeature = null;
 
 	private MapContainer() {
@@ -191,10 +190,13 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		vectorLayer.addVectorFeatureSelectedListener(new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				LOG.logToConsole("feature selected!!");
-				PanelObject po =  myfeatures.get(eventObject.getVectorFeature().getFeatureId());
+				//Style s = eventObject.getVectorFeature().getStyle();
+				//LOG.logToConsole("old opacity: " + s.getFillOpacity());
+				//s.setFillOpacity(0.8); //default 0.5
+				//eventObject.getVectorFeature().setStyle(s);
+				PanelObject po =  drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
 				//selectedFeature = eventObject.getVectorFeature();
-				LOG.logToConsole("po: " + po.getObjectID());
+				//po.printObject();
 				openSiteBar(po);
 				//TODO:
 				//selectedFeature.setStyle(selectedFeatureStyle);
@@ -283,27 +285,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 	}
 
-	private boolean mapObjectclicked(MapClickListener.MapClickEvent mapClickEvent){
-		ArrayList<PanelObject> myList = Data.myPanelObjects;
-
-
-		AsyncCallback<PanelObject> callback = new AsyncCallback<PanelObject>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				LOG.logToConsole("FAIL CALLBACK FOR getPanelObjectByCoordinate\n" + caught);
-			}
-
-			@Override
-			public void onSuccess(PanelObject result) {
-				LOG.logToConsole("FOUND: " + result.getObjectID());
-			}
-		};
-
-		JSONObjectServiceAsync eventInfoService = GWT.create(JSONObjectService.class);
-		eventInfoService.getPanelObjectByCoordinate(myList, callback);
-
-		return false;
-	}
 
 	private void openSiteBar(PanelObject panelObject){
 		VerticalPanel content = SlideBarRight.get().getContent();
@@ -311,9 +292,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		// TODO: mapObject Inhalt nutzen für das seitliche Panel und zoom dort
 		// hin!
 		IEventInfoDataMapper eventInfo = DtoToGWTElementMapper
-				.map(panelObject.getMapObject());
+				.map(panelObject);
 		eventInfo.fillContent(content);
-
 		SlideBarRight.get().setStatus(SlideBar.STATUS.OPEN);
 	}
 
@@ -370,7 +350,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 
-	int featureCounter = 0;
 	//TODO: remove feature -> hashmap
 	public void drawObject(PanelObject object) {
 		String key = object.getObjectType() + ":" + object.getObjectID();
@@ -395,8 +374,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		else
 			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", true, key);
 
-		vf.setFeatureId("" + featureCounter++);
-		myfeatures.put(vf.getFeatureId(), object);
+		vf.setFeatureId(key);
 	}
 
 	public static void switchLocation(DAO.CITY city) {

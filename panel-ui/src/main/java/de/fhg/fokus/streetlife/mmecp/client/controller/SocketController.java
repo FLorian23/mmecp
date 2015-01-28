@@ -8,7 +8,6 @@ import com.google.gwt.visualization.client.formatters.BarFormat;
 import com.sksamuel.gwt.websockets.Websocket;
 import com.sksamuel.gwt.websockets.WebsocketListener;
 
-import de.fhg.fokus.streetlife.mmecp.client.model.Data;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
 import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
@@ -50,7 +49,6 @@ public class SocketController {
 							return;
 						}
 						LOG.logToConsole(result.length + " new PanelObjetcs");
-						LOG.logToConsole(result[0].getObjectType() + "");
 
 
 						for (int i = 0; i < result.length; i++) {
@@ -59,14 +57,14 @@ public class SocketController {
 							if (result[i].getType().equals(Type.MAPOBJECT)){
 								LOG.logToConsole("New MAPOBJECT");
 
-								Data.myPanelObjects.add(result[i]);
+								//Data.myPanelObjects.add(result[i]);
+								//MapContainer.get().addnewMapObject(result[i]);
 								MapContainer.get().drawObject(result[i]);
-
 
 								//TODO:
 							}else if(result[i].getType().equals(Type.NOTIFICATION)){
 								LOG.logToConsole("New Notification: " + result[i].getDescription());
-								result[i].setMapObject(MapContainer.get().getMapObjectByID("ParkingStation", "1"));
+								result[i].setMapObject(MapContainer.get().getMapObjectByID(result[i].getObjectType(), result[i].getObjectID())); //"ParkingStation", "1"));
 								if (result[i].getMapObject() == null){
 									LOG.logToConsole("NO MATCH MAPOBJECT");
 									break;

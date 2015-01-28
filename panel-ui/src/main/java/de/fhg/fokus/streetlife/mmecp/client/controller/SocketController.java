@@ -20,8 +20,8 @@ import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
 public class SocketController {
 
 	private final static SocketController instance = new SocketController();
-	private final Websocket socketToBackEnd = new Websocket("ws://localhost:8080/api-websocket/panelui");
-
+	private final Websocket socketToBackEnd = new Websocket("ws://193.175.133.251:8080/api-websocket/panelui");
+	//http://193.175.133.251:8080/panelUI/
 	private SocketController() {
 		openSocketToBackEnd();
 	}

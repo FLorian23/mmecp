@@ -207,6 +207,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
+
+				SlideBarRight.get().setStatus(SlideBar.STATUS.CLOSE);
 			}
 		};
 		vectorLayerParkingClock.addVectorFeatureUnselectedListener(vectorFeatureUnselectedListener);

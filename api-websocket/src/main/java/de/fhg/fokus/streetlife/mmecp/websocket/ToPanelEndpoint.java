@@ -126,10 +126,10 @@ public class ToPanelEndpoint {
 	}
 
 	private String getObjectsOfType(String type) {
+		LOG.info("Get objects of type: {}", type);
 		// example data
 		//TODO replace example data with real data
 		if (type.equals("ParkingStations")) {
-			LOG.info("Get objects of type: {}", type);
 			StringWriter writer = new StringWriter();
 			try {
 				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStations.json"), writer);
@@ -151,6 +151,15 @@ public class ToPanelEndpoint {
 			LOG.info("Sending {} objects.", objects.size());
 			return objects.toString();
 			*/
+		}
+		if (type.equals("ParkingAreas")) {
+			StringWriter writer = new StringWriter();
+			try {
+				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStationsMacro.json"), writer);
+			} catch (IOException e) {
+				LOG.error("Can't read resource!", e);
+			}
+			return writer.toString();
 		}
 		return null;
 	}

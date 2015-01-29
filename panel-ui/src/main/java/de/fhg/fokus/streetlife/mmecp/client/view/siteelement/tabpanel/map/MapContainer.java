@@ -464,4 +464,12 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	public void update() {
 		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
 	}
+
+	public void visibleParkingSlots(boolean b) {
+		if (b){
+			vectorLayer.setIsVisible(true);
+		}else{
+			vectorLayer.setIsVisible(false);
+		}
+	}
 }

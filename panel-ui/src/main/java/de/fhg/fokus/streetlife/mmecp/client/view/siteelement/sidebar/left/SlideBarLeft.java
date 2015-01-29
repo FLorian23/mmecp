@@ -4,11 +4,10 @@ import static com.google.gwt.query.client.GQuery.$;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 import de.fhg.fokus.streetlife.mmecp.client.Res;
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
@@ -71,6 +70,18 @@ public class SlideBarLeft extends SlideBar {
 		content.addWidgetToPanel(createListBox(), "cityListBox", "form-control");
 
 		//add checkboxes for control the visibility of the several layers
+		CheckBox cb = new CheckBox("Parking slots");
+		cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()){
+					MapContainer.get().visibleParkingSlots(true);
+				}else{
+					MapContainer.get().visibleParkingSlots(false);
+				}
+			}
+		});
+		content.addWidgetToPanel(cb, "checkBoxParkingslots", "form-control");
 	}
 
 	private ListBox createListBox() {

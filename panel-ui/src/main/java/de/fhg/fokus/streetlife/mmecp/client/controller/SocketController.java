@@ -75,7 +75,7 @@ public class SocketController {
 					}
 
 					public void onFailure(Throwable caught) {
-						LOG._log("FAIL!!");
+						LOG._log("GWT RPC for JSON parsing failed");
 					}
 				};
 

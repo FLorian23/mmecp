@@ -29,7 +29,7 @@ import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 		"description", "elements" })
 public class PanelObject implements Serializable {
 
-	// if notification, save the MapObject
+	// if notification, save the coresponding MapObject
 	private PanelObject mapObject;
 
 	@JsonProperty("type")
@@ -38,6 +38,8 @@ public class PanelObject implements Serializable {
 	private String objectID;
 	@JsonProperty("objectType")
 	private String objectType;
+	@JsonProperty("objectSubType")
+	private String objectSubType;
 	@JsonProperty("location")
 	private Location location;
 	@JsonProperty("description")
@@ -54,6 +56,7 @@ public class PanelObject implements Serializable {
 		LOG.logToConsole("type: " + type);
 		LOG.logToConsole("objectID: " + objectID);
 		LOG.logToConsole("objectType: " + objectType);
+		LOG.logToConsole("objectSubType: " + objectSubType);
 		LOG.logToConsole("location: " + location);
 		LOG.logToConsole("description: " + description);
 		LOG.logToConsole("elements:");
@@ -101,7 +104,7 @@ public class PanelObject implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The objectType
 	 */
 	@JsonProperty("objectType")
@@ -110,7 +113,7 @@ public class PanelObject implements Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param objectType
 	 *            The objectType
 	 */
@@ -118,6 +121,26 @@ public class PanelObject implements Serializable {
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 	}
+
+	/**
+	 *
+	 * @return The objectSubType
+	 */
+	@JsonProperty("objectSubType")
+	public String getObjectSubType() {
+		return objectSubType;
+	}
+
+	/**
+	 *
+	 * @param objectType
+	 *            The objectType
+	 */
+	@JsonProperty("objectSubType")
+	public void setObjectSubType(String objectSubType) {
+		this.objectSubType = objectSubType;
+	}
+
 
 	/**
 	 * 

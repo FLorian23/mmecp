@@ -71,13 +71,14 @@ public class SlideBarLeft extends SlideBar {
 
 		//add checkboxes for control the visibility of the several layers
 		CheckBox cb = new CheckBox("Parking slots");
+		cb.setValue(true);
 		cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				if (event.getValue()){
-					MapContainer.get().visibleParkingSlots(true);
+					MapContainer.get().visibleLayer(DAO.PARKING.FREE, true);
 				}else{
-					MapContainer.get().visibleParkingSlots(false);
+					MapContainer.get().visibleLayer(DAO.PARKING.FREE, false);
 				}
 			}
 		});

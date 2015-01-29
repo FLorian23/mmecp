@@ -6,6 +6,17 @@ public class DAO {
 		BERLIN, ROVERETO, TAMPERE
 	}
 
+	public enum PARKING {
+		FEE, FREE, CLOCK
+	}
+
+	public static PARKING getParkingEnumOfSubType(String subType){
+		if (subType.compareTo("FREE") == 0) return PARKING.FREE;
+		if (subType.compareTo("FEE") == 0) return PARKING.FEE;
+		if (subType.compareTo("CLOCK") == 0) return PARKING.CLOCK;
+		return null;
+	}
+
 	// Map
 	public final static int MapContainer_DEFAULTZOOMSIZE = 12;
 	public final static int MapContainer_SetNumZoomLevels = 19;

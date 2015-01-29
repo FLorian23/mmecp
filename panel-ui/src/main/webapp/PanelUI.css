@@ -144,7 +144,7 @@ body {
 }
 
 #slideLeftPanel {
-	margin-left: -170px;
+	margin-left: -200px;
 	height: 130px;
 }
 
@@ -184,7 +184,7 @@ body {
 
 #slideLeftPanelContentWrapper,#slideLeftPanelContent {
 	background-color: #EEEEEE;
-	width: 170px;
+	width: 200px;
 	pointer-events: visiblePainted;
 }
 
@@ -356,4 +356,8 @@ table#vpForCharts {
 	width: 2px;
 	height: 80%;
 	border: 3px solid black;
+}
+
+#gwt-uid-3, #gwt-uid-4, #gwt-uid-5{
+	margin-left: 20px;
 }

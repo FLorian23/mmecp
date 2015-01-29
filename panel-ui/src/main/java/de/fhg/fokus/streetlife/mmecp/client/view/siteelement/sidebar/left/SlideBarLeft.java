@@ -70,17 +70,74 @@ public class SlideBarLeft extends SlideBar {
 		content.addWidgetToPanel(createListBox(), "cityListBox", "form-control");
 
 		//add checkboxes for control the visibility of the several layers
-		CheckBox cbFree = new CheckBox("Parking slots (free)");
-		CheckBox cbFee = new CheckBox("Parking slots (fee)");
-		CheckBox cbClock = new CheckBox("Parking slots (clock)");
+		final CheckBox cbMacrozones = new CheckBox("Macrozones");
+		final CheckBox cbMicrozones = new CheckBox("Microzones");
+
+		final CheckBox cbFree = new CheckBox("for free ");
+		final CheckBox cbFee = new CheckBox("with Cardblock Clock");
+		final CheckBox cbClock = new CheckBox("with fee");
+
+		cbMacrozones.getElement().setClassName("checkBoxMacro");
+		cbMicrozones.getElement().setClassName("checkBoxMacro");
+		cbFree.getElement().setClassName("checkBoxMicro");
+		cbFee.getElement().setClassName("checkBoxMicro");
+		cbClock.getElement().setClassName("checkBoxMicro");
+
+		cbMacrozones.setValue(false);
+		cbMicrozones.setValue(true);
 		cbFree.setValue(true);
 		cbFee.setValue(false);
 		cbClock.setValue(false);
+
+		cbMacrozones.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()){
+					MapContainer.get().visibleLayer(DAO.PARKING.MACRO, true);
+				}else{
+					MapContainer.get().visibleLayer(DAO.PARKING.MACRO, false);
+				}
+			}
+		});
+
+		cbMicrozones.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()){
+					if (!cbFree.getValue()) {
+						cbFree.setValue(true);
+						MapContainer.get().visibleLayer(DAO.PARKING.FREE, true);
+					}
+					if (!cbFee.getValue()) {
+						cbFee.setValue(true);
+						MapContainer.get().visibleLayer(DAO.PARKING.FEE, true);
+					}
+					if (!cbClock.getValue()) {
+						cbClock.setValue(true);
+						MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, true);
+					}
+				}else{
+					if (cbFree.getValue()) {
+						cbFree.setValue(false);
+						MapContainer.get().visibleLayer(DAO.PARKING.FREE, false);
+					}
+					if (cbFee.getValue()) {
+						cbFee.setValue(false);
+						MapContainer.get().visibleLayer(DAO.PARKING.FEE, false);
+					}
+					if (cbClock.getValue()) {
+						cbClock.setValue(false);
+						MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, false);
+					}
+				}
+			}
+		});
 
 		cbFree.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				if (event.getValue()){
+					if (!cbMicrozones.getValue()) cbMicrozones.setValue(true);
 					MapContainer.get().visibleLayer(DAO.PARKING.FREE, true);
 				}else{
 					MapContainer.get().visibleLayer(DAO.PARKING.FREE, false);
@@ -91,6 +148,7 @@ public class SlideBarLeft extends SlideBar {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				if (event.getValue()){
+					if (!cbMicrozones.getValue()) cbMicrozones.setValue(true);
 					MapContainer.get().visibleLayer(DAO.PARKING.FEE, true);
 				}else{
 					MapContainer.get().visibleLayer(DAO.PARKING.FEE, false);
@@ -101,15 +159,19 @@ public class SlideBarLeft extends SlideBar {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				if (event.getValue()){
+					if (!cbMicrozones.getValue()) cbMicrozones.setValue(true);
 					MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, true);
 				}else{
 					MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, false);
 				}
 			}
 		});
-		content.addWidgetToPanel(cbFree, "checkBoxParkingslots", "form-control");
-		content.addWidgetToPanel(cbFee, "checkBoxParkingslots", "form-control");
-		content.addWidgetToPanel(cbClock, "checkBoxParkingslots", "form-control");
+		content.addWidgetToPanel(cbMacrozones, null, "form-control");
+		content.addWidgetToPanel(cbMicrozones, null, "form-control");
+
+		content.addWidgetToPanel(cbFree, null, "form-control");
+		content.addWidgetToPanel(cbFee, null, "form-control");
+		content.addWidgetToPanel(cbClock, null, "form-control");
 	}
 
 	private ListBox createListBox() {

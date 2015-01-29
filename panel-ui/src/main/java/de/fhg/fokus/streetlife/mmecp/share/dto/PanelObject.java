@@ -38,8 +38,8 @@ public class PanelObject implements Serializable {
 	private String objectID;
 	@JsonProperty("objectType")
 	private String objectType;
-	@JsonProperty("objectSubType")
-	private String objectSubType;
+	@JsonProperty("objectSubtype")
+	private String objectSubtype;
 	@JsonProperty("location")
 	private Location location;
 	@JsonProperty("description")
@@ -56,7 +56,7 @@ public class PanelObject implements Serializable {
 		LOG.logToConsole("type: " + type);
 		LOG.logToConsole("objectID: " + objectID);
 		LOG.logToConsole("objectType: " + objectType);
-		LOG.logToConsole("objectSubType: " + objectSubType);
+		LOG.logToConsole("objectSubtype: " + objectSubtype);
 		LOG.logToConsole("location: " + location);
 		LOG.logToConsole("description: " + description);
 		LOG.logToConsole("elements:");
@@ -124,11 +124,11 @@ public class PanelObject implements Serializable {
 
 	/**
 	 *
-	 * @return The objectSubType
+	 * @return The objectSubtype
 	 */
-	@JsonProperty("objectSubType")
-	public String getObjectSubType() {
-		return objectSubType;
+	@JsonProperty("objectSubtype")
+	public String getObjectSubtype() {
+		return objectSubtype;
 	}
 
 	/**
@@ -136,9 +136,9 @@ public class PanelObject implements Serializable {
 	 * @param objectType
 	 *            The objectType
 	 */
-	@JsonProperty("objectSubType")
-	public void setObjectSubType(String objectSubType) {
-		this.objectSubType = objectSubType;
+	@JsonProperty("objectSubtype")
+	public void setObjectSubtype(String objectSubtype) {
+		this.objectSubtype = objectSubtype;
 	}
 
 
@@ -233,6 +233,9 @@ public class PanelObject implements Serializable {
 
 	@Generated("org.jsonschema2pojo")
 	public static enum Type {
+
+		@SerializedName("analysis")
+		ANALYSIS("analysis"),
 
 		@SerializedName("mapobject")
 		MAPOBJECT("mapobject"),

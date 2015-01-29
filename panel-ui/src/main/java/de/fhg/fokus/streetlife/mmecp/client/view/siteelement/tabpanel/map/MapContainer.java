@@ -1,25 +1,18 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
-import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
-import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.DtoToGWTElementMapper;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Maparea;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.Pixel;
 import org.gwtopenmaps.openlayers.client.Projection;
-import org.gwtopenmaps.openlayers.client.control.SelectFeatureOptions;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.ArgParser;
 import org.gwtopenmaps.openlayers.client.control.Attribution;
@@ -57,15 +50,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.fhg.fokus.streetlife.mmecp.client.controller.Observer;
 import de.fhg.fokus.streetlife.mmecp.client.controller.Subject;
 import de.fhg.fokus.streetlife.mmecp.client.model.DAO;
-import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
-import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 
-import org.mortbay.log.Log;
-
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -76,6 +63,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static MapContainer instance = null;
 	//final Vector vectorLayer = new Vector("Vector layer");
 
+	final Vector vectorLayerParkingMacro = new Vector("ParkingFee");
 	final Vector vectorLayerParkingFree = new Vector("ParkingFree");
 	final Vector vectorLayerParkingFee = new Vector("ParkingFee");
 	final Vector vectorLayerParkingClock = new Vector("ParkingClock");
@@ -154,9 +142,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	private void buildLayer() {
+		map.addLayer(vectorLayerParkingMacro);
 		map.addLayer(vectorLayerParkingClock);
 		map.addLayer(vectorLayerParkingFee);
 		map.addLayer(vectorLayerParkingFree);
+
+		vectorLayerParkingMacro.setIsVisible(false);
+		vectorLayerParkingFee.setIsVisible(false);
+		vectorLayerParkingClock.setIsVisible(false);
 	}
 
 	public void buildOpenStreetMaps() {
@@ -185,6 +178,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	SelectFeature clickSelectFeature = null;
 	private void createSelectFeatureStuff(){
 
+		createSelectFeatureForLayer(vectorLayerParkingMacro);
 		createSelectFeatureForLayer(vectorLayerParkingFree);
 		createSelectFeatureForLayer(vectorLayerParkingClock);
 		createSelectFeatureForLayer(vectorLayerParkingFee);
@@ -192,18 +186,21 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		VectorFeatureAddedListener vectorFeatureAddedListener = new VectorFeatureAddedListener() {
 			@Override
 			public void onFeatureAdded(FeatureAddedEvent eventObject) {
-				LOG.logToConsole("new Feature added");
+				//LOG.logToConsole("new Feature added");
 			}
 		};
 		vectorLayerParkingClock.addVectorFeatureAddedListener(vectorFeatureAddedListener);
 		vectorLayerParkingFee.addVectorFeatureAddedListener(vectorFeatureAddedListener);
 		vectorLayerParkingFree.addVectorFeatureAddedListener(vectorFeatureAddedListener);
+		vectorLayerParkingMacro.addVectorFeatureAddedListener(vectorFeatureAddedListener);
 
 		VectorFeatureUnselectedListener vectorFeatureUnselectedListener = new VectorFeatureUnselectedListener() {
 			@Override
 			public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.5);
+				s.setStroke(false);
+				s.setStrokeWidth(1);
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
@@ -214,12 +211,16 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		vectorLayerParkingClock.addVectorFeatureUnselectedListener(vectorFeatureUnselectedListener);
 		vectorLayerParkingFee.addVectorFeatureUnselectedListener(vectorFeatureUnselectedListener);
 		vectorLayerParkingFree.addVectorFeatureUnselectedListener(vectorFeatureUnselectedListener);
+		vectorLayerParkingMacro.addVectorFeatureUnselectedListener(vectorFeatureUnselectedListener);
 
 		VectorFeatureSelectedListener vectorFeatureSelectedListener = new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+				LOG.logToConsole("feature selected!");
 				Style s = eventObject.getVectorFeature().getStyle();
-				s.setFillOpacity(0.8); //default 0.5
+				s.setFillOpacity(0.9); //default 0.5
+				s.setStroke(true);
+				s.setStrokeWidth(5);
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
@@ -231,6 +232,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		vectorLayerParkingClock.addVectorFeatureSelectedListener(vectorFeatureSelectedListener);
 		vectorLayerParkingFee.addVectorFeatureSelectedListener(vectorFeatureSelectedListener);
 		vectorLayerParkingFree.addVectorFeatureSelectedListener(vectorFeatureSelectedListener);
+		vectorLayerParkingMacro.addVectorFeatureSelectedListener(vectorFeatureSelectedListener);
 	}
 
 	private void createSelectFeatureForLayer(Vector vectorLayerParkingFree) {
@@ -353,7 +355,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			s.setStrokeDashstyle("10,10");
 		s.setFillColor(color);
 		s.setFillOpacity(alpha);
-
+		if (parkingCase.compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("5");
 		Point[] pointList = new Point[lonLat.length];
 		for (int i = 0; i < lonLat.length; i++) {
 			double[] b = null;
@@ -364,7 +366,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				b = convert(a, "+proj=utm +zone=32 +ellps=WGS84 +units=m +no_defs", map.getProjection());//"EPSG:4326");
 				pointList[i] = new Point(b[0], b[1]);
 			} else {
+				lonLat[i].transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
 				pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
+						//		map.getProjection());//new Point(lonLat[i].lon(), lonLat[i].lat());
 			}
 		}
 
@@ -374,7 +378,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		polygonFeature.setFeatureId(id);
 		polygonFeature.setStyle(s);
 
-		/*switch (parkingCase) {
+		switch (parkingCase) {
 			case FREE:
 				vectorLayerParkingFree.addFeature(polygonFeature);
 				break;
@@ -384,10 +388,13 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			case CLOCK:
 				vectorLayerParkingClock.addFeature(polygonFeature);
 				break;
+			case MACRO:
+				vectorLayerParkingMacro.addFeature(polygonFeature);
+				break;
 			default:
 				LOG.logToConsole("ERROR in matching ParkingCase in drawPolygon");
-		}*/
-		vectorLayerParkingFree.addFeature(polygonFeature);
+		}
+
 
 		return polygonFeature;
 	}
@@ -404,9 +411,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 
-	//TODO: remove feature -> hashmap
+
 	public void drawObject(PanelObject object) {
-		String key = object.getObjectType() + ":" + object.getObjectID();
+		String key = object.getObjectType() + ":" + object.getObjectID() + ":" + object.getObjectSubtype();
+		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("1");
 		if (drawnObjects.containsKey(key)) {
 
 			LOG.getLogger().info("replace object " + key);
@@ -414,7 +422,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			drawnObjects.put(key, object);
 
 			LOG.getLogger().info("Redraw object " + key);
-			/*switch (DAO.getParkingEnumOfSubType(object.getObjectSubType())) {
+			switch (DAO.getParkingEnumOfSubType(object.getObjectSubtype())) {
 				case CLOCK:
 					vectorLayerParkingClock.removeFeature(vectorLayerParkingClock.getFeatureById(key));
 					break;
@@ -424,27 +432,30 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				case FREE:
 					vectorLayerParkingFree.removeFeature(vectorLayerParkingFree.getFeatureById(key));
 					break;
+				case MACRO:
+					vectorLayerParkingMacro.removeFeature(vectorLayerParkingMacro.getFeatureById(key));
+					break;
 				default:
 					LOG.logToConsole("ERROR in matching ParkingCase in drawObject");
-			}*/
-			LOG.logToConsole("Funktioniert, wenn der SubType implementiert ist!");
-			//vectorLayer.removeFeature(vectorLayer.getFeatureById(key));
+			}
 		} else {
 			// add and draw object
-			LOG.getLogger().info("Add and draw object " + key);
+			//LOG.getLogger().info("Add and draw object " + key);
+			if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("2");
 			drawnObjects.put(key, object);
 		}
 		Maparea maparea = object.getMaparea();
+		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("3");
 		List<LonLat> coordinates = maparea.getArea().getCoordinatesLonLat().get(0);
-
+		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("4");
 		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
 
 		VectorFeature vf = null;
 		if (maparea.getBorder() != null)
 			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(),
-					maparea.getBorder().getWidth(), maparea.getBorder().getStyle().toString(), true, key, DAO.getParkingEnumOfSubType(object.getObjectSubType()));
+					maparea.getBorder().getWidth(), maparea.getBorder().getStyle().toString(), false, key, DAO.getParkingEnumOfSubType(object.getObjectSubtype()));
 		else
-			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", true, key, DAO.getParkingEnumOfSubType(object.getObjectSubType()));
+			vf = drawPolygon(lonLats, maparea.getColor().getHex(), maparea.getColor().getAlpha(), 1, "solid", false, key, DAO.getParkingEnumOfSubType(object.getObjectSubtype()));
 
 		vf.setFeatureId(key);
 	}
@@ -460,7 +471,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			switchLocation(lon, lat, DAO.BERLIN_ZOOMLEVEL);
 			break;
 		case ROVERETO:
-			//SocketController.get().requestForDemo();
+			LOG.logToConsole("Send Request getObjectsOfType:ParkingAreas");
+			SocketController.get().socketToBackEnd.send("getObjectsOfType:ParkingAreas");
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
 			switchLocation(lon, lat, DAO.ROVERETO_ZOOMLEVEL);
@@ -548,6 +560,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				break;
 			case FREE:
 				vectorLayerParkingFree.setIsVisible(visible);
+				LOG.logToConsole("free visiblility is " + visible);
+				break;
+			case MACRO:
+				vectorLayerParkingMacro.setIsVisible(visible);
 				break;
 			default:
 				LOG.logToConsole("ERROR in matching ParkingCase in drawObject");

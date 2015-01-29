@@ -12,7 +12,7 @@ public class CSSDynamicData {
 	
 	// SlidebarLeft
 	public final static int SlideBarLeft_WIDTH_ROLL_IN = 30;
-	public final static int SlideBarLeft_WIDTH_ROLL_OUT = 200;
+	public final static int SlideBarLeft_WIDTH_ROLL_OUT = 230;
 
 	// SlidebarRight
 	public final static int SlideBarRight_WIDTH_ROLL_IN = 35;

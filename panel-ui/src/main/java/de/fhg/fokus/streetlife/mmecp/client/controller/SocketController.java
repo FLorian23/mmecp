@@ -20,7 +20,8 @@ import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
 public class SocketController {
 
 	private final static SocketController instance = new SocketController();
-	private final Websocket socketToBackEnd = new Websocket("ws://193.175.133.251:8080/api-websocket/panelui");
+	public final Websocket socketToBackEnd = new Websocket("ws://193.175.133.251:8080/api-websocket/panelui");
+	//
 	//http://193.175.133.251:8080/panelUI/
 	private SocketController() {
 		openSocketToBackEnd();
@@ -31,6 +32,7 @@ public class SocketController {
 	}
 
 	int counter = 0;
+	boolean busy = false;
 	private void openSocketToBackEnd() {
 		socketToBackEnd.addListener(new WebsocketListener() {
 			public void onClose() {
@@ -48,17 +50,18 @@ public class SocketController {
 							LOG.logToConsole("result is null!");
 							return;
 						}
-						LOG.logToConsole(result.length + " new PanelObjetcs");
+						LOG.logToConsole(result.length + " new PanelObjetcs(" + result[0].getObjectSubtype() + ")");
 
 
 						for (int i = 0; i < result.length; i++) {
 							LOG.logToConsole(result[i].getType() + "");
 							
 							if (result[i].getType().equals(Type.MAPOBJECT)){
-								LOG.logToConsole("New MAPOBJECT");
+								//LOG.logToConsole("New MAPOBJECT");
 
 								//Data.myPanelObjects.add(result[i]);
 								//MapContainer.get().addnewMapObject(result[i]);
+
 								MapContainer.get().drawObject(result[i]);
 
 								//TODO:
@@ -93,8 +96,16 @@ public class SocketController {
 				//*******************************************
 			}
 
+			//getObjectsOfType:ParkingAreas => Macro
 			public void onOpen() {
+				LOG.logToConsole("Send Request getObjectsOfType:ParkingStations");
+
 				socketToBackEnd.send("getObjectsOfType:ParkingStations");
+
+
+
+				//LOG.logToConsole("Send Request getObjectsOfType:Macro");
+				//socketToBackEnd.send("getObjectsOfType:Macro");
 			}
 		});
 

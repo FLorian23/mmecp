@@ -7,13 +7,14 @@ public class DAO {
 	}
 
 	public enum PARKING {
-		FEE, FREE, CLOCK
+		FEE, FREE, CLOCK, MACRO
 	}
 
 	public static PARKING getParkingEnumOfSubType(String subType){
-		if (subType.compareTo("FREE") == 0) return PARKING.FREE;
-		if (subType.compareTo("FEE") == 0) return PARKING.FEE;
-		if (subType.compareTo("CLOCK") == 0) return PARKING.CLOCK;
+		if (subType.compareTo("forfree") == 0) return PARKING.FREE;
+		if (subType.compareTo("fee") == 0) return PARKING.FEE;
+		if (subType.compareTo("cardblock") == 0) return PARKING.CLOCK;
+		if (subType.compareTo("macro") == 0) return PARKING.MACRO;
 		return null;
 	}
 

@@ -70,9 +70,14 @@ public class SlideBarLeft extends SlideBar {
 		content.addWidgetToPanel(createListBox(), "cityListBox", "form-control");
 
 		//add checkboxes for control the visibility of the several layers
-		CheckBox cb = new CheckBox("Parking slots");
-		cb.setValue(true);
-		cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		CheckBox cbFree = new CheckBox("Parking slots (free)");
+		CheckBox cbFee = new CheckBox("Parking slots (fee)");
+		CheckBox cbClock = new CheckBox("Parking slots (clock)");
+		cbFree.setValue(true);
+		cbFee.setValue(false);
+		cbClock.setValue(false);
+
+		cbFree.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				if (event.getValue()){
@@ -82,7 +87,29 @@ public class SlideBarLeft extends SlideBar {
 				}
 			}
 		});
-		content.addWidgetToPanel(cb, "checkBoxParkingslots", "form-control");
+		cbFee.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()){
+					MapContainer.get().visibleLayer(DAO.PARKING.FEE, true);
+				}else{
+					MapContainer.get().visibleLayer(DAO.PARKING.FEE, false);
+				}
+			}
+		});
+		cbClock.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				if (event.getValue()){
+					MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, true);
+				}else{
+					MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, false);
+				}
+			}
+		});
+		content.addWidgetToPanel(cbFree, "checkBoxParkingslots", "form-control");
+		content.addWidgetToPanel(cbFee, "checkBoxParkingslots", "form-control");
+		content.addWidgetToPanel(cbClock, "checkBoxParkingslots", "form-control");
 	}
 
 	private ListBox createListBox() {

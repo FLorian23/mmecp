@@ -20,9 +20,9 @@ import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
 public class SocketController {
 
 	private final static SocketController instance = new SocketController();
+
 	public final Websocket socketToBackEnd = new Websocket("ws://193.175.133.251:8080/api-websocket/panelui");
-	//
-	//http://193.175.133.251:8080/panelUI/
+
 	private SocketController() {
 		openSocketToBackEnd();
 	}
@@ -31,45 +31,30 @@ public class SocketController {
 		return instance;
 	}
 
-	int counter = 0;
-	boolean busy = false;
 	private void openSocketToBackEnd() {
 		socketToBackEnd.addListener(new WebsocketListener() {
 			public void onClose() {
-				LOG.getLogger().log(Level.WARNING, "connection closed...");
+				LOG.logToConsole("Connection to backend closed.");
 			}
 
 			public void onMessage(String msg) {
-				LOG.getLogger().info("New objects to draw from server");
-				//LOG.getLogger().info(msg);
-				//If MapObjekt
-				//*******************************************
+				LOG.logToConsole("New objects to draw from server.");
+
 				AsyncCallback<PanelObject[]> callback = new AsyncCallback<PanelObject[]>() {
 					public void onSuccess(PanelObject[] result) {
 						if (result == null){
-							LOG.logToConsole("result is null!");
+							LOG.logToConsole("Result is null!");
 							return;
 						}
-						LOG.logToConsole(result.length + " new PanelObjetcs(" + result[0].getObjectSubtype() + ")");
 
-
+						LOG.logToConsole(result.length + " new PanelObjetcs.");
 						for (int i = 0; i < result.length; i++) {
-							LOG.logToConsole(result[i].getType() + "");
-							
 							if (result[i].getType().equals(Type.MAPOBJECT)){
-								//LOG.logToConsole("New MAPOBJECT");
-
-								//Data.myPanelObjects.add(result[i]);
-								//MapContainer.get().addnewMapObject(result[i]);
-
 								MapContainer.get().drawObject(result[i]);
-
-								//TODO:
 							}else if(result[i].getType().equals(Type.NOTIFICATION)){
-								LOG.logToConsole("New Notification: " + result[i].getDescription());
-								result[i].setMapObject(MapContainer.get().getMapObjectByID(result[i].getObjectType(), result[i].getObjectID())); //"ParkingStation", "1"));
+								result[i].setMapObject(MapContainer.get().getMapObjectByID(result[i].getObjectType(), result[i].getObjectID()));
 								if (result[i].getMapObject() == null){
-									LOG.logToConsole("NO MATCH MAPOBJECT");
+									LOG.logToConsole("Mapobject regarding this notification not available!");
 									break;
 								}
 								PopUpPanelContainer.get().newNotification(result[i], 0);
@@ -78,39 +63,20 @@ public class SocketController {
 					}
 
 					public void onFailure(Throwable caught) {
-						LOG._log("GWT RPC for JSON parsing failed");
+						LOG.logToConsole("GWT RPC for JSON parsing failed: " + caught.getMessage());
 					}
 				};
 
 				JSONObjectServiceAsync eventInfoService = GWT.create(JSONObjectService.class);
 				eventInfoService.getPanelObject(msg, callback);
-				//*******************************************
-				
-				
-				//If Notification
-				//*******************************************
-//				Notification notification = new Notification();
-//				notification.setId(counter++ + "");
-//				notification.setMapObject(MapContainer.get().getMapObjectByID("ParkingStation", 1));
-//				PopUpPanelContainer.get().newNotification(notification, 0);
-				//*******************************************
 			}
 
-			//getObjectsOfType:ParkingAreas => Macro
 			public void onOpen() {
-				LOG.logToConsole("Send Request getObjectsOfType:ParkingStations");
-
+				LOG.logToConsole("Connection to backend opend. Send request for ParkingStations.");
 				socketToBackEnd.send("getObjectsOfType:ParkingStations");
-
-
-
-				//LOG.logToConsole("Send Request getObjectsOfType:Macro");
-				//socketToBackEnd.send("getObjectsOfType:Macro");
 			}
 		});
 
 		socketToBackEnd.open();
-		LOG.getLogger().log(Level.WARNING,
-				"socket.state(): " + socketToBackEnd.getState());
 	}
 }

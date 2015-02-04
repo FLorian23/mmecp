@@ -5,6 +5,7 @@ import de.fhg.fokus.streetlife.mmecp.client.controller.SocketController;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.DtoToGWTElementMapper;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.TabPanelManager;
 import de.fhg.fokus.streetlife.mmecp.share.dto.Maparea;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 
@@ -50,6 +51,7 @@ import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.Slide
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import static com.google.gwt.query.client.GQuery.$;
 
 public class MapContainer extends SiteElement<VerticalPanel> implements
 		ClickHandler, ChangeHandler, Observer {
@@ -170,6 +172,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 
 	SelectFeature clickSelectFeature = null;
+	Style lastStyle = null;
 	VectorFeature lastSelected = null;
 	private void createSelectFeatureStuff(){
 
@@ -227,7 +230,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 					clickSelectFeature.unSelect(lastSelected);
 				}
 				lastSelected = eventObject.getVectorFeature();
-
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.9); //default 0.5
 				s.setStroke(true);
@@ -558,7 +560,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	public void update() {
-		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
+		mapWidget.setHeight(RootPanel.get().getOffsetHeight() - 76 - 24 + "px");
+		TabPanelManager.get().getElement().getStyle().setHeight(RootPanel.get().getOffsetHeight() - 76 - 24, com.google.gwt.dom.client.Style.Unit.PX);
+		$("#slideRightPanelContentWrapper").css("height", RootPanel.get().getOffsetHeight() - 76 - 60 + "px");
 	}
 
 	public void visibleLayer(DAO.PARKING parking, boolean visible) {

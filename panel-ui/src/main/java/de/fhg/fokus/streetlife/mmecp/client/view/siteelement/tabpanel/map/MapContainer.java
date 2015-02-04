@@ -14,14 +14,8 @@ import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.Projection;
 import org.gwtopenmaps.openlayers.client.Style;
-import org.gwtopenmaps.openlayers.client.control.ArgParser;
-import org.gwtopenmaps.openlayers.client.control.Attribution;
-import org.gwtopenmaps.openlayers.client.control.Navigation;
-import org.gwtopenmaps.openlayers.client.control.SelectFeature;
-import org.gwtopenmaps.openlayers.client.event.MapClickListener;
-import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
-import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
-import org.gwtopenmaps.openlayers.client.event.VectorFeatureUnselectedListener;
+import org.gwtopenmaps.openlayers.client.control.*;
+import org.gwtopenmaps.openlayers.client.event.*;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
 import org.gwtopenmaps.openlayers.client.geometry.Point;
@@ -63,7 +57,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static MapContainer instance = null;
 	//final Vector vectorLayer = new Vector("Vector layer");
 
-	final Vector vectorLayerParkingMacro = new Vector("ParkingFee");
+	final Vector vectorLayerParkingMacro = new Vector("ParkingMacro");
 	final Vector vectorLayerParkingFree = new Vector("ParkingFree");
 	final Vector vectorLayerParkingFee = new Vector("ParkingFee");
 	final Vector vectorLayerParkingClock = new Vector("ParkingClock");
@@ -176,8 +170,21 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 
 	SelectFeature clickSelectFeature = null;
+	VectorFeature lastSelected = null;
 	private void createSelectFeatureStuff(){
 
+		map.addControl(new LayerSwitcher());
+
+		Vector[] myVectors = new Vector[4];
+		myVectors[0] = vectorLayerParkingMacro;
+		myVectors[1] = vectorLayerParkingFree;
+		myVectors[2] = vectorLayerParkingClock;
+		myVectors[3] = vectorLayerParkingFee;
+
+		SelectFeature selectFeature = new SelectFeature(myVectors);
+		map.addControl(selectFeature);
+
+		selectFeature.activate();
 		createSelectFeatureForLayer(vectorLayerParkingMacro);
 		createSelectFeatureForLayer(vectorLayerParkingFree);
 		createSelectFeatureForLayer(vectorLayerParkingClock);
@@ -199,7 +206,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.5);
-				s.setStroke(false);
+				s.setStroke(true);
 				s.setStrokeWidth(1);
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
@@ -216,15 +223,20 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		VectorFeatureSelectedListener vectorFeatureSelectedListener = new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				LOG.logToConsole("feature selected!");
+				if (lastSelected != null) {
+					clickSelectFeature.unSelect(lastSelected);
+				}
+				lastSelected = eventObject.getVectorFeature();
+
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.9); //default 0.5
 				s.setStroke(true);
-				s.setStrokeWidth(5);
+				LOG.logToConsole(eventObject.getVectorFeature().getLayer().getId());
+				s.setStrokeWidth(5); //
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
-
+//object.getObjectType() + ":" + object.getObjectID() + ":" + object.getObjectSubtype();
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
 				openSiteBar(po);
 			}

@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "type", "image" })
-public class Icon implements Serializable {
+public class Icon implements IsSerializable {
 
 	@JsonProperty("type")
 	private Icon.Type type;

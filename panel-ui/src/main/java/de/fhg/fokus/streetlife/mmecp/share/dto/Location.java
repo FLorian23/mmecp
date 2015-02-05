@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "type", "coordinates" })
-public class Location implements Serializable {
+public class Location implements IsSerializable {
 
 	@JsonProperty("type")
 	private Location.Type type;

@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import com.google.gson.annotations.SerializedName;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "type", "labeldescription", "valuedescription", "data" })
-public class Chart implements Serializable {
+public class Chart implements IsSerializable {
 
 	@JsonProperty("type")
 	private Chart.Type type;

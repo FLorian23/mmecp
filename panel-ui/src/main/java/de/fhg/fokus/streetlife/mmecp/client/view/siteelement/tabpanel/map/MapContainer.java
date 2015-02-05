@@ -485,8 +485,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			switchLocation(lon, lat, DAO.BERLIN_ZOOMLEVEL);
 			break;
 		case ROVERETO:
-			LOG.logToConsole("Send Request getObjectsOfType:ParkingAreas");
-			SocketController.get().socketToBackEnd.send("getObjectsOfType:ParkingAreas");
+			if (SocketController.get().socketToBackEnd.getState() == 1) {
+				LOG.logToConsole("Send Request for ParkingAreas");
+				SocketController.get().socketToBackEnd.send("getObjectsOfType:ParkingAreas");
+			}
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
 			switchLocation(lon, lat, DAO.ROVERETO_ZOOMLEVEL);

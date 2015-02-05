@@ -1,21 +1,17 @@
 package de.fhg.fokus.streetlife.mmecp.client.controller;
 
-import java.util.logging.Level;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.visualization.client.formatters.BarFormat;
 import com.sksamuel.gwt.websockets.Websocket;
 import com.sksamuel.gwt.websockets.WebsocketListener;
 
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectServiceAsync;
-import de.fhg.fokus.streetlife.mmecp.client.test.ExampleData;
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Color;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
+import org.atmosphere.gwt.client.impl.WebSocket;
 
 public class SocketController {
 
@@ -72,8 +68,11 @@ public class SocketController {
 			}
 
 			public void onOpen() {
-				LOG.logToConsole("Connection to backend opend. Send request for ParkingStations.");
-				socketToBackEnd.send("getObjectsOfType:ParkingStations");
+				LOG.logToConsole("Connection to backend opend.");
+				if (socketToBackEnd.getState() == 1) {
+					LOG.logToConsole("Send request for ParkingStations.");
+					socketToBackEnd.send("getObjectsOfType:ParkingStations");
+				}
 			}
 		});
 

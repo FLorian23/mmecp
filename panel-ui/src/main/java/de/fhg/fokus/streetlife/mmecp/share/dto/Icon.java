@@ -65,7 +65,7 @@ public class Icon implements IsSerializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable{
 
 		ICON("icon");
 		private final String value;

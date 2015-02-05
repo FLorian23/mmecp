@@ -110,7 +110,7 @@ public class Chart implements IsSerializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable{
 
 		@SerializedName("piechart")
 		PIECHART("piechart"),

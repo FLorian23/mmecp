@@ -86,7 +86,7 @@ public class Attribute implements IsSerializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable{
 
 		ATTRIBUTE("attribute");
 		private final String value;

@@ -107,7 +107,7 @@ public class Maparea implements IsSerializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable {
 
 		MAPAREA("maparea");
 		private final String value;

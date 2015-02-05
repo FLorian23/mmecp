@@ -129,28 +129,32 @@ public class ToPanelEndpoint {
 		LOG.info("Get objects of type: {}", type);
 		// example data
 		//TODO replace example data with real data
-		if (type.equals("ParkingStations")) {
+		if (type.equals("ParkingStationsClock")) {
 			StringWriter writer = new StringWriter();
 			try {
-				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStations.json"), writer);
+				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStationsClock.json"), writer);
 			} catch (IOException e) {
 				LOG.error("Can't read resource!", e);
 			}
 			return writer.toString();
-			/*
-			ArrayList<String> objects = new ArrayList<String>();
-			for (int i = 1; i <= 4; i++) {
-				try {
-					StringWriter writer = new StringWriter();
-					IOUtils.copy(this.getClass().getResourceAsStream("/json/mapExample" + i + ".json"), writer);
-					objects.add(writer.toString());
-				} catch (IOException e) {
-					LOG.error("Can't read resource!", e);
-				}
+		}
+		if (type.equals("ParkingStationsFee")) {
+			StringWriter writer = new StringWriter();
+			try {
+				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStationsFee.json"), writer);
+			} catch (IOException e) {
+				LOG.error("Can't read resource!", e);
 			}
-			LOG.info("Sending {} objects.", objects.size());
-			return objects.toString();
-			*/
+			return writer.toString();
+		}
+		if (type.equals("ParkingStationsFree")) {
+			StringWriter writer = new StringWriter();
+			try {
+				IOUtils.copy(this.getClass().getResourceAsStream("/json/parkingStationsFree.json"), writer);
+			} catch (IOException e) {
+				LOG.error("Can't read resource!", e);
+			}
+			return writer.toString();
 		}
 		if (type.equals("ParkingAreas")) {
 			StringWriter writer = new StringWriter();

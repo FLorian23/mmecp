@@ -53,11 +53,9 @@ import java.util.HashMap;
 import java.util.List;
 import static com.google.gwt.query.client.GQuery.$;
 
-public class MapContainer extends SiteElement<VerticalPanel> implements
-		ClickHandler, ChangeHandler, Observer {
+public class MapContainer extends SiteElement<VerticalPanel> implements ClickHandler, ChangeHandler, Observer {
 
 	private static MapContainer instance = null;
-	//final Vector vectorLayer = new Vector("Vector layer");
 
 	final Vector vectorLayerParkingMacro = new Vector("ParkingMacro");
 	final Vector vectorLayerParkingFree = new Vector("ParkingFree");
@@ -70,8 +68,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	private static final Projection DEFAULT_PROJECTION = new Projection("EPSG:4326");
 	private boolean isGoogleMaps = true;
 	private HashMap<String, PanelObject> drawnObjects = new HashMap();
-	//private HashMap<String, PanelObject> myfeatures = new HashMap<String, PanelObject>();
-	private VectorFeature selectedFeature = null;
 
 	private MapContainer() {
 		super(new VerticalPanel(), "mapcontainer", null);
@@ -81,9 +77,8 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	}
 
 	public static MapContainer get() {
-		if (instance == null) {
+		if (instance == null)
 			instance = new MapContainer();
-		}
 		return instance;
 	}
 
@@ -94,20 +89,14 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	public PanelObject getMapObjectByID(String objectType, String id){
 		Collection<PanelObject> values = drawnObjects.values();
 		for (PanelObject a : values){
-			if (a.getObjectID() == id && objectType.compareTo(a.getObjectType()) == 0){
+			if (a.getObjectID() == id && objectType.compareTo(a.getObjectType()) == 0)
 				return a;
-			}
-				
 		}
 		return null;
 	}
 	
 	public void buildGoogleMaps() {
 		removeAllLayers();
-		GoogleV3Options gHybridOptions = new GoogleV3Options();
-		gHybridOptions.setIsBaseLayer(true);
-		gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
-		GoogleV3 gHybrid = new GoogleV3("Google Hybrid", gHybridOptions);
 
 		GoogleV3Options gNormalOptions = new GoogleV3Options();
 		gNormalOptions.setIsBaseLayer(true);
@@ -117,21 +106,24 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		GoogleV3Options gSatelliteOptions = new GoogleV3Options();
 		gSatelliteOptions.setIsBaseLayer(true);
 		gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
-		GoogleV3 gSatellite = new GoogleV3("Google Satellite",
-				gSatelliteOptions);
+		GoogleV3 gSatellite = new GoogleV3("Google Satellite", gSatelliteOptions);
+
+		/*
+		GoogleV3Options gHybridOptions = new GoogleV3Options();
+		gHybridOptions.setIsBaseLayer(true);
+		gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
+		GoogleV3 gHybrid = new GoogleV3("Google Hybrid", gHybridOptions);
 
 		GoogleV3Options gTerrainOptions = new GoogleV3Options();
 		gTerrainOptions.setIsBaseLayer(true);
 		gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
 		GoogleV3 gTerrain = new GoogleV3("Google Terrain", gTerrainOptions);
+		*/
 
 		map.addLayer(gNormal);
-		// map.addLayer(gHybrid);
 		map.addLayer(gSatellite);
+		// map.addLayer(gHybrid);
 		// map.addLayer(gTerrain);
-
-		// Add polygon Layer
-		//map.addLayer(vectorLayer);
 
 		buildLayer();
 		isGoogleMaps = true;
@@ -143,6 +135,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		map.addLayer(vectorLayerParkingFee);
 		map.addLayer(vectorLayerParkingFree);
 
+		vectorLayerParkingFree.setIsVisible(false);
 		vectorLayerParkingMacro.setIsVisible(false);
 		vectorLayerParkingFee.setIsVisible(false);
 		vectorLayerParkingClock.setIsVisible(false);
@@ -170,13 +163,11 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		}
 	}
 
-
 	SelectFeature clickSelectFeature = null;
-	Style lastStyle = null;
 	VectorFeature lastSelected = null;
 	private void createSelectFeatureStuff(){
 
-		map.addControl(new LayerSwitcher());
+		//map.addControl(new LayerSwitcher());
 
 		Vector[] myVectors = new Vector[4];
 		myVectors[0] = vectorLayerParkingMacro;
@@ -234,11 +225,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 				s.setFillOpacity(0.9); //default 0.5
 				s.setStroke(true);
 				LOG.logToConsole(eventObject.getVectorFeature().getLayer().getId());
-				s.setStrokeWidth(5); //
+				s.setStrokeWidth(5);
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
-//object.getObjectType() + ":" + object.getObjectID() + ":" + object.getObjectSubtype();
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
 				openSiteBar(po);
 			}
@@ -269,11 +259,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		defaultMapOptions.setNumZoomLevels(DAO.MapContainer_SetNumZoomLevels);
 
 		// Create a MapWidget and add 2 OSM layers
-		// MapWidget mapWidget = new MapWidget(Window.getClientWidth() + "px",
-		// Window.getClientHeight() + "px", defaultMapOptions);
 		mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
-
 		map = mapWidget.getMap();
+
 		// buildGoogleMaps();
 		buildOpenStreetMaps();
 
@@ -301,7 +289,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 					PanelObject panelObject = null;
 					openSiteBar(panelObject);
 				}*/
-/*
+				/*
 				Pixel pixelFromLonLat = map.getPixelFromLonLat(mapClickEvent
 						.getLonLat());
 				LonLat l = new LonLat(mapClickEvent.getLonLat().lon(),
@@ -331,10 +319,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			}
 		});
 		// Center and zoom to a location
-		LonLat lonLat = new LonLat(DAO.BERLIN_GEO_lon, DAO.BERLIN_GEO_lat);
-		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
-				map.getProjection());
-		map.setCenter(lonLat, DAO.getDefaultZoomLevelForCity(DAO.DEFAULT_CITY));
+		LonLat lonLat = new LonLat(DAO.ROVERETO_GEO_lon, DAO.ROVERETO_GEO_lat);
+		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
+		map.setCenter(lonLat, DAO.ROVERETO_ZOOMLEVEL);
 
 		addWidgetToPanel(mapWidget, "mapWidget", "");
 		mapWidget.setHeight(RootPanel.get().getOffsetHeight() + "px");
@@ -346,7 +333,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 		VerticalPanel content = SlideBarRight.get().getContent();
 		content.clear();
 		// TODO: mapObject Inhalt nutzen für das seitliche Panel und zoom dort
-		// hin!
 		IEventInfoDataMapper eventInfo = DtoToGWTElementMapper
 				.map(panelObject);
 		eventInfo.fillContent(content);
@@ -369,23 +355,18 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			s.setStrokeDashstyle("10,10");
 		s.setFillColor(color);
 		s.setFillOpacity(alpha);
-		if (parkingCase.compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("5");
 		Point[] pointList = new Point[lonLat.length];
 		for (int i = 0; i < lonLat.length; i++) {
-			double[] b = null;
+			double[] b;
 			if (isUTM) {
-				//lonLat[i].transform("EPSG:4326",
-				//		map.getProjection());
 				double[] a = {lonLat[i].lon(), lonLat[i].lat()};
 				b = convert(a, "+proj=utm +zone=32 +ellps=WGS84 +units=m +no_defs", map.getProjection());//"EPSG:4326");
 				pointList[i] = new Point(b[0], b[1]);
 			} else {
 				lonLat[i].transform(DEFAULT_PROJECTION.getProjectionCode(), map.getProjection());
 				pointList[i] = new Point(lonLat[i].lon(), lonLat[i].lat());
-						//		map.getProjection());//new Point(lonLat[i].lon(), lonLat[i].lat());
 			}
 		}
-
 
 		LinearRing linearRing = new LinearRing(pointList);
 		VectorFeature polygonFeature = new VectorFeature(new Polygon(new LinearRing[] { linearRing }));
@@ -408,8 +389,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			default:
 				LOG.logToConsole("ERROR in matching ParkingCase in drawPolygon");
 		}
-
-
 		return polygonFeature;
 	}
 
@@ -419,16 +398,12 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 	
 	public static void switchLocation(double lon, double lat, int zoom) {
 		LonLat lonLat = new LonLat(lon, lat);
-		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(),
-				get().map.getProjection());
+		lonLat.transform(DEFAULT_PROJECTION.getProjectionCode(), get().map.getProjection());
 		get().map.setCenter(lonLat, zoom);
 	}
 
-
-
 	public void drawObject(PanelObject object) {
 		String key = object.getObjectType() + ":" + object.getObjectID() + ":" + object.getObjectSubtype();
-		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("1");
 		if (drawnObjects.containsKey(key)) {
 
 			LOG.getLogger().info("replace object " + key);
@@ -454,14 +429,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			}
 		} else {
 			// add and draw object
-			//LOG.getLogger().info("Add and draw object " + key);
-			if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("2");
 			drawnObjects.put(key, object);
 		}
 		Maparea maparea = object.getMaparea();
-		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("3");
 		List<LonLat> coordinates = maparea.getArea().getCoordinatesLonLat().get(0);
-		if (DAO.getParkingEnumOfSubType(object.getObjectSubtype()).compareTo(DAO.PARKING.MACRO) == 0) LOG.logToConsole("4");
 		LonLat[] lonLats = coordinates.toArray(new LonLat[coordinates.size()]);
 
 		VectorFeature vf = null;
@@ -485,10 +456,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 			switchLocation(lon, lat, DAO.BERLIN_ZOOMLEVEL);
 			break;
 		case ROVERETO:
-			if (SocketController.get().socketToBackEnd.getState() == 1) {
-				LOG.logToConsole("Send Request for ParkingAreas");
-				SocketController.get().socketToBackEnd.send("getObjectsOfType:ParkingAreas");
-			}
 			lon = DAO.ROVERETO_GEO_lon;
 			lat = DAO.ROVERETO_GEO_lat;
 			switchLocation(lon, lat, DAO.ROVERETO_ZOOMLEVEL);
@@ -571,16 +538,23 @@ public class MapContainer extends SiteElement<VerticalPanel> implements
 
 		switch (parking) {
 			case CLOCK:
+				if (visible)
+					SocketController.get().sendMessage("getObjectsOfType:ParkingStationsClock", 5);
 				vectorLayerParkingClock.setIsVisible(visible);
 				break;
 			case FEE:
+				if (visible)
+					SocketController.get().sendMessage("getObjectsOfType:ParkingStationsFee", 5);
 				vectorLayerParkingFee.setIsVisible(visible);
 				break;
 			case FREE:
+				if (visible)
+					SocketController.get().sendMessage("getObjectsOfType:ParkingStationsFree", 5);
 				vectorLayerParkingFree.setIsVisible(visible);
-				LOG.logToConsole("free visiblility is " + visible);
 				break;
 			case MACRO:
+				if (visible)
+					SocketController.get().sendMessage("getObjectsOfType:ParkingAreas", 5);
 				vectorLayerParkingMacro.setIsVisible(visible);
 				break;
 			default:

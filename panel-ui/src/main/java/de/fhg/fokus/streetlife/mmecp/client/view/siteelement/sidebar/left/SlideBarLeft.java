@@ -85,9 +85,9 @@ public class SlideBarLeft extends SlideBar {
 
 		cbMacrozones.setValue(false);
 		cbMicrozones.setValue(true);
-		cbFree.setValue(true);
-		cbFee.setValue(false);
-		cbClock.setValue(false);
+		cbFree.setValue(false);
+		cbFee.setValue(true);
+		cbClock.setValue(true);
 
 		cbMacrozones.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
@@ -147,10 +147,11 @@ public class SlideBarLeft extends SlideBar {
 		cbFee.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if (event.getValue()){
-					if (!cbMicrozones.getValue()) cbMicrozones.setValue(true);
+				if (event.getValue()) {
+					if (!cbMicrozones.getValue())
+						cbMicrozones.setValue(true);
 					MapContainer.get().visibleLayer(DAO.PARKING.FEE, true);
-				}else{
+				} else {
 					MapContainer.get().visibleLayer(DAO.PARKING.FEE, false);
 				}
 			}
@@ -166,6 +167,9 @@ public class SlideBarLeft extends SlideBar {
 				}
 			}
 		});
+		MapContainer.get().visibleLayer(DAO.PARKING.FEE, true);
+		MapContainer.get().visibleLayer(DAO.PARKING.CLOCK, true);
+
 		content.addWidgetToPanel(cbMacrozones, null, "form-control");
 		content.addWidgetToPanel(cbMicrozones, null, "form-control");
 

@@ -1,6 +1,7 @@
 package de.fhg.fokus.streetlife.mmecp.client.controller;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.sksamuel.gwt.websockets.Websocket;
 import com.sksamuel.gwt.websockets.WebsocketListener;
@@ -11,7 +12,6 @@ import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject.Type;
-import org.atmosphere.gwt.client.impl.WebSocket;
 
 public class SocketController {
 
@@ -34,7 +34,7 @@ public class SocketController {
 			}
 
 			public void onMessage(String msg) {
-				LOG.logToConsole("New objects to draw from server. Message is:\n" + msg);
+				LOG.logToConsole("New objects to draw from server. Message is:\n" + msg.substring(0, 50) + "...");
 
 				AsyncCallback<PanelObject[]> callback = new AsyncCallback<PanelObject[]>() {
 					public void onSuccess(PanelObject[] result) {
@@ -69,13 +69,28 @@ public class SocketController {
 
 			public void onOpen() {
 				LOG.logToConsole("Connection to backend opend.");
-				if (socketToBackEnd.getState() == 1) {
-					LOG.logToConsole("Send request for ParkingStations.");
-					socketToBackEnd.send("getObjectsOfType:ParkingStations");
-				}
 			}
 		});
-
 		socketToBackEnd.open();
+	}
+
+	public void sendMessage(String msg, int timeout) {
+		if (socketToBackEnd.getState() == 1) {
+			LOG.logToConsole("Send request with: " + msg);
+			socketToBackEnd.send(msg);
+		} else if (timeout > 0) {
+			LOG.logToConsole("Websocket not open while sending request with: " + msg + " Try to reconnect! (" + timeout + ")");
+			if (socketToBackEnd.getState() == 2)
+				socketToBackEnd.open();
+			final String m = msg;
+			final int t = timeout;
+			Timer timer = new Timer() {
+				@Override
+				public void run() {
+					sendMessage(m, (t - 1));
+				}
+			};
+			timer.schedule(1000);
+		}
 	}
 }

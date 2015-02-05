@@ -1,15 +1,18 @@
 package de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
 import de.fhg.fokus.streetlife.mmecp.client.view.event.PopUpPanelContainer;
+import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.SlideBar;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.left.SlideBarLeft;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.sidebar.right.SlideBarRight;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.math.MathPanel;
+import static com.google.gwt.query.client.GQuery.$;
 
 public class TabPanelManager extends TabPanel {
 
@@ -38,6 +41,9 @@ public class TabPanelManager extends TabPanel {
 		PopUpPanelContainer.get().setParentPanel(lp);
 		SlideBarLeft.get().setParentPanel(lp);
 		SlideBarRight.get().setParentPanel(lp);
+
+
+		//SlideBarRight.get().getPanel().getParent().getElement().getStyle().setOverflow(Style.Overflow.AUTO);
 
 		// Timer t = new EventInfoScheduler(PopUpPanelContainer.get());
 		// t.scheduleRepeating(5000);

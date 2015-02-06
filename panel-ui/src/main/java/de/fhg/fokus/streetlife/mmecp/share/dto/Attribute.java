@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "type", "label", "value" })
-public class Attribute implements Serializable {
+public class Attribute implements IsSerializable {
 
 	@JsonProperty("type")
 	private Attribute.Type type;
@@ -86,7 +86,7 @@ public class Attribute implements Serializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable{
 
 		ATTRIBUTE("attribute");
 		private final String value;

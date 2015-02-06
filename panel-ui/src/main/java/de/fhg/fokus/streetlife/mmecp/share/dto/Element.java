@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "attribute", "chart", "icon", "maparea" })
-public class Element implements Serializable {
+public class Element implements IsSerializable {
 
 	/**
 	 * An element type to visualize a single label value pair.

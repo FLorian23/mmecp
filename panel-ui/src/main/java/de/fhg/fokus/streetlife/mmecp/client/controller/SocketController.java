@@ -17,7 +17,7 @@ public class SocketController {
 
 	private final static SocketController instance = new SocketController();
 
-	public final Websocket socketToBackEnd = new Websocket("ws://193.175.133.251:8080/api-websocket/panelui");
+	public final Websocket socketToBackEnd = new Websocket("ws://localhost:8080/api-websocket/panelui"); //193.175.133.251
 
 	private SocketController() {
 		openSocketToBackEnd();

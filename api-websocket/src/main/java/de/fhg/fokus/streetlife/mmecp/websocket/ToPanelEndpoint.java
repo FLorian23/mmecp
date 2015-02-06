@@ -44,8 +44,10 @@ public class ToPanelEndpoint {
 	private String endpointName;
 
 	@Inject
-	@ResponseParseEngineMethod(EngineType.FIWARE)
-	private ResponseParseEngine fiwareEngine;
+	@ResponseParseEngineMethod(EngineType.ROVDEMO)
+	private ResponseParseEngine rovdemoEngine;
+	//@ResponseParseEngineMethod(EngineType.FIWARE)
+	//private ResponseParseEngine fiwareEngine;
 
 	@OnOpen
 	public void onOpen(Session session) throws IOException, SessionManagerException {
@@ -57,7 +59,8 @@ public class ToPanelEndpoint {
 	public void onMessage(String message, Session session) throws IOException, SessionManagerException {
 		LOG.info("User {} says: {}", session.getId(), message);
 		if (message.startsWith("getObjectsOfType")) {
-			mu.broadcastMessage(endpointName, getObjectsOfType(message.replace("getObjectsOfType:", "")));
+			String response = getObjectsOfType(message.replace("getObjectsOfType:", ""));
+			mu.broadcastMessage(endpointName, rovdemoEngine.parseResponse(response).toString());
 		} else if (message.startsWith("newGuidance")) {
 			setNewGuidance(message.replace("newGuidance:", ""));
 		} else if (message.startsWith("demo")) {

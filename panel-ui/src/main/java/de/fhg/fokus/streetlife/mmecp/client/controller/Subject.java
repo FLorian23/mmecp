@@ -25,7 +25,7 @@ public class Subject {
 		return instance;
 	}
 
-	private void update() {
+	public void update() {
 		for (Observer obj : myObserver) {
 			obj.update();
 		}

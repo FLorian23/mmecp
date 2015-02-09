@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
+import de.fhg.fokus.streetlife.mmecp.client.controller.Subject;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.SiteElement;
 
@@ -74,8 +75,11 @@ public abstract class SlideBar extends SiteElement<HorizontalPanel> {
 	public void setStatus(STATUS status) {
 		if (this.status == status)
 			return;
+
 		switch (status) {
 		case OPEN:
+			Subject.get().update();
+			
 			if (right)
 				getPicturePanel().getElement().setClassName(
 						"glyphicon glyphicon-chevron-right");

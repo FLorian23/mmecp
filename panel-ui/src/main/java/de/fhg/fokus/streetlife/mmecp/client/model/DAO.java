@@ -21,22 +21,6 @@ public class DAO {
 	// Map
 	public final static int MapContainer_DEFAULTZOOMSIZE = 12;
 	public final static int MapContainer_SetNumZoomLevels = 19;
-	public final static CITY DEFAULT_CITY = CITY.BERLIN;
-
-	public static int getDefaultZoomLevelForCity(CITY c) {
-		switch (DEFAULT_CITY) {
-		case BERLIN:
-			return BERLIN_ZOOMLEVEL;
-		case ROVERETO:
-			return ROVERETO_ZOOMLEVEL;
-		case TAMPERE:
-			return TAMPERE_ZOOMLEVEL;
-
-		default:
-			break;
-		}
-		return 0;
-	}
 
 	// Zentrum 13.385937438965227/52.513685522784805
 	public static double BERLIN_GEO_lon = 13.385937438965227;

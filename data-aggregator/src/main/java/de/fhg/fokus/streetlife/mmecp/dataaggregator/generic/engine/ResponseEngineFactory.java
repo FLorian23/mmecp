@@ -18,4 +18,12 @@ public class ResponseEngineFactory implements Serializable {
     public ResponseParseEngine getFiWareEngine() {
         return new FiWareEngine();
     }
+
+	@Produces
+	@ResponseParseEngineMethod(EngineType.ROVDEMO)
+	public ResponseParseEngine getRovDemoEngine() {
+		RovDemoEngine engine = new RovDemoEngine();
+		engine.readExampleData();
+		return engine;
+	}
 }

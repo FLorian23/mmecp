@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +22,7 @@ import com.google.gson.annotations.SerializedName;
 		"width",
 		"style"
 })
-public class Border implements Serializable {
+public class Border implements IsSerializable {
 
 	@JsonProperty("width")
 	private Double width;

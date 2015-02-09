@@ -1,6 +1,6 @@
 package de.fhg.fokus.streetlife.mmecp.share.dto;
 
-import java.io.Serializable;
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +27,7 @@ import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "type", "objectID", "objectType", "location",
 		"description", "elements" })
-public class PanelObject implements Serializable {
+public class PanelObject implements IsSerializable {
 
 	// if notification, save the coresponding MapObject
 	private PanelObject mapObject;
@@ -232,7 +232,7 @@ public class PanelObject implements Serializable {
 	}
 
 	@Generated("org.jsonschema2pojo")
-	public static enum Type {
+	public static enum Type implements IsSerializable {
 
 		@SerializedName("analysis")
 		ANALYSIS("analysis"),

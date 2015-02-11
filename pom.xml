@@ -17,7 +17,7 @@
         <module>rule-converter</module>
         <module>data-aggregator</module>
         <module>configurator</module>
-        <module>panel-ui</module>
+        <module>panel-ui/panel-ui_gwt</module>
     </modules>
 
     <properties>

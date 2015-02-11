@@ -36,7 +36,6 @@ public class SocketController {
 			public void onMessage(String msg) {
 				LOG.logToConsole("New objects to draw from server. Message is:\n" + msg.substring(0, 50) + "...");
 
-				LOG.logToConsole(msg);
 				AsyncCallback<PanelObject[]> callback = new AsyncCallback<PanelObject[]>() {
 					public void onSuccess(PanelObject[] result) {
 						if (result == null){

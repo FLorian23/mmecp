@@ -187,11 +187,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 			public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
 				lastSelected = null;
 				Style s = eventObject.getVectorFeature().getStyle();
-
-				LOG.logToConsole("uns_1");
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
-				LOG.logToConsole("uns_2_" + po.getObjectID());
-
 				s.setFillOpacity(po.getMaparea().getColor().getAlpha());
 				s.setStroke(true);
 				s.setStrokeWidth(1);
@@ -210,11 +206,9 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		VectorFeatureSelectedListener vectorFeatureSelectedListener = new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
-				LOG.logToConsole("sel_0");
 				if (lastSelected != null) {
 					clickSelectFeature.unSelect(lastSelected);
 				}
-				LOG.logToConsole("sel_0_1");
 				lastSelected = eventObject.getVectorFeature();
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.9); //default 0.5
@@ -223,9 +217,7 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
-				LOG.logToConsole("sel_1");
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
-				LOG.logToConsole("sel_2_" + po.getObjectID());
 				openSiteBar(po);
 			}
 		};
@@ -426,11 +418,11 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		String key = object.getObjectType() + ":" + object.getObjectID() + ":" + object.getObjectSubtype();
 		if (drawnObjects.containsKey(key)) {
 
-			LOG.getLogger().info("replace object " + key);
+			LOG.logToConsole("replace object " + key);
 			drawnObjects.remove(key);
 			drawnObjects.put(key, object);
 
-			LOG.getLogger().info("Redraw object " + key);
+			LOG.logToConsole("Redraw object " + key);
 			switch (DAO.getParkingEnumOfSubType(object.getObjectSubtype())) {
 				case CLOCK:
 					vectorLayerParkingClock.removeFeature(vectorLayerParkingClock.getFeatureById(key));

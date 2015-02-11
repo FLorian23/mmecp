@@ -51,7 +51,6 @@ public class DtoToGWTElementMapper {
 			}
 			if (e.getChart() != null) {
 				de.fhg.fokus.streetlife.mmecp.share.dto.Chart chart = e.getChart();
-				LOG.logToConsole("chart-Type: " + e.getChart().getType().toString());
 
 				switch (e.getChart().getType()) {
 				case BARCHART:

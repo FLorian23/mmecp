@@ -62,6 +62,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 	final Vector vectorLayerParkingFee = new Vector("ParkingFee");
 	final Vector vectorLayerParkingClock = new Vector("ParkingClock");
 
+	private Layer[] layerGM = new Layer[2];
+	private Layer[] layerOSM = new Layer[2];
+
+
 	private Position currentPosition = null;
 	private MapWidget mapWidget;
 	private Map map;
@@ -96,37 +100,29 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 	}
 	
 	public void buildGoogleMaps() {
-		removeAllLayers();
+		//removeAllLayers();
+		removeOSLayers();
 
-		GoogleV3Options gNormalOptions = new GoogleV3Options();
-		gNormalOptions.setIsBaseLayer(true);
-		gNormalOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
-		GoogleV3 gNormal = new GoogleV3("Google Normal", gNormalOptions);
-
-		GoogleV3Options gSatelliteOptions = new GoogleV3Options();
-		gSatelliteOptions.setIsBaseLayer(true);
-		gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
-		GoogleV3 gSatellite = new GoogleV3("Google Satellite", gSatelliteOptions);
-
-		/*
-		GoogleV3Options gHybridOptions = new GoogleV3Options();
-		gHybridOptions.setIsBaseLayer(true);
-		gHybridOptions.setType(GoogleV3MapType.G_HYBRID_MAP);
-		GoogleV3 gHybrid = new GoogleV3("Google Hybrid", gHybridOptions);
-
-		GoogleV3Options gTerrainOptions = new GoogleV3Options();
-		gTerrainOptions.setIsBaseLayer(true);
-		gTerrainOptions.setType(GoogleV3MapType.G_TERRAIN_MAP);
-		GoogleV3 gTerrain = new GoogleV3("Google Terrain", gTerrainOptions);
-		*/
-
-		map.addLayer(gNormal);
-		map.addLayer(gSatellite);
+		map.addLayer(layerGM[0]);
+		map.addLayer(layerGM[1]);
 		// map.addLayer(gHybrid);
 		// map.addLayer(gTerrain);
 
-		buildLayer();
+		//buildLayer();
 		isGoogleMaps = true;
+	}
+
+	private void removeOSLayers() {
+		for (int i = 0;i<layerOSM.length;i++){
+			if (map.getNumLayers() == 0) return;
+			map.removeLayer(layerOSM[i]);
+		}
+	}
+	private void removeGMLayers() {
+		for (int i = 0;i<layerGM.length;i++){
+			if (map.getNumLayers() == 0) return;
+			map.removeLayer(layerGM[i]);
+		}
 	}
 
 	private void buildLayer() {
@@ -142,25 +138,16 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 	}
 
 	public void buildOpenStreetMaps() {
-		removeAllLayers();
-		OSM osm_1 = OSM.Mapnik("Mapnik");
-		OSM osm_2 = OSM.CycleMap("CycleMap");
-		osm_1.setIsBaseLayer(true);
-		osm_2.setIsBaseLayer(true);
-		map.addLayer(osm_1);
-		map.addLayer(osm_2);
+		//removeAllLayers();
+		removeGMLayers();
+
+		map.addLayer(layerOSM[0]);
+		map.addLayer(layerOSM[1]);
 
 		// Add polygon Layer
-		buildLayer();
+		//buildLayer();
 
 		isGoogleMaps = false;
-	}
-
-	private void removeAllLayers() {
-		Layer[] layers = map.getLayers();
-		for (int i = 0; i < layers.length; i++) {
-			map.removeLayer(layers[i]);
-		}
 	}
 
 	SelectFeature clickSelectFeature = null;
@@ -199,7 +186,10 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 			@Override
 			public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
 				Style s = eventObject.getVectorFeature().getStyle();
-				s.setFillOpacity(0.5);
+
+				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
+
+				s.setFillOpacity(po.getMaparea().getColor().getAlpha());
 				s.setStroke(true);
 				s.setStrokeWidth(1);
 				eventObject.getVectorFeature().setStyle(s);
@@ -262,8 +252,37 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		mapWidget = new MapWidget("100%", "100%", defaultMapOptions);
 		map = mapWidget.getMap();
 
+
+		//build OpenStreet Layer
+		OSM osm_1 = OSM.Mapnik("Mapnik");
+		OSM osm_2 = OSM.CycleMap("CycleMap");
+		osm_1.setIsBaseLayer(true);
+		osm_2.setIsBaseLayer(true);
+
+		layerOSM[0] = osm_1;
+		layerOSM[1] = osm_2;
+
+
+		//build Google Maps Layer
+		GoogleV3Options gNormalOptions = new GoogleV3Options();
+		gNormalOptions.setIsBaseLayer(true);
+		gNormalOptions.setType(GoogleV3MapType.G_NORMAL_MAP);
+		GoogleV3 gNormal = new GoogleV3("Google Normal", gNormalOptions);
+
+		GoogleV3Options gSatelliteOptions = new GoogleV3Options();
+		gSatelliteOptions.setIsBaseLayer(true);
+		gSatelliteOptions.setType(GoogleV3MapType.G_SATELLITE_MAP);
+		GoogleV3 gSatellite = new GoogleV3("Google Satellite", gSatelliteOptions);
+
+		layerGM[0] = gNormal;
+		layerGM[1] = gSatellite;
+
+
 		// buildGoogleMaps();
 		buildOpenStreetMaps();
+
+
+		buildLayer();
 
 		// Lets add some default controls to the map
 		// map.addControl(new LayerSwitcher());
@@ -274,11 +293,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		map.addControl(new Attribution());
 
 		createSelectFeatureStuff();
-
-		// Polygon-Control
-		// ****************************************
-		//map.addLayer(vectorLayer);
-		// ****************************************
 
 		// Add clickhandler for map
 		map.addMapClickListener(new MapClickListener() {
@@ -475,11 +489,6 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 
 		String text = ((Button) event.getSource()).getText();
 		if (text.equals("Switch Map")) {
-			Layer[] layers = map.getLayers();
-			for (int i = 0; i < layers.length; i++) {
-				map.removeLayer(layers[i]);
-			}
-
 			if (isGoogleMaps)
 				buildOpenStreetMaps();
 			else

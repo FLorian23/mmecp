@@ -3,8 +3,10 @@ package de.fhg.fokus.streetlife.mmecp.client.view.dia;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.visualization.client.LegendPosition;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.ColumnChart.Options;
+import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 
 public class ColumnChart extends Chart{
 
@@ -14,10 +16,13 @@ public class ColumnChart extends Chart{
 
 	private Options createOptions() {
 		Options options = Options.create();
-		options.setWidth(400);
-		options.setHeight(240);
-		options.set3D(true);
+		options.setWidth(CSSDynamicData.chartWidth);
+		options.setHeight(CSSDynamicData.chartHeight);
+		options.set3D(false);
+		options.setLegend(LegendPosition.NONE);
 		options.setTitle(getData().getTitle());
+		options.setTitleX(getData().getTitleX());
+		options.setTitleY(getData().getTitleY());
 		return options;
 	}
 	
@@ -30,6 +35,7 @@ public class ColumnChart extends Chart{
 
 				com.google.gwt.visualization.client.visualizations.ColumnChart col = new com.google.gwt.visualization.client.visualizations.ColumnChart(
 						getData().getAbstractDataTable(), createOptions());
+
 
 				p.add(col);
 			}

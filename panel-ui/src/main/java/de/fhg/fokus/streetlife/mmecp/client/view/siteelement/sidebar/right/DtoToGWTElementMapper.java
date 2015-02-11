@@ -14,15 +14,10 @@ import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.model.EventInfoDataMapperImpl;
 import de.fhg.fokus.streetlife.mmecp.client.model.IEventInfoDataMapper;
 import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
-import de.fhg.fokus.streetlife.mmecp.client.view.dia.ColumnChart;
-import de.fhg.fokus.streetlife.mmecp.client.view.dia.DiagramData;
-import de.fhg.fokus.streetlife.mmecp.client.view.dia.LineChart;
-import de.fhg.fokus.streetlife.mmecp.client.view.dia.PieChart;
+import de.fhg.fokus.streetlife.mmecp.client.view.dia.*;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.GuidancePopUpPanel;
 import de.fhg.fokus.streetlife.mmecp.client.view.siteelement.tabpanel.map.MapContainer;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
-import de.fhg.fokus.streetlife.mmecp.share.dto.Element;
-import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
+import de.fhg.fokus.streetlife.mmecp.share.dto.*;
 
 public class DtoToGWTElementMapper {
 
@@ -55,19 +50,23 @@ public class DtoToGWTElementMapper {
 				w[i++] = new HTML(htmlForm);
 			}
 			if (e.getChart() != null) {
-				List<Datum> data = e.getChart().getData();
+				de.fhg.fokus.streetlife.mmecp.share.dto.Chart chart = e.getChart();
+				LOG.logToConsole("chart-Type: " + e.getChart().getType().toString());
 
 				switch (e.getChart().getType()) {
 				case BARCHART:
-					w[i++] = new ColumnChart(DiagramData.fromDTOChartData(data));
+					ColumnChart columnChart = new ColumnChart(DiagramData.fromDTOChart(chart));
+					w[i++] = columnChart;
 					break;
 				case LINECHART:
-					w[i++] = new LineChart(DiagramData.fromDTOChartData(data));
+					LineChart lineChart = new LineChart(DiagramData.fromDTOChart(chart));
+					w[i++] = lineChart;
 					// w[i++] = new
 					// ColumnChart(DiagramData.fromDTOChartData(data));
 					break;
 				case PIECHART:
-					w[i++] = new PieChart(DiagramData.fromDTOChartData(data));
+					PieChart pieChart = new PieChart(DiagramData.fromDTOChart(chart));
+					w[i++] = pieChart;
 					break;
 
 				default:

@@ -2,6 +2,7 @@ package de.fhg.fokus.streetlife.mmecp.server.service;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.fhg.fokus.streetlife.mmecp.client.controller.LOG;
 import de.fhg.fokus.streetlife.mmecp.client.service.JSONObjectService;
 import de.fhg.fokus.streetlife.mmecp.server.json.JSONProcessor;
 import de.fhg.fokus.streetlife.mmecp.share.dto.PanelObject;
@@ -81,7 +82,10 @@ public class JSONObjectServiceImpl extends RemoteServiceServlet implements
 	public PanelObject[] getPanelObject(String jSONExample) {
 		// Parse
 		try {
-			return JSONProcessor.parse(jSONExample, PanelObject[].class);
+			PanelObject[] parse = JSONProcessor.parse(jSONExample, PanelObject[].class);
+
+
+			return parse;
 		} catch (Exception e) {
 			System.out.println("error parsing: " + e.getMessage());
 		}

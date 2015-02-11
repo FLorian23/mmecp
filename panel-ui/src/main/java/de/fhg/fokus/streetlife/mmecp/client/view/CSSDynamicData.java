@@ -23,7 +23,7 @@ public class CSSDynamicData {
 	public static final String SlideBarRightInfoLabel = "Click on an event to see further information";
 	
 	//Charts
-	public static int chartWidth = 400;
+	public static int chartWidth = 350;
 	public static int chartHeight = 240;
 	public static int chartWidthMargin = 20;
 }

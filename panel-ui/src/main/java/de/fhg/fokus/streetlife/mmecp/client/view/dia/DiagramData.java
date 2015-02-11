@@ -6,19 +6,39 @@ import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 
-import de.fhg.fokus.streetlife.mmecp.share.dto.Datum;
+import de.fhg.fokus.streetlife.mmecp.share.dto.*;
 
 public class DiagramData {
 
 	private String title;
+	private String titleX;
+	private String titleY;
 	private DataField[] fields;
 
 	public DiagramData() {
 	}
 
-	public DiagramData(String title, DataField[] fields) {
+	public DiagramData(String title, DataField[] fields, String titleX, String titleY) {
 		this.title = title;
 		this.fields = fields;
+		this.titleX = titleX;
+		this.titleY = titleY;
+	}
+
+	public String getTitleX() {
+		return titleX;
+	}
+
+	public void setTitleX(String titleX) {
+		this.titleX = titleX;
+	}
+
+	public String getTitleY() {
+		return titleY;
+	}
+
+	public void setTitleY(String titleY) {
+		this.titleY = titleY;
 	}
 
 	public DataField[] getFields() {
@@ -52,16 +72,16 @@ public class DiagramData {
 		fields[2].setField("bicycle");
 		fields[2].setValue(50d);
 
-		return new DiagramData("Modal Split", fields);
+		return new DiagramData("Modal Split", fields, "%", "modal");
 	}
 
 	public AbstractDataTable getAbstractDataTable() {
 		DataTable data = DataTable.create();
 
-		data.addColumn(ColumnType.STRING, fields[0].getField());
-		for (int i = 1; i < fields.length; i++) {
-			data.addColumn(ColumnType.NUMBER, fields[i].getField());
-		}
+		data.addColumn(ColumnType.STRING, titleX);
+		//for (int i = 1; i < fields.length; i++) {
+		data.addColumn(ColumnType.NUMBER, titleY);
+		//}
 
 		data.addRows(fields.length);
 
@@ -73,8 +93,9 @@ public class DiagramData {
 		return data;
 	}
 
-	public static DiagramData fromDTOChartData(List<Datum> data) {
+	public static DiagramData fromDTOChart(de.fhg.fokus.streetlife.mmecp.share.dto.Chart chart) {
 
+		List<Datum> data = chart.getData();
 		DataField[] fields = new DataField[data.size()];
 
 		for (int i = 0; i < fields.length; i++) {
@@ -83,6 +104,6 @@ public class DiagramData {
 			fields[i].setValue(data.get(i).getValue());
 		}
 
-		return new DiagramData("Modal Split", fields);
+		return new DiagramData("Modal Split", fields, chart.getLabeldescription(), chart.getValuedescription());
 	}
 }

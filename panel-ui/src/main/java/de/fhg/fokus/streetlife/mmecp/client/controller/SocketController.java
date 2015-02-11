@@ -36,6 +36,7 @@ public class SocketController {
 			public void onMessage(String msg) {
 				LOG.logToConsole("New objects to draw from server. Message is:\n" + msg.substring(0, 50) + "...");
 
+				LOG.logToConsole(msg);
 				AsyncCallback<PanelObject[]> callback = new AsyncCallback<PanelObject[]>() {
 					public void onSuccess(PanelObject[] result) {
 						if (result == null){
@@ -47,6 +48,7 @@ public class SocketController {
 						for (int i = 0; i < result.length; i++) {
 							if (result[i].getType().equals(Type.MAPOBJECT)){
 								MapContainer.get().drawObject(result[i]);
+
 							}else if(result[i].getType().equals(Type.NOTIFICATION)){
 								result[i].setMapObject(MapContainer.get().getMapObjectByID(result[i].getObjectType(), result[i].getObjectID()));
 								if (result[i].getMapObject() == null){

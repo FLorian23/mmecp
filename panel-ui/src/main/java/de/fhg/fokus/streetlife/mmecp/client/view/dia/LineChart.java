@@ -3,6 +3,7 @@ package de.fhg.fokus.streetlife.mmecp.client.view.dia;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.visualization.client.LegendPosition;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.LineChart.Options;
 
@@ -19,7 +20,10 @@ public class LineChart extends Chart {
 		options.setWidth(CSSDynamicData.chartWidth);
 		options.setHeight(CSSDynamicData.chartHeight);
 		// options.set3D(true);
+		options.setLegend(LegendPosition.NONE);
 		options.setTitle(getData().getTitle());
+		options.setTitleX(getData().getTitleX());
+		options.setTitleY(getData().getTitleY());
 		return options;
 	}
 

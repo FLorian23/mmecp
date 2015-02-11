@@ -3,8 +3,10 @@ package de.fhg.fokus.streetlife.mmecp.client.view.dia;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.visualization.client.LegendPosition;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.PieChart.Options;
+import de.fhg.fokus.streetlife.mmecp.client.view.CSSDynamicData;
 
 public class PieChart extends Chart {
 
@@ -14,8 +16,9 @@ public class PieChart extends Chart {
 
 	private Options createOptions() {
 		Options options = Options.create();
-		options.setWidth(400);
-		options.setHeight(240);
+		options.setWidth(CSSDynamicData.chartWidth);
+		options.setHeight(CSSDynamicData.chartHeight);
+		options.setLegend(LegendPosition.NONE);
 		options.set3D(true);
 		options.setTitle(getData().getTitle());
 		return options;

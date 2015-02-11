@@ -185,9 +185,12 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		VectorFeatureUnselectedListener vectorFeatureUnselectedListener = new VectorFeatureUnselectedListener() {
 			@Override
 			public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
+				lastSelected = null;
 				Style s = eventObject.getVectorFeature().getStyle();
 
+				LOG.logToConsole("uns_1");
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
+				LOG.logToConsole("uns_2_" + po.getObjectID());
 
 				s.setFillOpacity(po.getMaparea().getColor().getAlpha());
 				s.setStroke(true);
@@ -207,19 +210,22 @@ public class MapContainer extends SiteElement<VerticalPanel> implements ClickHan
 		VectorFeatureSelectedListener vectorFeatureSelectedListener = new VectorFeatureSelectedListener() {
 			@Override
 			public void onFeatureSelected(FeatureSelectedEvent eventObject) {
+				LOG.logToConsole("sel_0");
 				if (lastSelected != null) {
 					clickSelectFeature.unSelect(lastSelected);
 				}
+				LOG.logToConsole("sel_0_1");
 				lastSelected = eventObject.getVectorFeature();
 				Style s = eventObject.getVectorFeature().getStyle();
 				s.setFillOpacity(0.9); //default 0.5
 				s.setStroke(true);
-				LOG.logToConsole(eventObject.getVectorFeature().getLayer().getId());
 				s.setStrokeWidth(5);
 				eventObject.getVectorFeature().setStyle(s);
 				eventObject.getVectorFeature().redrawParent();
 				map.updateSize();
+				LOG.logToConsole("sel_1");
 				PanelObject po = drawnObjects.get(eventObject.getVectorFeature().getFeatureId());
+				LOG.logToConsole("sel_2_" + po.getObjectID());
 				openSiteBar(po);
 			}
 		};

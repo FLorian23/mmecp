@@ -104,6 +104,6 @@ public class DiagramData {
 			fields[i].setValue(data.get(i).getValue() * 100);
 		}
 
-		return new DiagramData("Modal Split", fields, chart.getLabeldescription(), chart.getValuedescription());
+		return new DiagramData("", fields, chart.getLabeldescription(), chart.getValuedescription());
 	}
 }

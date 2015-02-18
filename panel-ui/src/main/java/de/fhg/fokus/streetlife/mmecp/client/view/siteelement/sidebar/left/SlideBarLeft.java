@@ -181,9 +181,12 @@ public class SlideBarLeft extends SlideBar {
 	private ListBox createListBox() {
 		ListBox lb = new ListBox(false);
 		CITY[] values = DAO.CITY.values();
+		int indexOfDefaultCity = 0;
 		for (int i = 0; i < values.length; i++) {
+			if (CITY.ROVERETO.equals(values[i])) indexOfDefaultCity = i;
 			lb.addItem(values[i].toString());
 		}
+		lb.setSelectedIndex(indexOfDefaultCity);
 		lb.addChangeHandler(MapContainer.getChangeHandler());
 		lb.addClickHandler(MapContainer.getHandler());
 		return lb;

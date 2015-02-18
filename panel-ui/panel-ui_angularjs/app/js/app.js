@@ -5,15 +5,8 @@ Date: 11.02.2015
 by: Lars Willrich (lwi) 
 */
 
-var streetlifedemo = angular.module('streetlife', ["ngSanitize", "openlayers-directive"]);
-streetlifedemo.controller('bodyController', [ '$scope', function($scope) {
-  angular.extend($scope, {
-    Berlin: {
-      lat: 52.52133641841789,
-      lon: 13.387478027343747,
-      zoom: 12
-    }
-  });
+var streetlife = angular.module('streetlife', ["ngSanitize", "openlayers-directive"]);
+streetlife.controller('bodyController', [ '$scope', function($scope) {
 
 }]).directive('header', function() {
   return {

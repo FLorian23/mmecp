@@ -6,8 +6,10 @@
 
     <!-- Tab panes -->
     <div class="tab-content"  id="tabPanel">
-        <div id="mapPanel" class="tab-pane active">
-            <openlayers ol-center="Berlin" height="400"></openlayers>
+        <div ng-controller="mapController" id="mapPanel" class="tab-pane active">
+            <left-Menu></left-Menu>
+            <right-Menu></right-Menu>
+             <openlayers id="map" ol-controls="controls" ol-center="Berlin" style=" height:{{mapheight}};"></openlayers>
         </div>
 
         <div class="tab-pane" id="mathPanel">

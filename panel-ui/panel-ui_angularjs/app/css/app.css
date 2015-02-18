@@ -1,0 +1,11 @@
+.menu{
+    position: absolute;
+}
+
+#leftMenu{
+    width: 100px;
+}
+
+#rightMenu{
+    width: 300px;
+}
